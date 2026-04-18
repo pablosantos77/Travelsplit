@@ -290,11 +290,11 @@ export default function App() {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      // Use redirect (works better on mobile and avoids popup blockers in production)
-      await signInWithRedirect(auth, provider);
+      // Volvemos a usar el popup que es más rápido y fluido ahora que el dominio está autorizado
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error('Google auth failed', error);
-      setAuthError('Error al iniciar sesión con Google. Intenta de nuevo.');
+      setAuthError('Error al iniciar sesión con Google. Revisa que no haya bloqueadores de pop-ups.');
     }
   };
 
