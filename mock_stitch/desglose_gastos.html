@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#b9c7e4",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-container": "#eaf3ff",
+                    "on-secondary-container": "#f3f3ff",
+                    "outline": "#737687",
+                    "tertiary-fixed": "#d4e4f6",
+                    "surface-bright": "#f7f9fb",
+                    "on-surface-variant": "#424656",
+                    "surface": "#f7f9fb",
+                    "outline-variant": "#c2c6d9",
+                    "on-surface": "#191c1e",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#495770",
+                    "on-primary-fixed-variant": "#39475f",
+                    "inverse-surface": "#2d3133",
+                    "secondary": "#004ccc",
+                    "tertiary-container": "#607080",
+                    "surface-tint": "#515f78",
+                    "secondary-fixed": "#dbe1ff",
+                    "tertiary": "#485867",
+                    "surface-container": "#eceef0",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-primary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-container-high": "#e6e8ea",
+                    "primary-fixed": "#d6e3ff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#616f89",
+                    "on-tertiary-fixed": "#0d1d2a",
+                    "on-secondary-fixed": "#00174b",
+                    "on-tertiary-fixed-variant": "#394857",
+                    "secondary-container": "#0762ff",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#b8c8da",
+                    "on-background": "#191c1e",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed": "#0d1c32",
+                    "surface-dim": "#d8dadc",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#b9c7e4",
+                    "on-primary-container": "#eff3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .tonal-shift {
+            background: linear-gradient(180deg, rgba(242, 244, 246, 0.5) 0%, rgba(247, 249, 251, 0.8) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/60 dark:bg-slate-950/60 backdrop-blur-xl shadow-sm shadow-black/5 flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#495770] dark:text-[#f2f4f6]" data-icon="travel_explore">travel_explore</span>
+<h1 class="text-xl font-black text-[#495770] dark:text-[#f2f4f6] tracking-tighter">TravelSplit AI</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined text-[#495770]">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-fixed overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a young man with a friendly expression in soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClVxk_ib7mIQMRbWnNPqpbUhX9EZeQgg3PukmAgQ450-yCVPJutwO0X4VgnUL6OtPWFAegADfkPhwH4hb1BgZZrmjHZT27XtDx471Wu6q5kcEYVHD1eH0RmUGVY4Rsd8NZWUl0ckmz4a1qRLlHdUT5nhwfu8Xic7zeTcDzf5rCzt6SMZxIpwSdbqB_60XPLeaU9RJZmH68I3MPiLO_pFgkdB4_MfbIkI1NBtM5j2gj3o4hKH3XTSqi6e9nl5Ju_EzqjDQ_wqyFfCc"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-4xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-10">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-secondary font-semibold text-xs tracking-widest uppercase py-1 px-3 bg-secondary/10 rounded-full">Inteligencia de Viaje</span>
+</div>
+<h2 class="text-4xl font-bold tracking-tight text-primary mb-2">Desglose de Gastos</h2>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-base">location_on</span>
+                Viaje Grupal en París • Mayo 2024
+            </p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Hero Summary Card (Spans 8) -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-on-surface-variant text-sm font-semibold uppercase tracking-wider mb-2">Total Invertido</p>
+<div class="flex items-baseline gap-3 mb-6">
+<span class="text-5xl font-black tracking-tighter text-on-surface">€3,480.00</span>
+<span class="text-secondary font-bold text-lg">/ €4,500</span>
+</div>
+<!-- Circular Progress Visualizer -->
+<div class="flex items-center gap-6 mt-4">
+<div class="flex-1">
+<div class="h-4 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-primary-container rounded-full" style="width: 77%;"></div>
+</div>
+<div class="flex justify-between mt-2">
+<p class="text-xs font-bold text-on-surface-variant">77% del presupuesto</p>
+<p class="text-xs font-bold text-secondary">€1,020 restantes</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Decorative Background -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+</div>
+<!-- AI Insight Mini-Card (Spans 4) -->
+<div class="md:col-span-4 bg-primary-container text-on-primary-container rounded-xl p-6 flex flex-col justify-between shadow-[0px_12px_32px_rgba(25,28,30,0.06)]">
+<div>
+<span class="material-symbols-outlined text-3xl mb-4" style="font-variation-settings: 'FILL' 1;">star_shine</span>
+<h3 class="text-lg font-bold leading-tight mb-2">Sugerencia AI</h3>
+<p class="text-sm opacity-90 leading-relaxed">Estás ahorrando un 12% en transporte comparado con el promedio en París. Considera aumentar el presupuesto para Leisure en Montmartre.</p>
+</div>
+<button class="mt-4 py-2 px-4 bg-white/10 hover:bg-white/20 transition-colors rounded-lg text-sm font-bold w-full text-center">Ver detalles</button>
+</div>
+<!-- Category Breakdown List (Spans 12) - Editorial Style -->
+<div class="md:col-span-12 bg-surface-container-low rounded-xl p-2">
+<div class="bg-surface-container-lowest rounded-lg p-6">
+<h3 class="text-xl font-bold text-primary mb-8">Por Categoría</h3>
+<div class="space-y-10">
+<!-- Food Category -->
+<div class="flex items-center group">
+<div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center mr-6 shrink-0">
+<span class="material-symbols-outlined text-orange-600" data-icon="restaurant">restaurant</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<h4 class="font-bold text-on-surface">Comida y Bebida</h4>
+<span class="font-black text-on-surface">€1,240.50</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full">
+<div class="h-full bg-orange-500 rounded-full" style="width: 35.6%;"></div>
+</div>
+<p class="text-[10px] uppercase font-black tracking-widest text-on-surface-variant mt-2">35.6% del gasto total</p>
+</div>
+</div>
+<!-- Transport Category -->
+<div class="flex items-center group">
+<div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mr-6 shrink-0">
+<span class="material-symbols-outlined text-blue-600" data-icon="directions_subway">directions_subway</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<h4 class="font-bold text-on-surface">Transporte</h4>
+<span class="font-black text-on-surface">€450.20</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full">
+<div class="h-full bg-blue-500 rounded-full" style="width: 12.9%;"></div>
+</div>
+<p class="text-[10px] uppercase font-black tracking-widest text-on-surface-variant mt-2">12.9% del gasto total</p>
+</div>
+</div>
+<!-- Accommodation Category -->
+<div class="flex items-center group">
+<div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mr-6 shrink-0">
+<span class="material-symbols-outlined text-purple-600" data-icon="apartment">apartment</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<h4 class="font-bold text-on-surface">Alojamiento</h4>
+<span class="font-black text-on-surface">€1,450.00</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full">
+<div class="h-full bg-purple-500 rounded-full" style="width: 41.6%;"></div>
+</div>
+<p class="text-[10px] uppercase font-black tracking-widest text-on-surface-variant mt-2">41.6% del gasto total</p>
+</div>
+</div>
+<!-- Leisure Category -->
+<div class="flex items-center group">
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mr-6 shrink-0">
+<span class="material-symbols-outlined text-emerald-600" data-icon="confirmation_number">confirmation_number</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<h4 class="font-bold text-on-surface">Ocio y Tickets</h4>
+<span class="font-black text-on-surface">€339.30</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 9.9%;"></div>
+</div>
+<p class="text-[10px] uppercase font-black tracking-widest text-on-surface-variant mt-2">9.9% del gasto total</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Destination Visualization (Full width asymmetric) -->
+<div class="md:col-span-12 relative h-64 rounded-xl overflow-hidden shadow-[0px_12px_32px_rgba(25,28,30,0.06)] group">
+<img alt="Paris Streets" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Elegant Parisian street with typical stone architecture and cafe terraces under a soft blue twilight sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF876v6lj5glxa7Qbb0T1ma7LK7u6XIBb7j0fa66b2HAMf90V9f04e3CuMU0M_Tj05xmDLAY2jOgMQr4fX6I2mllsk649cwK6Lvstpw9P-xaZmYt-IfURDZz4AlCHSk_8gbktQfLvOWuGTd93tpiL4_I5BtQNyf0-A0vll2D45CdbfLk0WS6NZ6LaA52wHHRk1DGWlapkLlNPix8RjrKRzb70qNtIg4K3XqZRf7nWe-rsOIpT8Xg0lB5uxyF0BZTeZy2nT18RELQE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+<div>
+<h4 class="text-white text-2xl font-bold">Mapa de Gastos</h4>
+<p class="text-white/80 text-sm">Visualización geográfica de tus tickets</p>
+</div>
+<button class="bg-white text-primary px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-surface-container-lowest transition-colors">
+<span class="material-symbols-outlined text-lg">explore</span>
+                        Abrir Mapa
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl rounded-t-[2rem] border-t border-white/20 shadow-[0px_-12px_32px_rgba(25,28,30,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#495770] dark:text-[#94a3b8] px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="flight_takeoff">flight_takeoff</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-wider">Trips</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#495770] dark:text-[#94a3b8] px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="document_scanner">document_scanner</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-wider">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#004ccc] dark:text-[#0061FF] bg-[#004ccc]/10 dark:bg-[#0061FF]/10 rounded-2xl px-5 py-2 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-wider">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#495770] dark:text-[#94a3b8] px-5 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-wider">Settings</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mis Viajes - TravelSplit AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#607080",
+                    "primary-container": "#616f89",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-fixed": "#0d1c32",
+                    "on-background": "#191c1e",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#d4e4f6",
+                    "primary": "#495770",
+                    "surface-tint": "#515f78",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#b9c7e4",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-fixed-dim": "#b8c8da",
+                    "primary-fixed": "#d6e3ff",
+                    "surface": "#f7f9fb",
+                    "outline": "#737687",
+                    "on-secondary-container": "#f3f3ff",
+                    "secondary": "#004ccc",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#394857",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-fixed-variant": "#39475f",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "on-secondary-fixed": "#00174b",
+                    "inverse-primary": "#b9c7e4",
+                    "surface-container": "#eceef0",
+                    "tertiary": "#485867",
+                    "secondary-container": "#0762ff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eff1f3",
+                    "outline-variant": "#c2c6d9",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#d8dadc",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-primary-container": "#eff3ff",
+                    "on-surface-variant": "#424656",
+                    "background": "#f7f9fb",
+                    "on-surface": "#191c1e",
+                    "on-tertiary-fixed": "#0d1d2a",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-container": "#eaf3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-50 no-border bg-[#f7f9fb] dark:bg-slate-900 flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional headshot of a smiling man with clean background, soft daylight, high-end travel executive aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuFp3yK9W2wsmVbEmZ9qiiEHjXKt9t-N3J9SpwnHEqeBR7_Krg8IpZLCefpweXjcOQcFtk3sfsxidI1U8XFzHpdskvYVrd7WQNZoA1LRCWOVMvo5htgRORIKgHJUPSgvqZJLASnS4O-7vJ7tYpPmNSubIn132P-2twtA2Q2uqjmiHQ6VkP9lLuFNazS7sdVGlvMPqaJQRPDKX8NDmJGsv8yWJSY3coGlVgnQZN-vRS4ay9Kwlc8ZDt2KkR8avIv5W-j9e2zlF1_8k"/>
+</div>
+<h1 class="font-['Inter'] font-bold text-2xl tracking-tight text-[#495770] dark:text-slate-200">TravelSplit AI</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl text-[#495770] dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="max-w-md mx-auto px-6 pt-6 space-y-8">
+<!-- Welcome Section -->
+<section class="space-y-1">
+<span class="text-secondary font-bold text-[11px] tracking-widest uppercase mb-1 block">Your Intelligence Panel</span>
+<h2 class="text-3xl font-extrabold tracking-tight text-primary">Mis Viajes</h2>
+<p class="text-on-surface-variant text-sm">Managing 3 active itineraries</p>
+</section>
+<!-- Trip List -->
+<div class="space-y-6">
+<!-- Trip Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] flex flex-col gap-4 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 flex gap-2">
+<button class="p-2 rounded-lg text-primary/40 hover:text-error hover:bg-error-container/20 transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+<img alt="Paris" class="w-full h-full object-cover" data-alt="The Eiffel Tower in Paris at dawn with soft pastel pink sky and golden lighting on the structure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK8IIfbfKVr4wthdGz064xdHsab9rsa2EkW1rtjV8LMpy50QFoTASFYH6O-JJXZkyYG2NzOfTfskCbEL0VgdDK4szZzR97e0MfghqB6CZDbUbFE6ZaPyPXGLwa_IYIUKytrG4y98-fgtFu46ucYnacZVQl1I4Laro_MFQYJZaN1acSnqRZiIT91jf0EjFmYgbo8XNMNTYDlTUpXZMPQQMONCc1DezW4kXyTMXSV37TJUJ599VNLd9F_l7X76Hz-GxarhE4MhPg3iM"/>
+</div>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary mb-1">Paris Essentials</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+<span>2026-04-15 - 2026-04-18</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img alt="p1" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Close up of a woman's face smiling with warm natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1wTI1DH49ZbRCuxTTdSXa87a1AVtHj3_82ieWyQMlR_wbmWoFLV1v17wpdGwWEKTc62Mvt079KeBOSxn1DdpdhacsarTRrslrfEe5Vj6gli-6floZIwcWqc1WyHRWNVj9kSW3MOJQvUgzhtudgmil9m5K3W3nio9ooGuqGgZAcJB2Oa1F2R9lAqvqUHma-sBg4WsNCwpw21OoT1Q9pyK2GAEl7mQX1U8Q1d3jAQeUP0LPLBLCNicCzJUsZV1pv6bidrtb59OD6m0"/>
+<img alt="p2" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Close up of a man's face with urban city background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0C9CN09H7afyRrL8piltGOVXD7DEf8zE8ln05Zc2d0pHdxiD4HSmxgL1WyFK7z_B38EPZNrUvsV7dvCuvBWh-nEySARKKYS413Hekd-jnxnbIlFoCwRQiTn2QXfMSyg_yT2ggW0siW5IHN7UiTRBy5A-QE53znobrJPRXEMYTKAHzBH-y8oxbvTJSUa4G5FqzhENIJIWJs8KoIec7csCfIdonDAX7tjrSUeRGj6HqxdS7goFGsxT6qRNRuhG7HYodM8TtghAf3kM"/>
+<div class="w-6 h-6 rounded-full bg-surface-container-high border-2 border-white flex items-center justify-center text-[8px] font-bold">+1</div>
+</div>
+<span class="text-xs text-on-surface-variant font-medium">3 participants</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 pt-2">
+<button class="flex-1 py-3 px-4 bg-secondary-fixed text-on-secondary-fixed rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+                        Manage
+                    </button>
+</div>
+</div>
+<!-- Trip Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] flex flex-col gap-4 relative group">
+<div class="absolute top-0 right-0 p-3">
+<button class="p-2 rounded-lg text-primary/40 hover:text-error hover:bg-error-container/20 transition-colors">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+<img alt="Madrid" class="w-full h-full object-cover" data-alt="A beautiful street in Madrid with classical architecture and vibrant afternoon sun casting long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0ztV0p19GEVYY4d09Ozessb01AtCI-H4pfbJ6JXYfAczg79DC7lYXhgtnL3BM137aSlKxGj1SCjGLtYZM7BdHbayB06S1S21Nh28YVEhYMsprwj0ZHLdd0CkoqCFkQkifAIv-SlrsSXD1FivHtz5P1IEC7LobtY5gAQguCjBDIy_2gjUH0WJ0X3B80GNhhvcZZChZ45--WkQD9mhVqFGgPefSRkFfoZQAU5rTzUoAuneCp3d_CA20dCvhkfqgpY6z4OvU9ZaRQG8"/>
+</div>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-primary mb-1">Madrid Tapas Week</h3>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+<span>2026-06-10 - 2026-06-17</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<img alt="p1" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Portrait of a young woman with natural light and soft background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFqkJMyY7RUYbDIVzR6T_7Eiit8WdQcom29jpbo1iFeZ_NeS4cLP9okJ2hVi2tZnIhOmPRRt0H7Kk4tHJVdMveCa2rCufQj9LAVO-eBRsNnnF9zIG9qSby4MI4VhkaTtX19ypsnDzypwpikIsrLtl09KXis34PCgcg0lo6De3M-OsrQhCU42Cv5ioyCz1I_9Z92Sv8XUXMGZxDdJD1FgNaIKciVCxsXKJXdCL7k4qwAxCF5qa8OCChT3rPDpC8C-4WihhcpKLo2Tk"/>
+<img alt="p2" class="w-6 h-6 rounded-full border-2 border-white" data-alt="Portrait of a man in business casual attire with natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiO-mhTt4J97Hw7aSLxSUoG7lr1-3uuwZuI2xNryu_Kxu0w1zRPln3F6TTMSr3eUj_AapbP8-rAlHPO_9t-THvW0H1euuGYBry2TR3p-dapE2njenzLZSQwVjnlWD39tWWN16STaYFe-rB9k-8NhioQ6u5lYTiZVkQ2uO-1H1OKQbng9XLQRDHHMNKZa4gOww5iwD79tEgfvYbXZa0IDcQ492djUrSRq-vFaobNRKY3j5KcvgFU3mA5UsGP4AoAcxEhfb4pFx08-8"/>
+</div>
+<span class="text-xs text-on-surface-variant font-medium">2 participants</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 pt-2">
+<button class="flex-1 py-3 px-4 bg-secondary-fixed text-on-secondary-fixed rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+                        Manage
+                    </button>
+</div>
+</div>
+<!-- Trip Card 3 (AI Suggested/Draft) -->
+<div class="bg-surface-container-low rounded-xl p-5 border-2 border-dashed border-outline-variant/30 flex flex-col gap-4">
+<div class="flex items-start gap-4 opacity-70">
+<div class="w-20 h-20 rounded-xl bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-xl font-bold text-primary">Tokyo Dreams</h3>
+<span class="bg-secondary/10 text-secondary text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter">AI Draft</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>
+<span>Pending Date Range</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-16 h-16 bg-gradient-to-tr from-secondary to-secondary-container text-white rounded-2xl shadow-[0px_12px_32px_rgba(0,76,204,0.3)] flex items-center justify-center z-40 active:scale-90 transition-transform duration-300">
+<span class="material-symbols-outlined text-3xl font-bold" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-8 bg-white/60 dark:bg-slate-950/60 backdrop-blur-xl z-50 rounded-t-3xl shadow-[0px_-12px_32px_rgba(25,28,30,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#004ccc] dark:text-blue-400 font-bold bg-[#004ccc]/10 dark:bg-blue-400/10 rounded-xl px-3 py-1 active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Trips</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#495770] dark:text-slate-500 opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="shutter_speed">shutter_speed</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Scan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#495770] dark:text-slate-500 opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Insights</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#495770] dark:text-slate-500 opacity-70 hover:opacity-100 transition-opacity active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Settings</span>
+</div>
+</nav>
+</body></html>

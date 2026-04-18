@@ -1,20 +1,15 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { useState, useEffect, useRef, MouseEvent } from 'react';
-import { Folder, Plus, ChevronRight, Plane, LogIn, X, Trash2, Camera } from 'lucide-react';
+import React, { useState, useEffect, useRef, MouseEvent } from 'react';
+import { Plane, Camera, Plus, X } from 'lucide-react';
 import { auth, db } from './firebase';
-import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
-// Componente Modal
+import { BottomNav } from './components/BottomNav';
+import { TripsPage } from './components/TripsPage';
+import { SettingsPage } from './components/SettingsPage';
+import { InsightsPage } from './components/InsightsPage';
+
+// Componente Modal Nuevo Viaje
 const NewTripModal = ({ isOpen, onClose, onSave }: { isOpen: boolean, onClose: () => void, onSave: (trip: any) => void }) => {
   const [name, setName] = useState('');
   const [destination, setDestination] = useState('');
@@ -49,38 +44,37 @@ const NewTripModal = ({ isOpen, onClose, onSave }: { isOpen: boolean, onClose: (
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-50 w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-200">
+    <div className="fixed inset-0 bg-[#0d1c32]/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-200">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">Nuevo Viaje</h2>
+          <h2 className="text-xl font-bold text-[#495770]">Nuevo Viaje</h2>
           <button onClick={onClose}><X className="w-6 h-6 text-slate-400" /></button>
         </div>
         
         <div className="space-y-4">
-          <input type="text" placeholder="Nombre del viaje" className="w-full p-3 rounded-2xl border border-slate-200" value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="text" placeholder="Destino" className="w-full p-3 rounded-2xl border border-slate-200" value={destination} onChange={(e) => setDestination(e.target.value)} />
-          <input type="number" placeholder="Presupuesto total (€)" className="w-full p-3 rounded-2xl border border-slate-200" value={budget} onChange={(e) => setBudget(e.target.value)} />
+          <input type="text" placeholder="Nombre del viaje" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" placeholder="Destino" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={destination} onChange={(e) => setDestination(e.target.value)} />
+          <input type="number" placeholder="Presupuesto total (€)" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={budget} onChange={(e) => setBudget(e.target.value)} />
           
           <div className="grid grid-cols-2 gap-4">
-            <input type="date" className="p-3 rounded-2xl border border-slate-200" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-            <input type="date" className="p-3 rounded-2xl border border-slate-200" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            <input type="date" className="p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium text-slate-500" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <input type="date" className="p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium text-slate-500" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </div>
 
           <div className="flex gap-2">
-            <input type="text" placeholder="Añadir participante (email)" className="flex-1 p-3 rounded-2xl border border-slate-200" value={newParticipant} onChange={(e) => setNewParticipant(e.target.value)} />
-            <button onClick={() => { setParticipants([...participants, newParticipant]); setNewParticipant(''); }} className="bg-slate-200 p-3 rounded-2xl"><Plus /></button>
+            <input type="text" placeholder="Añadir participante (email)" className="flex-1 p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={newParticipant} onChange={(e) => setNewParticipant(e.target.value)} />
+            <button onClick={() => { if(newParticipant) { setParticipants([...participants, newParticipant]); setNewParticipant(''); } }} className="bg-slate-200 p-4 rounded-2xl"><Plus /></button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {participants.map((p, i) => <span key={i} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">{p}</span>)}
+            {participants.map((p, i) => <span key={i} className="bg-blue-100 text-[#004ccc] px-3 py-1 rounded-full text-xs font-bold">{p}</span>)}
           </div>
         </div>
 
-        <button onClick={handleSave} className="w-full mt-6 bg-[#0066ff] text-white py-4 rounded-2xl font-bold">Crear Viaje</button>
+        <button onClick={handleSave} className="w-full mt-6 bg-[#004ccc] text-white py-4 rounded-2xl font-bold active:scale-[0.98] transition-transform">Crear Viaje</button>
       </div>
     </div>
   );
 };
-
 
 // Componente Modal de Escaneo
 const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose: () => void, onScan: (data: any) => void }) => {
@@ -90,9 +84,8 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
 
   const startCamera = async () => {
     try {
-      // Try to get any video input device first
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } // Prefer back camera
+        video: { facingMode: 'environment' }
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -100,7 +93,6 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
       }
     } catch (error) {
       console.error('Error accessing camera', error);
-      // Fallback to any camera if 'environment' fails
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
@@ -160,25 +152,26 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-50 w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-200">
-        <h2 className="text-xl font-bold mb-4">Escanear Ticket</h2>
+    <div className="fixed inset-0 bg-[#0d1c32]/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-200">
+        <h2 className="text-xl font-bold mb-4 text-[#495770]">Escanear Ticket IA</h2>
         
         {!isCameraActive ? (
-          <button onClick={() => setIsCameraActive(true)} className="w-full bg-slate-800 text-white py-3 rounded-2xl font-bold mb-4 flex items-center justify-center gap-2">
-            <Camera className="w-5 h-5" /> Usar Cámara
+          <button onClick={() => setIsCameraActive(true)} className="w-full bg-[#191c1e] text-white py-4 rounded-2xl font-bold mb-4 flex items-center justify-center gap-2">
+            <Camera className="w-5 h-5" /> Iniciar Cámara
           </button>
         ) : (
-          <div className="relative w-full h-64 bg-black rounded-2xl mb-4 overflow-hidden">
+          <div className="relative w-full h-80 bg-black rounded-3xl mb-4 overflow-hidden shadow-inner">
             <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover" />
             <canvas ref={canvasRef} className="hidden" />
+            <div className="absolute inset-0 border-[4px] border-white/20 m-6 rounded-2xl"></div>
           </div>
         )}
 
         <div className="flex gap-4">
-          <button onClick={() => { stopCamera(); onClose(); }} className="flex-1 bg-slate-200 py-3 rounded-2xl font-bold">Cancelar</button>
+          <button onClick={() => { stopCamera(); onClose(); }} className="flex-1 bg-slate-100 py-3 rounded-2xl font-bold text-[#495770]">Cerrar</button>
           {isCameraActive && (
-            <button onClick={captureAndScan} className="flex-1 bg-[#0066ff] text-white py-3 rounded-2xl font-bold">Capturar y Procesar</button>
+            <button onClick={captureAndScan} className="flex-1 bg-gradient-to-tr from-[#004ccc] to-[#0762ff] text-white py-3 rounded-2xl font-bold shadow-lg shadow-[#004ccc]/20">Analizar Ticket</button>
           )}
         </div>
       </div>
@@ -186,82 +179,25 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
   );
 };
 
-const SettingsScreen = () => (
-  <div className="min-h-screen bg-[#f4f7f9] text-[#1a1c1e] flex flex-col pb-24">
-    <header className="h-[70px] bg-white border-b border-[#e9ecef] flex items-center justify-between px-6">
-        <div className="font-bold text-lg">Settings</div>
-        <div className="w-8 h-8 bg-slate-200 rounded-full"></div>
-    </header>
-    <main className="flex-1 p-6">
-        <div className="flex flex-col items-center mb-8">
-            <div className="w-24 h-24 rounded-full bg-slate-800 flex items-center justify-center text-white text-3xl font-bold mb-4">
-                {auth.currentUser?.email ? auth.currentUser.email.charAt(0).toUpperCase() : 'U'}
-            </div>
-            <h2 className="text-2xl font-bold">Perfil de Usuario</h2>
-            <p className="text-slate-500">{auth.currentUser?.email}</p>
-            <div className="bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-xs font-bold mt-2">PREMIUM MEMBER</div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
-                <div className="text-blue-600 mb-2">✈</div>
-                <div className="text-2xl font-bold">24</div>
-                <div className="text-xs text-slate-500">TRIPS JOINED</div>
-            </div>
-            <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
-                <div className="text-blue-600 mb-2">💰</div>
-                <div className="text-2xl font-bold">$12,450</div>
-                <div className="text-xs text-slate-500">TOTAL SETTLED</div>
-            </div>
-        </div>
-
-        <div className="text-sm font-bold text-slate-500 mb-4">ACCOUNT SETTINGS</div>
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 divide-y divide-slate-100">
-            <div className="p-4 flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">👤</div>
-                <div className="flex-1">
-                    <div className="font-bold">Account Details</div>
-                    <div className="text-xs text-slate-500">Personal info, passport, preferences</div>
-                </div>
-                <ChevronRight className="text-slate-400" />
-            </div>
-            <div className="p-4 flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">🛡️</div>
-                <div className="flex-1">
-                    <div className="font-bold">Security</div>
-                    <div className="text-xs text-slate-500">2FA, Password, Session management</div>
-                </div>
-                <ChevronRight className="text-slate-400" />
-            </div>
-            <div className="p-4 flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">🔔</div>
-                <div className="flex-1">
-                    <div className="font-bold">Notifications</div>
-                    <div className="text-xs text-slate-500">Trip alerts, Split updates, OCR alerts</div>
-                </div>
-                <ChevronRight className="text-slate-400" />
-            </div>
-        </div>
-
-        <button onClick={() => signOut(auth)} className="w-full mt-8 text-red-600 font-bold flex items-center justify-center gap-2">
-            <LogIn className="w-5 h-5 rotate-180" /> Sign Out
-        </button>
-    </main>
-  </div>
-);
-
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [selectedTrip, setSelectedTrip] = useState<string | null>(null);
-  const [currentScreen, setCurrentScreen] = useState('TRIPS');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
+  const [isNewTripModalOpen, setIsNewTripModalOpen] = useState(false);
   const [isScanModalOpen, setIsScanModalOpen] = useState(false);
-  const [lastScan, setLastScan] = useState<any>(null);
   const [trips, setTrips] = useState<any[]>([]);
+  const [expenses, setExpenses] = useState<any[]>([]);
+  const [newExpense, setNewExpense] = useState({ description: '', amount: '', paidBy: '' });
+  
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authLoading, setAuthLoading] = useState(false);
+  
+  const [currentTab, setCurrentTab] = useState<'trips' | 'scan' | 'insights' | 'settings'>('trips');
 
   useEffect(() => {
     let mounted = true;
-    // Handle Google redirect result on page load
     getRedirectResult(auth).then((result) => {
       if (mounted && result?.user) setUser(result.user);
     }).catch((err) => {
@@ -280,12 +216,10 @@ export default function App() {
               displayName: currentUser.displayName || ''
             }, { merge: true });
           } catch (err) {
-            console.error('Error al sincronizar collection users: Asegúrate de añadir las Rules en la consola de Firebase', err);
+            console.error('Error al sincronizar collection users:', err);
           }
         }
       }
-    }, (error) => {
-      console.error('Auth state error', error);
     });
     return () => {
       mounted = false;
@@ -293,32 +227,74 @@ export default function App() {
     }
   }, []);
 
+  // Fetch Trips
   useEffect(() => {
-    if (user) {
+    if (user && user.email) {
       try {
-        const q = query(collection(db, 'trips'), where('participants', 'array-contains', user.email || ''));
+        const q = query(collection(db, 'trips'), where('participants', 'array-contains', user.email));
         const unsubscribe = onSnapshot(q, (snapshot) => {
           setTrips(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         }, (error) => {
-           console.error('Firestore error: te falta crear la base de datos Firestore', error);
+           console.error('Firestore trips error:', error);
         });
         return () => unsubscribe();
       } catch (err) {
         console.error('Firestore query failed', err);
       }
+    } else {
+        setTrips([]);
     }
   }, [user]);
 
-  const [authEmail, setAuthEmail] = useState('');
-  const [authPassword, setAuthPassword] = useState('');
-  const [authError, setAuthError] = useState('');
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const [authLoading, setAuthLoading] = useState(false);
+  // Fetch Expenses when a selectedTrip changes
+  useEffect(() => {
+    if (selectedTrip) {
+        const q = query(collection(db, 'trips', selectedTrip.id, 'expenses'));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const exps = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            // sort by createdAt if we had one, for now it's unordered
+            setExpenses(exps);
+        });
+        return () => unsubscribe();
+    } else {
+        setExpenses([]);
+    }
+  }, [selectedTrip]);
+
+  const handleAddExpense = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedTrip || !newExpense.description || !newExpense.amount || !newExpense.paidBy) return;
+    
+    try {
+        await addDoc(collection(db, 'trips', selectedTrip.id, 'expenses'), {
+            description: newExpense.description,
+            amount: parseFloat(newExpense.amount),
+            paidBy: newExpense.paidBy,
+            currency: '€',
+            createdAt: new Date().toISOString()
+        });
+        setNewExpense({ description: '', amount: '', paidBy: '' });
+    } catch(err) {
+        console.error("Error adding expense", err);
+    }
+  };
+
+  const deleteTrip = async (e: MouseEvent, tripId: string) => {
+    if(e) e.stopPropagation();
+    if (confirm('¿Estás seguro de que quieres eliminar este viaje y todos sus gastos?')) {
+      try {
+        await deleteDoc(doc(db, 'trips', tripId));
+        setSelectedTrip(null);
+      } catch (error) {
+        console.error('Error deleting trip: ', error);
+        alert('Error al eliminar el viaje: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+      }
+    }
+  };
 
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      // Volvemos a usar redirect porque los bloqueadores de popups (como AdBlock) rompen el login emergente
       await signInWithRedirect(auth, provider);
     } catch (error: any) {
       console.error('Google auth failed', error);
@@ -351,41 +327,26 @@ export default function App() {
     }
   };
 
-  const deleteTrip = async (e: MouseEvent, tripId: string) => {
-    e.stopPropagation();
-    if (confirm('¿Estás seguro de que quieres eliminar este viaje?')) {
-      try {
-        await deleteDoc(doc(db, 'trips', tripId));
-      } catch (error) {
-        console.error('Error deleting trip: ', error);
-        alert('Error al eliminar el viaje: ' + (error instanceof Error ? error.message : 'Error desconocido'));
-      }
-    }
-  };
-
+  // --- Auth View ---
   if (!user) {
     return (
-      <div className="min-h-[100dvh] w-full flex flex-col bg-slate-50 relative overflow-hidden text-slate-800 font-sans">
-        {/* Decorative background blobs */}
+      <div className="min-h-[100dvh] w-full flex flex-col bg-slate-50 relative overflow-hidden text-slate-800 font-sans selection:bg-[#004ccc]/20">
         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-400/20 blur-[80px] rounded-full pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none" />
         
         <div className="flex-1 flex flex-col justify-center px-6 py-12 z-10 w-full max-w-md mx-auto">
-          {/* Logo / Header Area */}
           <div className="mb-10 text-center">
             <div className="w-20 h-20 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-[28px] mx-auto mb-6 flex items-center justify-center shadow-2xl shadow-blue-500/30 rotate-3">
-              <Plane className="w-10 h-10 text-white -rotate-12" />
+              <span className="material-symbols-outlined text-white text-[40px] -rotate-12">airline_stops</span>
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">TravelSplit <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">AI</span></h1>
-            <p className="text-slate-500 text-[15px] font-medium px-4">Organiza tus viajes y divide los gastos con inteligencia artificial.</p>
+            <p className="text-slate-500 text-[15px] font-medium px-4">Inteligencia y diseño para dividir los gastos de tu viaje.</p>
           </div>
 
-          {/* Form Area in a Glass or Soft Card */}
-          <div className="bg-white/70 backdrop-blur-xl p-6 rounded-[32px] shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-white/50 space-y-5">
-            {/* Google Button */}
+          <div className="bg-white/70 backdrop-blur-xl p-6 rounded-[32px] shadow-[0_12px_40px_rgb(0,0,0,0.06)] border border-white/50 space-y-5">
             <button
               onClick={handleGoogleLogin}
-              className="w-full bg-[#1e293b] text-white h-[56px] rounded-2xl font-bold flex items-center justify-center gap-3 active:scale-[0.98] transition-transform shadow-lg shadow-slate-900/20"
+              className="w-full bg-[#191c1e] text-white h-[56px] rounded-2xl font-bold flex items-center justify-center gap-3 active:scale-[0.98] transition-transform shadow-lg shadow-slate-900/20"
             >
               <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24">
                 <path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -402,32 +363,27 @@ export default function App() {
               <div className="flex-1 h-[1px] bg-slate-200"></div>
             </div>
 
-            {/* Email Form */}
             <div className="space-y-3">
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="ejemplo@email.com"
-                  value={authEmail}
-                  onChange={(e) => setAuthEmail(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-5 h-[56px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium placeholder:text-slate-400"
-                />
-              </div>
-              <div className="relative">
-                <input
-                  type="password"
-                  placeholder="Tu contraseña"
-                  value={authPassword}
-                  onChange={(e) => setAuthPassword(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleEmailAuth()}
-                  className="w-full bg-slate-50 border border-slate-200 text-slate-800 px-5 h-[56px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium placeholder:text-slate-400"
-                />
-              </div>
+              <input
+                type="email"
+                placeholder="ejemplo@email.com"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                className="w-full bg-[#f7f9fb] border border-slate-200 text-[#495770] px-5 h-[56px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#004ccc]/20 focus:border-[#004ccc] transition-all font-medium placeholder:text-slate-400"
+              />
+              <input
+                type="password"
+                placeholder="Tu contraseña"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleEmailAuth()}
+                className="w-full bg-[#f7f9fb] border border-slate-200 text-[#495770] px-5 h-[56px] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#004ccc]/20 focus:border-[#004ccc] transition-all font-medium placeholder:text-slate-400"
+              />
             </div>
 
             {authError && (
-              <div className="bg-red-50 text-red-600 text-[13px] font-semibold px-4 py-3 rounded-xl border border-red-100 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-red-500 rounded-full shrink-0"></div>
+              <div className="bg-[#ba1a1a]/10 text-[#ba1a1a] text-[13px] font-semibold px-4 py-3 rounded-xl flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px]">error</span>
                 <p className="leading-tight">{authError}</p>
               </div>
             )}
@@ -435,7 +391,7 @@ export default function App() {
             <button
               onClick={handleEmailAuth}
               disabled={authLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white h-[56px] rounded-2xl font-bold flex items-center justify-center shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-all disabled:opacity-70"
+              className="w-full bg-gradient-to-r from-[#004ccc] to-[#0762ff] text-white h-[56px] rounded-2xl font-bold flex items-center justify-center shadow-lg shadow-[#004ccc]/25 active:scale-[0.98] transition-all disabled:opacity-70"
             >
               {authLoading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -446,228 +402,196 @@ export default function App() {
 
             <button
               onClick={() => { setAuthMode(authMode === 'login' ? 'register' : 'login'); setAuthError(''); }}
-              className="w-full text-center text-[14px] font-semibold text-slate-500 mt-2 hover:text-slate-800 transition-colors"
+              className="w-full text-center text-[14px] font-semibold text-slate-500 mt-2 hover:text-[#495770] transition-colors"
             >
               {authMode === 'login' ? '¿No tienes cuenta? ' : '¿Ya tienes cuenta? '}
-              <span className="text-blue-600">{authMode === 'login' ? 'Regístrate aquí' : 'Inicia sesión'}</span>
+              <span className="text-[#004ccc]">{authMode === 'login' ? 'Regístrate' : 'Inicia sesión'}</span>
             </button>
           </div>
         </div>
-        
-        <div className="pb-8 text-center z-10 w-full">
-          <p className="text-[12px] font-medium text-slate-400">© 2026 TravelSplit AI. All rights reserved.</p>
-        </div>
       </div>
     );
   }
 
+  // --- Selected Trip View ---
   if (selectedTrip) {
-    const trip = trips.find(t => t.id === selectedTrip);
+    const trip = trips.find(t => t.id === selectedTrip.id || t.id === selectedTrip);
     return (
-      <div className="min-h-screen bg-[#f4f7f9] p-6 pb-24">
-        <div className="flex items-center justify-between mb-6">
-          <button onClick={() => setSelectedTrip(null)} className="p-2 hover:bg-slate-200 rounded-full">
-            <ChevronRight className="w-6 h-6 rotate-180" />
+      <div className="min-h-[100dvh] bg-[#f7f9fb] flex flex-col font-sans">
+        <header className="sticky top-0 z-50 bg-[#f7f9fb]/80 backdrop-blur-xl px-4 py-4 flex items-center justify-between border-b border-transparent">
+          <button onClick={() => setSelectedTrip(null)} className="w-10 h-10 flex items-center justify-center text-[#495770] hover:bg-slate-200/50 rounded-full transition-all active:scale-95">
+            <span className="material-symbols-outlined absolute translate-x-[-1px]">arrow_back_ios</span>
           </button>
-          <h1 className="text-xl font-bold">{trip?.name}</h1>
-          <button className="p-2 hover:bg-slate-200 rounded-full">
-            <div className="w-1 h-5 flex flex-col justify-between">
-                <div className="w-1 h-1 bg-black rounded-full"></div>
-                <div className="w-1 h-1 bg-black rounded-full"></div>
-                <div className="w-1 h-1 bg-black rounded-full"></div>
-            </div>
+          <h1 className="text-xl font-bold text-[#495770] truncate px-4">{trip?.name}</h1>
+          <button onClick={(e) => deleteTrip(e, trip?.id)} className="w-10 h-10 flex items-center justify-center text-[#ba1a1a] hover:bg-red-50 rounded-full transition-all active:scale-95">
+            <span className="material-symbols-outlined">delete</span>
           </button>
-        </div>
+        </header>
 
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-                <div className="text-sm text-slate-500">Resumen de Gastos</div>
-                <div className="text-5xl font-extrabold">{trip?.budget || 0}€</div>
-            </div>
-            <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span> IA OPTIMIZED
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex -space-x-2">
-                <div className="w-8 h-8 rounded-full bg-slate-300 border-2 border-white"></div>
-                <div className="w-8 h-8 rounded-full bg-slate-400 border-2 border-white"></div>
-            </div>
-            <div className="text-sm font-bold text-slate-700">+{trip?.participants?.length - 2 || 0}</div>
-            <div className="text-sm text-slate-500 ml-2">{trip?.participants?.length || 0} personas activas</div>
-          </div>
-        </div>
-
-        <div className="bg-[#0052cc] text-white p-6 rounded-3xl shadow-lg mb-8 cursor-pointer" onClick={() => setIsScanModalOpen(true)}>
-          <div className="flex items-center gap-4 mb-2">
-            <div className="bg-white/20 p-3 rounded-2xl">
-                <Folder className="w-6 h-6 text-white" />
-            </div>
-            <h2 className="text-xl font-bold">Escanear Ticket</h2>
-          </div>
-          <p className="text-blue-100 text-sm">✦ Procesamiento inteligente OCR instantáneo</p>
-        </div>
-
-        <h2 className="text-lg font-bold mb-4">Participantes</h2>
-        <div className="space-y-3 mb-8">
-            {trip?.participants?.map((p: string, i: number) => (
-                <div key={i} className="bg-white p-4 rounded-2xl flex justify-between items-center border border-slate-100">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500">
-                            {p.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                            <div className="font-bold text-sm">{p}</div>
-                            <div className="text-xs text-slate-500">{i === 0 ? 'Organizador' : 'Viajero'}</div>
-                        </div>
+        <main className="flex-1 max-w-md mx-auto w-full px-6 py-6 pb-24 space-y-8">
+            <div className="bg-white rounded-3xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4">
+                    <div className="bg-[#eaf3ff] text-[#004ccc] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[14px]">auto_awesome</span> IA DRAFT
                     </div>
-                    <div className="font-bold text-sm text-blue-700">{(trip.budget / (trip.participants.length || 1)).toFixed(0)}€</div>
                 </div>
-            ))}
-        </div>
-
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold">Actividad Reciente</h2>
-            <button className="text-sm font-bold text-blue-700">Ver todo</button>
-        </div>
-        
-        <div className="space-y-4 mb-8">
-            <div className="bg-white p-4 rounded-2xl border border-slate-100">
-                <div className="flex justify-between text-xs text-slate-400 mb-2">
-                    <span>Restauración</span>
-                    <span>HOY 14:20</span>
+                <div className="mb-6">
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Presupuesto Estimado</div>
+                    <div className="text-5xl font-extrabold text-[#495770] tracking-tighter">{trip?.budget || 0}€</div>
                 </div>
-                <div className="font-bold mb-1">Le Comptoir de la Gastronomie</div>
-                <div className="text-2xl font-bold text-blue-700 mb-3">124.50€</div>
-                <div className="flex justify-between items-center">
-                    <span className="text-xs text-slate-500">Pagado por Elena</span>
-                    <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-[10px] font-bold">CONFIRMADO</span>
+                <div className="flex items-center gap-3">
+                    <div className="flex -space-x-2">
+                        {trip?.participants?.slice(0,3).map((p: string, i: number) => (
+                            <div key={p} className="w-8 h-8 rounded-full bg-[#004ccc] text-white border-2 border-white flex items-center justify-center text-[10px] font-bold z-10" style={{zIndex: 10 - i}}>
+                                {p.charAt(0).toUpperCase()}
+                            </div>
+                        ))}
+                        {trip?.participants?.length > 3 && (
+                            <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 border-2 border-white flex items-center justify-center text-[10px] font-bold z-0">
+                                +{trip.participants.length - 3}
+                            </div>
+                        )}
+                    </div>
+                    <div className="text-xs text-slate-500 font-medium">{trip?.participants?.length || 0} personas participan</div>
                 </div>
             </div>
-        </div>
 
-        <div className="bg-blue-100 p-4 rounded-2xl flex gap-3 items-start">
-            <div className="text-blue-700">✦</div>
-            <div className="text-sm text-blue-900">
-                <span className="font-bold">AI Insight:</span> Marc ha cubierto la mayoría de las comidas. Elena podría encargarse de la próxima cena para equilibrar el presupuesto.
+            <button className="w-full bg-gradient-to-tr from-[#004ccc] to-[#0762ff] text-white p-5 rounded-2xl shadow-lg shadow-[#004ccc]/30 flex items-center justify-between active:scale-[0.98] transition-all group hover:opacity-90" onClick={() => setIsScanModalOpen(true)}>
+                <div className="flex items-center gap-4">
+                    <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-white">document_scanner</span>
+                    </div>
+                    <div className="text-left">
+                        <h2 className="text-lg font-bold leading-tight drop-shadow-sm">Escanear Ticket IA</h2>
+                        <p className="text-blue-100/90 text-[11px] font-semibold tracking-wide uppercase mt-0.5">Capturar y procesar</p>
+                    </div>
+                </div>
+                <span className="material-symbols-outlined text-white/50 group-hover:text-white group-hover:-rotate-12 transition-all">center_focus_strong</span>
+            </button>
+
+            <div>
+                <h2 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-2 mb-3">Añadir Gasto Manual</h2>
+                <div className="bg-white rounded-2xl shadow-[0_4px_20px_rgba(25,28,30,0.04)] p-5">
+                    <form onSubmit={handleAddExpense} className="space-y-4">
+                        <input 
+                            type="text" 
+                            placeholder="Descripción (ej. Cena, Taxi...)" 
+                            className="w-full px-4 py-3 bg-[#f7f9fb] border-none rounded-xl focus:ring-2 focus:ring-[#004ccc]/20 focus:outline-[#004ccc] transition-colors font-medium text-[#495770] placeholder:text-slate-400"
+                            value={newExpense.description}
+                            onChange={(e) => setNewExpense({...newExpense, description: e.target.value})}
+                            required
+                        />
+                        <div className="flex gap-4">
+                            <input 
+                                type="number" 
+                                step="0.01"
+                                placeholder="Total (€)" 
+                                className="flex-1 px-4 py-3 bg-[#f7f9fb] border-none rounded-xl focus:ring-2 focus:ring-[#004ccc]/20 focus:outline-[#004ccc] transition-colors font-medium text-[#495770] placeholder:text-slate-400"
+                                value={newExpense.amount}
+                                onChange={(e) => setNewExpense({...newExpense, amount: e.target.value})}
+                                required
+                            />
+                            <select 
+                                className="w-32 px-4 py-3 bg-[#f7f9fb] border-none rounded-xl focus:ring-2 focus:ring-[#004ccc]/20 focus:outline-[#004ccc] transition-colors text-[#495770] font-medium appearance-none"
+                                value={newExpense.paidBy}
+                                onChange={(e) => setNewExpense({...newExpense, paidBy: e.target.value})}
+                                required
+                            >
+                                <option value="" disabled>Pagó...</option>
+                                {trip?.participants.map((p: string) => (
+                                    <option key={p} value={p}>{p.split('@')[0]}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <button type="submit" className="w-full bg-[#191c1e] text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 mt-2 hover:bg-[#39475f] active:scale-[0.98] transition-all">
+                            <span className="material-symbols-outlined text-[18px]">add_circle</span>
+                            Añadir al Viaje
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+
+            <div>
+                <div className="flex items-center justify-between ml-2 mb-3">
+                    <h3 className="font-bold text-[11px] text-slate-400 uppercase tracking-widest">Historial de Gastos</h3>
+                </div>
+                
+                <div className="space-y-3">
+                    {expenses.length === 0 ? (
+                        <div className="bg-white rounded-2xl p-8 text-center border-2 border-dashed border-slate-200 opacity-70">
+                             <span className="material-symbols-outlined text-[#616f89] text-3xl mb-2">receipt_long</span>
+                             <p className="text-[#495770] text-sm font-medium">No hay gastos en este viaje aún.</p>
+                        </div>
+                    ) : (
+                        expenses.map(exp => (
+                            <div key={exp.id} className="bg-white p-4 rounded-2xl shadow-[0_4px_20px_rgba(25,28,30,0.02)] flex py-4 px-5 justify-between items-center group cursor-pointer hover:border-slate-300 transition-colors">
+                                <div className="flex gap-4 items-center">
+                                    <div className="w-10 h-10 bg-[#eaf3ff] text-[#004ccc] rounded-xl flex items-center justify-center font-bold">
+                                         <span className="material-symbols-outlined text-[18px]">restaurant</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-[#495770]">{exp.description}</p>
+                                        <p className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1 font-semibold uppercase tracking-wide">
+                                            {exp.paidBy.split('@')[0]}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="font-extrabold text-lg text-slate-800 tracking-tight">{Number(exp.amount).toFixed(2)}{exp.currency || '€'}</p>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
+        </main>
         
-        <ScanTicketModal isOpen={isScanModalOpen} onClose={() => setIsScanModalOpen(false)} onScan={(data) => setLastScan(data)} />
+        <ScanTicketModal isOpen={isScanModalOpen} onClose={() => setIsScanModalOpen(false)} onScan={(data) => {
+            setNewExpense({...newExpense, description: data.description || 'Gasto Escaneado', amount: data.amount ? data.amount.toString() : '0'});
+        }} />
       </div>
     );
   }
 
-  if (currentScreen === 'SETTINGS') {
-    return <SettingsScreen />;
-  }
-
+  // --- APP MAIN LAYOUT (Tabs) ---
   return (
-    <div className="min-h-screen bg-[#f4f7f9] text-[#1a1c1e] flex flex-col pb-24">
-      <header className="h-[70px] bg-white border-b border-[#e9ecef] flex items-center justify-between px-6">
-        <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold">
-                {user.email ? user.email.charAt(0).toUpperCase() : 'U'}
-            </div>
-            <div className="font-extrabold text-lg tracking-tighter text-[#1a1c1e]">TravelSplit AI</div>
-        </div>
-        <div className="flex items-center gap-4">
-            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                <div className="w-5 h-5 bg-slate-400 rounded-full"></div>
-            </div>
-        </div>
-      </header>
-
-      <main className="flex-1 p-6">
-        <div className="text-sm font-bold text-blue-700 mb-1">YOUR INTELLIGENCE PANEL</div>
-        <h2 className="text-3xl font-extrabold mb-2">Mis Viajes</h2>
-        <div className="text-slate-500 mb-8">Managing {trips.length} active itineraries</div>
-
-        <div className="grid grid-cols-1 gap-6">
-          {trips.map((trip) => (
-            <div 
-              key={trip.id}
-              className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100"
-            >
-              <div className="flex gap-4 mb-6">
-                <div className="w-20 h-20 bg-slate-200 rounded-2xl flex items-center justify-center">
-                    <Plane className="w-8 h-8 text-slate-500" />
+    <div className="min-h-screen flex flex-col bg-white overflow-hidden text-slate-800 font-sans selection:bg-[#004ccc]/20">
+      <div className="flex-1 w-full bg-[#f7f9fb] overflow-y-auto">
+        {currentTab === 'trips' && (
+            <TripsPage 
+              trips={trips} 
+              onOpenNewTripModal={() => setIsNewTripModalOpen(true)} 
+              onManageTrip={(trip) => setSelectedTrip(trip)} 
+            />
+        )}
+        
+        {currentTab === 'scan' && (
+            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto w-full h-[80vh]">
+                <div className="w-24 h-24 bg-gradient-to-tr from-[#004ccc] to-[#0762ff] shadow-[#004ccc]/30 rounded-[28px] mx-auto mb-6 flex items-center justify-center shadow-2xl rotate-3 animate-[pulse_4s_infinite]">
+                    <span className="material-symbols-outlined text-white text-[40px] -rotate-3">document_scanner</span>
                 </div>
-                <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                        <div className="font-bold text-xl">{trip.name}</div>
-                        <button onClick={(e) => deleteTrip(e, trip.id)} className="text-slate-400 hover:text-red-500">
-                            <Trash2 className="w-5 h-5" />
-                        </button>
-                    </div>
-                    <div className="text-sm text-slate-500 flex items-center gap-2 mt-1">
-                        <div className="w-4 h-4 bg-slate-200 rounded"></div>
-                        {trip.startDate} - {trip.endDate}
-                    </div>
-                    <div className="flex items-center gap-2 mt-2">
-                        <div className="flex -space-x-2">
-                            <div className="w-6 h-6 rounded-full bg-slate-300 border-2 border-white"></div>
-                            <div className="w-6 h-6 rounded-full bg-slate-400 border-2 border-white"></div>
-                            <div className="w-6 h-6 rounded-full bg-slate-200 border-2 border-white text-[10px] flex items-center justify-center font-bold">+1</div>
-                        </div>
-                        <div className="text-xs text-slate-500">{trip.participants?.length || 0} participants</div>
-                    </div>
-                </div>
-              </div>
-              <button 
-                onClick={() => setSelectedTrip(trip.id)} 
-                className="w-full bg-indigo-50 text-indigo-700 py-3 rounded-2xl font-bold flex items-center justify-center gap-2"
-              >
-                <div className="w-4 h-4 bg-indigo-700 rounded-full"></div> Manage
-              </button>
+                <h2 className="text-2xl font-bold text-[#495770] mb-2 tracking-tight">Escaner Inteligente</h2>
+                <p className="text-slate-500 mb-8 font-medium">Captura un recibo general para crear un resumen de gastos instantáneo.</p>
+                <button onClick={() => setIsScanModalOpen(true)} className="w-full py-4 bg-[#191c1e] text-white font-bold rounded-2xl flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all">
+                    <span className="material-symbols-outlined">camera</span>
+                    Comenzar Escaneo
+                </button>
             </div>
-          ))}
-          
-          <div className="bg-slate-50 p-6 rounded-3xl border-2 border-dashed border-slate-200 flex gap-4 items-center">
-            <div className="w-16 h-16 bg-slate-200 rounded-2xl flex items-center justify-center">
-                <div className="text-2xl text-slate-400">✦</div>
-            </div>
-            <div className="flex-1">
-                <div className="font-bold text-lg">Tokyo Dreams</div>
-                <div className="text-sm text-slate-500 flex items-center gap-2">
-                    <div className="w-4 h-4 bg-slate-300 rounded-full"></div>
-                    Pending Date Range
-                </div>
-            </div>
-            <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">AI DRAFT</div>
-          </div>
-        </div>
-      </main>
+        )}
 
-      <button onClick={() => setIsModalOpen(true)} className="fixed bottom-24 right-6 bg-[#0066ff] text-white p-4 rounded-full shadow-lg">
-        <Plus className="w-8 h-8" />
-      </button>
+        {currentTab === 'insights' && <InsightsPage />}
 
-      <nav className="fixed bottom-0 w-full bg-white border-t border-slate-100 flex justify-around p-4 z-50">
-        <button onClick={() => setCurrentScreen('TRIPS')} className={`flex flex-col items-center gap-1 ${currentScreen === 'TRIPS' ? 'text-[#0066ff]' : 'text-slate-400'}`}>
-            <div className={`${currentScreen === 'TRIPS' ? 'bg-blue-100' : ''} p-2 rounded-full`}><div className={`w-5 h-5 ${currentScreen === 'TRIPS' ? 'bg-blue-600' : 'bg-slate-400'} rounded-full`}></div></div>
-            <span className="text-xs font-bold">TRIPS</span>
-        </button>
-        <button onClick={() => setCurrentScreen('CALCULATOR')} className={`flex flex-col items-center gap-1 ${currentScreen === 'CALCULATOR' ? 'text-[#0066ff]' : 'text-slate-400'}`}>
-            <div className={`${currentScreen === 'CALCULATOR' ? 'bg-blue-100' : ''} p-2 rounded-full`}><div className={`w-5 h-5 ${currentScreen === 'CALCULATOR' ? 'bg-blue-600' : 'bg-slate-400'} rounded-full`}></div></div>
-            <span className="text-xs font-bold">CALCULADORA</span>
-        </button>
-        <button onClick={() => setCurrentScreen('INSIGHTS')} className={`flex flex-col items-center gap-1 ${currentScreen === 'INSIGHTS' ? 'text-[#0066ff]' : 'text-slate-400'}`}>
-            <div className={`${currentScreen === 'INSIGHTS' ? 'bg-blue-100' : ''} p-2 rounded-full`}><div className={`w-5 h-5 ${currentScreen === 'INSIGHTS' ? 'bg-blue-600' : 'bg-slate-400'} rounded-full`}></div></div>
-            <span className="text-xs font-bold">INSIGHTS</span>
-        </button>
-        <button onClick={() => setCurrentScreen('SETTINGS')} className={`flex flex-col items-center gap-1 ${currentScreen === 'SETTINGS' ? 'text-[#0066ff]' : 'text-slate-400'}`}>
-            <div className={`${currentScreen === 'SETTINGS' ? 'bg-blue-100' : ''} p-2 rounded-full`}><div className={`w-5 h-5 ${currentScreen === 'SETTINGS' ? 'bg-blue-600' : 'bg-slate-400'} rounded-full`}></div></div>
-            <span className="text-xs font-bold">SETTINGS</span>
-        </button>
-      </nav>
-      <NewTripModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSave={(trip) => setTrips([...trips, trip])} />
+        {currentTab === 'settings' && <SettingsPage user={user} onLogout={() => signOut(auth)} />}
+      </div>
+
+      <BottomNav currentTab={currentTab} onChange={setCurrentTab} />
+
+      <NewTripModal isOpen={isNewTripModalOpen} onClose={() => setIsNewTripModalOpen(false)} onSave={() => { /* Realtime will update list */ }} />
+      <ScanTicketModal isOpen={isScanModalOpen} onClose={() => setIsScanModalOpen(false)} onScan={(data) => {
+          console.log("Global OCR data", data);
+          setIsScanModalOpen(false);
+          alert(`OCR Result: ${data.description} - ${data.amount}€`);
+      }} />
     </div>
   );
 }
-
-
-
-
-
