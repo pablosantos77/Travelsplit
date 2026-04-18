@@ -579,7 +579,7 @@ export default function App() {
             </div>
         )}
 
-        {currentTab === 'insights' && <InsightsPage />}
+        {currentTab === 'insights' && <InsightsPage user={user} trips={trips} />}
 
         {currentTab === 'settings' && <SettingsPage user={user} onLogout={() => signOut(auth)} />}
       </div>
