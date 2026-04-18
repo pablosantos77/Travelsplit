@@ -195,7 +195,7 @@ const SettingsScreen = () => (
     <main className="flex-1 p-6">
         <div className="flex flex-col items-center mb-8">
             <div className="w-24 h-24 rounded-full bg-slate-800 flex items-center justify-center text-white text-3xl font-bold mb-4">
-                {auth.currentUser?.email?.charAt(0).toUpperCase()}
+                {auth.currentUser?.email ? auth.currentUser.email.charAt(0).toUpperCase() : 'U'}
             </div>
             <h2 className="text-2xl font-bold">Perfil de Usuario</h2>
             <p className="text-slate-500">{auth.currentUser?.email}</p>
@@ -260,24 +260,39 @@ export default function App() {
   const [trips, setTrips] = useState<any[]>([]);
 
   useEffect(() => {
+    let mounted = true;
     // Handle Google redirect result on page load
     getRedirectResult(auth).then((result) => {
-      if (result?.user) setUser(result.user);
-    }).catch((err) => console.error('Redirect result error:', err));
+      if (mounted && result?.user) setUser(result.user);
+    }).catch((err) => {
+      console.error('Redirect result error:', err);
+      if (mounted) setAuthError(`Error de redirección: ${err.message}`);
+    });
 
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (mounted) setUser(currentUser);
+    }, (error) => {
+      console.error('Auth state error', error);
     });
-    return () => unsubscribe();
+    return () => {
+      mounted = false;
+      unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
     if (user) {
-      const q = query(collection(db, 'trips'), where('participants', 'array-contains', user.email));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        setTrips(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      });
-      return () => unsubscribe();
+      try {
+        const q = query(collection(db, 'trips'), where('participants', 'array-contains', user.email || ''));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          setTrips(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        }, (error) => {
+           console.error('Firestore error: te falta crear la base de datos Firestore', error);
+        });
+        return () => unsubscribe();
+      } catch (err) {
+        console.error('Firestore query failed', err);
+      }
     }
   }, [user]);
 
@@ -511,7 +526,7 @@ export default function App() {
       <header className="h-[70px] bg-white border-b border-[#e9ecef] flex items-center justify-between px-6">
         <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold">
-                {user.email?.charAt(0).toUpperCase()}
+                {user.email ? user.email.charAt(0).toUpperCase() : 'U'}
             </div>
             <div className="font-extrabold text-lg tracking-tighter text-[#1a1c1e]">TravelSplit AI</div>
         </div>
