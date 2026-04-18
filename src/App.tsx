@@ -12,7 +12,7 @@ import { useState, useEffect, useRef, MouseEvent } from 'react';
 import { Folder, Plus, ChevronRight, Plane, LogIn, X, Trash2, Camera } from 'lucide-react';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
 // Componente Modal
 const NewTripModal = ({ isOpen, onClose, onSave }: { isOpen: boolean, onClose: () => void, onSave: (trip: any) => void }) => {
@@ -269,8 +269,21 @@ export default function App() {
       if (mounted) setAuthError(`Error de redirección: ${err.message}`);
     });
 
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (mounted) setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (mounted) {
+        setUser(currentUser);
+        if (currentUser && currentUser.email) {
+          try {
+            await setDoc(doc(db, 'users', currentUser.uid), {
+              uid: currentUser.uid,
+              email: currentUser.email,
+              displayName: currentUser.displayName || ''
+            }, { merge: true });
+          } catch (err) {
+            console.error('Error al sincronizar collection users: Asegúrate de añadir las Rules en la consola de Firebase', err);
+          }
+        }
+      }
     }, (error) => {
       console.error('Auth state error', error);
     });
