@@ -292,9 +292,9 @@ export default function App() {
       const provider = new GoogleAuthProvider();
       // Volvemos a usar redirect porque los bloqueadores de popups (como AdBlock) rompen el login emergente
       await signInWithRedirect(auth, provider);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Google auth failed', error);
-      setAuthError('Error al iniciar sesión con Google. Intenta de nuevo.');
+      setAuthError(`Error Google: ${error?.code || error?.message || 'Desconocido'}`);
     }
   };
 
