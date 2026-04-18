@@ -1,0 +1,6 @@
+{
+  "name": "TravelSplit AI",
+  "description": "Advanced group expense management optimized for travel with AI-powered OCR, smart settlement algorithms, and multi-currency support.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["OCR", "AI Financial Planning", "Multi-currency"]
+}

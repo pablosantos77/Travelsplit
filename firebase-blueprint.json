@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user in the travel group.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email" },
+        "displayName": { "type": "string", "description": "User display name" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Trip": {
+      "title": "Trip",
+      "description": "Represents a travel trip.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Trip ID" },
+        "name": { "type": "string", "description": "Trip name" },
+        "participants": { "type": "array", "description": "List of user UIDs" }
+      },
+      "required": ["id", "name"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Represents a shared expense.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Expense ID" },
+        "tripId": { "type": "string", "description": "Trip ID" },
+        "amount": { "type": "number", "description": "Amount" },
+        "currency": { "type": "string", "description": "Currency code" },
+        "paidBy": { "type": "string", "description": "User UID who paid" },
+        "description": { "type": "string", "description": "Expense description" }
+      },
+      "required": ["id", "tripId", "amount", "paidBy"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "User profiles"
+    },
+    "/trips/{tripId}": {
+      "schema": { "$ref": "Trip" },
+      "description": "Trips"
+    },
+    "/trips/{tripId}/expenses/{expenseId}": {
+      "schema": { "$ref": "Expense" },
+      "description": "Expenses for a trip"
+    }
+  }
+}

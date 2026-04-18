@@ -1,0 +1,76 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required, email format)
+    //   - displayName: string (optional)
+    //
+    // Collection: trips
+    // Document ID: tripId
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required)
+    //   - participants: list of strings (required)
+    //
+    // Collection: trips/{tripId}/expenses
+    // Document ID: expenseId
+    // Fields:
+    //   - id: string (required)
+    //   - tripId: string (required)
+    //   - amount: number (required)
+    //   - currency: string (required)
+    //   - paidBy: string (required)
+    //   - description: string (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email']) &&
+             data.uid is string &&
+             data.email is string &&
+             data.email.matches('^[^@]+@[^@]+\\.[^@]+$');
+    }
+
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data);
+    }
+
+    match /trips/{tripId} {
+      allow read: if isAuthenticated() && request.auth.token.email in resource.data.participants;
+      allow create: if isAuthenticated() && request.auth.token.email in request.resource.data.participants;
+      allow update: if isAuthenticated() && request.auth.token.email in resource.data.participants;
+      allow delete: if isAuthenticated() && request.auth.token.email in resource.data.participants;
+    }
+
+    match /trips/{tripId}/expenses/{expenseId} {
+      allow read: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/trips/$(tripId)).data.participants;
+      allow create: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/trips/$(tripId)).data.participants;
+      allow update: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/trips/$(tripId)).data.participants;
+    }
+  }
+}
