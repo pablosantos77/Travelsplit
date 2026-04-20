@@ -9,72 +9,7 @@ import { TripsPage } from './components/TripsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { InsightsPage } from './components/InsightsPage';
 
-// Componente Modal Nuevo Viaje
-const NewTripModal = ({ isOpen, onClose, onSave }: { isOpen: boolean, onClose: () => void, onSave: (trip: any) => void }) => {
-  const [name, setName] = useState('');
-  const [destination, setDestination] = useState('');
-  const [budget, setBudget] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [participants, setParticipants] = useState<string[]>([]);
-  const [newParticipant, setNewParticipant] = useState('');
-
-  const handleSave = async () => {
-    if (!auth.currentUser) return;
-    
-    const tripData = {
-      name,
-      destination,
-      budget: parseFloat(budget),
-      startDate,
-      endDate,
-      participants: [...participants, auth.currentUser.email],
-      createdBy: auth.currentUser.uid
-    };
-
-    try {
-      const docRef = await addDoc(collection(db, 'trips'), tripData);
-      onSave({ ...tripData, id: docRef.id });
-      onClose();
-    } catch (error) {
-      console.error('Error adding trip: ', error);
-    }
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 bg-[#0d1c32]/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl border border-slate-200">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-[#495770]">Nuevo Viaje</h2>
-          <button onClick={onClose}><X className="w-6 h-6 text-slate-400" /></button>
-        </div>
-        
-        <div className="space-y-4">
-          <input type="text" placeholder="Nombre del viaje" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={name} onChange={(e) => setName(e.target.value)} />
-          <input type="text" placeholder="Destino" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={destination} onChange={(e) => setDestination(e.target.value)} />
-          <input type="number" placeholder="Presupuesto total (€)" className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={budget} onChange={(e) => setBudget(e.target.value)} />
-          
-          <div className="grid grid-cols-2 gap-4">
-            <input type="date" className="p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium text-slate-500" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-            <input type="date" className="p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium text-slate-500" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-          </div>
-
-          <div className="flex gap-2">
-            <input type="text" placeholder="Añadir participante (email)" className="flex-1 p-4 rounded-2xl bg-slate-50 border border-slate-200 font-medium" value={newParticipant} onChange={(e) => setNewParticipant(e.target.value)} />
-            <button onClick={() => { if(newParticipant) { setParticipants([...participants, newParticipant]); setNewParticipant(''); } }} className="bg-slate-200 p-4 rounded-2xl"><Plus /></button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {participants.map((p, i) => <span key={i} className="bg-blue-100 text-[#004ccc] px-3 py-1 rounded-full text-xs font-bold">{p}</span>)}
-          </div>
-        </div>
-
-        <button onClick={handleSave} className="w-full mt-6 bg-[#004ccc] text-white py-4 rounded-2xl font-bold active:scale-[0.98] transition-transform">Crear Viaje</button>
-      </div>
-    </div>
-  );
-};
+import { NewTripModal } from './components/NewTripModal';
 
 // Componente Modal de Escaneo
 const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose: () => void, onScan: (data: any) => void }) => {
@@ -195,6 +130,8 @@ export default function App() {
   const [authLoading, setAuthLoading] = useState(false);
   
   const [currentTab, setCurrentTab] = useState<'trips' | 'scan' | 'insights' | 'settings'>('trips');
+  const [tripToDelete, setTripToDelete] = useState<string | null>(null);
+
 
   useEffect(() => {
     let mounted = true;
@@ -279,18 +216,22 @@ export default function App() {
     }
   };
 
-  const deleteTrip = async (e: MouseEvent, tripId: string) => {
-    if(e) e.stopPropagation();
-    if (confirm('¿Estás seguro de que quieres eliminar este viaje y todos sus gastos?')) {
-      try {
-        await deleteDoc(doc(db, 'trips', tripId));
-        setSelectedTrip(null);
-      } catch (error) {
-        console.error('Error deleting trip: ', error);
-        alert('Error al eliminar el viaje: ' + (error instanceof Error ? error.message : 'Error desconocido'));
-      }
+  const handleDeleteTrip = async (tripId: string) => {
+    try {
+      console.log("Confirmado: Iniciando borrado de:", tripId);
+      await deleteDoc(doc(db, 'trips', tripId));
+      setTripToDelete(null);
+      setSelectedTrip(null);
+      console.log("Viaje borrado satisfactoriamente");
+    } catch (error) {
+      console.error('Error deleting trip: ', error);
+      alert('Error al eliminar: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+      setTripToDelete(null);
     }
   };
+
+
+
 
   const handleGoogleLogin = async () => {
     try {
@@ -415,27 +356,65 @@ export default function App() {
 
   // --- Selected Trip View ---
   if (selectedTrip) {
-    const trip = trips.find(t => t.id === selectedTrip.id || t.id === selectedTrip);
+    const tripId = typeof selectedTrip === 'string' ? selectedTrip : selectedTrip.id;
+    const trip = trips.find(t => t.id === tripId) || (typeof selectedTrip === 'object' ? selectedTrip : null);
+    
+    console.log("Rendering SelectedTrip View. ID:", tripId);
+
     return (
-      <div className="min-h-[100dvh] bg-[#f7f9fb] flex flex-col font-sans">
-        <header className="sticky top-0 z-50 bg-[#f7f9fb]/80 backdrop-blur-xl px-4 py-4 flex items-center justify-between border-b border-transparent">
+      <div className="min-h-[100dvh] bg-[#f7f9fb] flex flex-col font-sans relative">
+        <header className="sticky top-0 z-[100] bg-[#f7f9fb]/80 backdrop-blur-xl px-4 py-4 flex items-center justify-between border-b border-transparent">
           <button onClick={() => setSelectedTrip(null)} className="w-10 h-10 flex items-center justify-center text-[#495770] hover:bg-slate-200/50 rounded-full transition-all active:scale-95">
             <span className="material-symbols-outlined absolute translate-x-[-1px]">arrow_back_ios</span>
           </button>
-          <h1 className="text-xl font-bold text-[#495770] truncate px-4">{trip?.name}</h1>
-          <button onClick={(e) => deleteTrip(e, trip?.id)} className="w-10 h-10 flex items-center justify-center text-[#ba1a1a] hover:bg-red-50 rounded-full transition-all active:scale-95">
-            <span className="material-symbols-outlined">delete</span>
-          </button>
+          <h1 className="text-xl font-bold text-[#495770] truncate px-4 flex-1 text-center">{trip?.name || 'Cargando...'}</h1>
+          <div 
+            onClick={() => {
+              if (tripId) setTripToDelete(tripId);
+            }} 
+            className="w-12 h-12 flex items-center justify-center text-[#ba1a1a] hover:bg-red-50 rounded-full cursor-pointer active:bg-red-100 z-[110]"
+            style={{ pointerEvents: 'auto', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <span className="material-symbols-outlined text-[28px] pointer-events-none">delete</span>
+          </div>
         </header>
+
+        {/* Delete Confirmation Modal */}
+        {tripToDelete && (
+          <div className="fixed inset-0 bg-[#0d1c32]/60 backdrop-blur-md flex items-center justify-center p-6 z-[200] animate-fadeIn">
+            <div className="bg-white w-full max-w-xs rounded-[32px] p-8 shadow-2xl animate-scaleUp">
+              <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <span className="material-symbols-outlined text-3xl">delete_forever</span>
+              </div>
+              <h3 className="text-xl font-bold text-[#191c1e] text-center mb-2">¿Borrar viaje?</h3>
+              <p className="text-slate-500 text-center text-sm mb-8 leading-relaxed">
+                Esta acción es irreversible y se perderán todos los gastos registrados.
+              </p>
+              <div className="space-y-3">
+                <button 
+                  onClick={() => handleDeleteTrip(tripToDelete)}
+                  className="w-full bg-[#ba1a1a] text-white py-4 rounded-2xl font-bold active:scale-[0.98] transition-all"
+                >
+                  Sí, eliminar viaje
+                </button>
+                <button 
+                  onClick={() => setTripToDelete(null)}
+                  className="w-full bg-slate-100 text-[#495770] py-4 rounded-2xl font-bold active:scale-[0.98] transition-all"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
+
 
         <main className="flex-1 max-w-md mx-auto w-full px-6 py-6 pb-24 space-y-8">
             <div className="bg-white rounded-3xl p-6 shadow-[0_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4">
-                    <div className="bg-[#eaf3ff] text-[#004ccc] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">auto_awesome</span> IA DRAFT
-                    </div>
-                </div>
                 <div className="mb-6">
+
                     <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Presupuesto Estimado</div>
                     <div className="text-5xl font-extrabold text-[#495770] tracking-tighter">{trip?.budget || 0}€</div>
                 </div>
