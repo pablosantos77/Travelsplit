@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Define the two sub-tabs
 type PaymentTab = 'pedir' | 'pagar';
@@ -7,26 +7,67 @@ interface PaymentsPageProps {
   onBack?: () => void;
 }
 
+// Custom Grainient Component to wrap the video background
+const Grainient: React.FC<{ 
+  color1?: string; 
+  color2?: string; 
+  color3?: string;
+  timeSpeed?: number;
+}> = ({ color1, color2, color3 }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(err => {
+        console.warn("Video autoplay failed, waiting for user interaction:", err);
+      });
+    }
+  }, []);
+
+  return (
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+      <video 
+        ref={videoRef}
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+        className="w-[120%] h-[120%] object-cover blur-[50px] scale-125 transform-gpu opacity-90"
+      >
+        <source src="/grainient.webm" type="video/webm" />
+      </video>
+      {/* Overlay colors if needed to match the requested look */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
+        style={{
+          background: `radial-gradient(circle at 20% 30%, ${color1 || '#FF9FFC'} 0%, transparent 50%),
+                       radial-gradient(circle at 80% 70%, ${color2 || '#5227FF'} 0%, transparent 50%)`
+        }}
+      />
+    </div>
+  );
+};
+
 export const PaymentsPage: React.FC<PaymentsPageProps> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState<PaymentTab>('pedir');
 
   return (
     <div className="bg-[#f7f9fb] font-sans text-[#191c1e] antialiased selection:bg-[#0762ff] selection:text-[#f3f3ff] relative min-h-[100dvh] flex flex-col pb-32 overflow-hidden">
       
-      {/* Background Video (Grainient alternative based on the webm provided by user) */}
-      <div className="fixed inset-0 w-full h-full z-0 opacity-80 pointer-events-none mix-blend-multiply flex items-center justify-center bg-white overflow-hidden">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="w-[1080px] h-[1080px] object-cover rounded-full blur-[80px] scale-150 transform-gpu"
-        >
-          <source src="/grainient.webm" type="video/webm" />
-        </video>
+      {/* Premium Background Container */}
+      <div className="fixed inset-0 w-full h-full z-0 flex items-center justify-center bg-white pointer-events-none">
+        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+          <Grainient
+            color1="#FF9FFC"
+            color2="#5227FF"
+            color3="#B497CF"
+            timeSpeed={0.25}
+          />
+        </div>
       </div>
 
       <div className="w-full max-w-md mx-auto flex-1 flex flex-col z-10 relative">
+
         {/* Header */}
         <header className="sticky top-0 z-40 bg-white/40 backdrop-blur-3xl flex items-center justify-between px-6 py-4 w-full border-b border-white/20">
           <div className="flex items-center gap-3">
