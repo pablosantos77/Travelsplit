@@ -8,6 +8,7 @@ import { BottomNav } from './components/BottomNav';
 import { TripsPage } from './components/TripsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { InsightsPage } from './components/InsightsPage';
+import { PaymentsPage } from './components/PaymentsPage';
 
 import { NewTripModal } from './components/NewTripModal';
 
@@ -129,7 +130,7 @@ export default function App() {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [authLoading, setAuthLoading] = useState(false);
   
-  const [currentTab, setCurrentTab] = useState<'trips' | 'scan' | 'insights' | 'settings'>('trips');
+  const [currentTab, setCurrentTab] = useState<'trips' | 'payments' | 'insights' | 'settings'>('trips');
   const [tripToDelete, setTripToDelete] = useState<string | null>(null);
 
 
@@ -544,19 +545,10 @@ export default function App() {
             />
         )}
         
-        {currentTab === 'scan' && (
-            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto w-full h-[80vh]">
-                <div className="w-24 h-24 bg-gradient-to-tr from-[#004ccc] to-[#0762ff] shadow-[#004ccc]/30 rounded-[28px] mx-auto mb-6 flex items-center justify-center shadow-2xl rotate-3 animate-[pulse_4s_infinite]">
-                    <span className="material-symbols-outlined text-white text-[40px] -rotate-3">document_scanner</span>
-                </div>
-                <h2 className="text-2xl font-bold text-[#495770] mb-2 tracking-tight">Escaner Inteligente</h2>
-                <p className="text-slate-500 mb-8 font-medium">Captura un recibo general para crear un resumen de gastos instantáneo.</p>
-                <button onClick={() => setIsScanModalOpen(true)} className="w-full py-4 bg-[#191c1e] text-white font-bold rounded-2xl flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all">
-                    <span className="material-symbols-outlined">camera</span>
-                    Comenzar Escaneo
-                </button>
-            </div>
+        {currentTab === 'payments' && (
+            <PaymentsPage />
         )}
+
 
         {currentTab === 'insights' && <InsightsPage user={user} trips={trips} />}
 

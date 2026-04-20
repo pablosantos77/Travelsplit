@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface BottomNavProps {
-  currentTab: 'trips' | 'scan' | 'insights' | 'settings';
-  onChange: (tab: 'trips' | 'scan' | 'insights' | 'settings') => void;
+  currentTab: 'trips' | 'payments' | 'insights' | 'settings';
+  onChange: (tab: 'trips' | 'payments' | 'insights' | 'settings') => void;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({ currentTab, onChange }) => {
@@ -18,11 +18,11 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentTab, onChange }) =>
       </button>
 
       <button 
-        onClick={() => onChange('scan')}
-        className={`flex flex-col items-center justify-center transition-all duration-300 ease-out active:scale-90 px-3 py-1 rounded-xl ${currentTab === 'scan' ? 'text-[#004ccc] bg-[#004ccc]/10 font-bold' : 'text-[#495770] opacity-70 hover:opacity-100'}`}
+        onClick={() => onChange('payments')}
+        className={`flex flex-col items-center justify-center transition-all duration-300 ease-out active:scale-90 px-3 py-1 rounded-xl ${currentTab === 'payments' ? 'text-[#004ccc] bg-[#004ccc]/10 font-bold' : 'text-[#495770] opacity-70 hover:opacity-100'}`}
       >
-        <span className="material-symbols-outlined mb-1 text-[24px]">shutter_speed</span>
-        <span className="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Scan</span>
+        <span className="material-symbols-outlined mb-1 text-[24px]" style={{fontVariationSettings: currentTab === 'payments' ? "'FILL' 1" : "'FILL' 0"}}>payments</span>
+        <span className="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Payments</span>
       </button>
 
       <button 
