@@ -9,8 +9,8 @@ import { TripsPage } from './components/TripsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { InsightsPage } from './components/InsightsPage';
 import { PaymentsPage } from './components/PaymentsPage';
-import { Background } from './components/Background';
 import { NewTripModal } from './components/NewTripModal';
+
 
 
 // Componente Modal de Escaneo
@@ -536,9 +536,9 @@ export default function App() {
 
   // --- APP MAIN LAYOUT (Tabs) ---
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 overflow-hidden text-slate-800 font-sans selection:bg-[#004ccc]/20 relative">
-      <Background />
-      <div className="flex-1 w-full bg-transparent overflow-y-auto relative z-10">
+    <div className="min-h-screen flex flex-col bg-white overflow-hidden text-slate-800 font-sans selection:bg-[#004ccc]/20">
+      <div className="flex-1 w-full bg-[#f7f9fb] overflow-y-auto">
+
 
         {currentTab === 'trips' && (
             <TripsPage 

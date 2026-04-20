@@ -11,7 +11,8 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState<PaymentTab>('pedir');
 
   return (
-    <div className="bg-transparent font-sans text-[#191c1e] antialiased selection:bg-[#0762ff] selection:text-[#f3f3ff] relative min-h-[100dvh] flex flex-col pb-32 overflow-hidden">
+    <div className="bg-[#f7f9fb] font-sans text-[#191c1e] antialiased selection:bg-[#0762ff] selection:text-[#f3f3ff] relative min-h-[100dvh] flex flex-col pb-32 overflow-hidden">
+
       
       <div className="w-full max-w-md mx-auto flex-1 flex flex-col z-10 relative">
 
