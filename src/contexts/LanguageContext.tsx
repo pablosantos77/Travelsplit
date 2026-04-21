@@ -116,6 +116,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Idioma',
       languageDesc: 'Selecciona tu idioma preferido',
       help: 'Ayuda',
+      appearance: 'Apariencia',
+      appearanceDesc: 'Cambiar entre modo claro y oscuro',
     },
     modals: {
       scanTitle: 'Escanear Ticket IA',
@@ -227,6 +229,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Language',
       languageDesc: 'Select your preferred language',
       help: 'Help',
+      appearance: 'Appearance',
+      appearanceDesc: 'Toggle between light and dark mode',
     },
     modals: {
       scanTitle: 'Scan AI Ticket',
@@ -338,6 +342,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Langue',
       languageDesc: 'Sélectionnez votre langue préférée',
       help: 'Aide',
+      appearance: 'Apparence',
+      appearanceDesc: 'Basculer entre le mode clair et sombre',
     },
     modals: {
       scanTitle: 'Scanner Ticket IA',
@@ -449,6 +455,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Sprache',
       languageDesc: 'Wählen Sie Ihre bevorzugte Sprache',
       help: 'Hilfe',
+      appearance: 'Erscheinungsbild',
+      appearanceDesc: 'Zwischen hellem und dunklem Modus wechseln',
     },
     modals: {
       scanTitle: 'KI-Ticket scannen',
@@ -560,6 +568,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Idioma',
       languageDesc: 'Selecione seu idioma preferido',
       help: 'Ajuda',
+      appearance: 'Aparência',
+      appearanceDesc: 'Alternar entre modo claro e escuro',
     },
     modals: {
       scanTitle: 'Escanear Ticket IA',
@@ -671,6 +681,8 @@ export const translations: Record<LangCode, any> = {
       language: 'Lingua',
       languageDesc: 'Seleziona la tua lingua preferita',
       help: 'Aiuto',
+      appearance: 'Aspetto',
+      appearanceDesc: 'Passa dalla modalità chiara a quella scura',
     },
     modals: {
       scanTitle: 'Scansiona Ricevuta IA',
