@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TravelSplit AI - Security Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#f3f3ff",
+                        "primary-container": "#616f89",
+                        "tertiary-container": "#607080",
+                        "secondary": "#004ccc",
+                        "primary": "#495770",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#394857",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#eff3ff",
+                        "tertiary": "#485867",
+                        "primary-fixed": "#d6e3ff",
+                        "on-tertiary-container": "#eaf3ff",
+                        "on-primary-fixed": "#0d1c32",
+                        "tertiary-fixed": "#d4e4f6",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "secondary-container": "#0762ff",
+                        "surface": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#39475f",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c2c6d9",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#b9c7e4",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#515f78",
+                        "on-surface-variant": "#424656",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-tertiary-fixed": "#0d1d2a",
+                        "tertiary-fixed-dim": "#b8c8da",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "outline": "#737687"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-50 bg-[#f7f9fb] dark:bg-slate-900 flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-3">
+<button class="p-2 -ml-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors text-[#495770] dark:text-slate-300">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Inter'] font-bold text-2xl tracking-tight text-[#495770] dark:text-slate-200">Security</h1>
+</div>
+<div class="flex items-center">
+<button class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors text-[#495770] dark:text-slate-300 active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-6 py-8 max-w-4xl mx-auto w-full space-y-8">
+<!-- Access Control Section -->
+<section class="space-y-4">
+<h2 class="text-lg font-semibold text-primary font-headline tracking-tight px-1">Access Control</h2>
+<div class="bg-surface-container-low rounded-xl p-1 shadow-[0px_12px_32px_rgba(25,28,30,0.02)]">
+<!-- Password Item -->
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container transition-colors rounded-lg group text-left">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+</div>
+<div>
+<h3 class="font-medium text-on-surface font-body">Change Password</h3>
+<p class="text-sm text-on-surface-variant font-body">Last updated 3 months ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Divider Alternative: Subtle margin/spacing between items within container, using pseudo border if absolutely necessary, but preferring bg shift -->
+<div class="h-px w-[calc(100%-4rem)] mx-auto bg-surface-variant opacity-50"></div>
+<!-- 2FA Item -->
+<button class="w-full flex items-center justify-between p-4 hover:bg-surface-container transition-colors rounded-lg group text-left">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+</div>
+<div>
+<h3 class="font-medium text-on-surface font-body">Two-Factor Authentication</h3>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<p class="text-sm text-secondary font-medium font-body">Active</p>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-secondary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+<div class="h-px w-[calc(100%-4rem)] mx-auto bg-surface-variant opacity-50"></div>
+<!-- Biometrics Toggle -->
+<div class="w-full flex items-center justify-between p-4 hover:bg-surface-container transition-colors rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="fingerprint">fingerprint</span>
+</div>
+<div>
+<h3 class="font-medium text-on-surface font-body">Biometric Login</h3>
+<p class="text-sm text-on-surface-variant font-body">Use Face ID or Touch ID</p>
+</div>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Active Sessions Section -->
+<section class="space-y-4">
+<h2 class="text-lg font-semibold text-primary font-headline tracking-tight px-1">Active Sessions</h2>
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_12px_32px_rgba(25,28,30,0.04)] border border-outline-variant/15">
+<!-- Current Session -->
+<div class="flex items-start justify-between py-3">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]" data-icon="smartphone">smartphone</span>
+</div>
+<div>
+<h4 class="font-medium text-on-surface font-body">iPhone 14 Pro</h4>
+<p class="text-sm text-on-surface-variant font-body">New York, USA • App</p>
+<span class="inline-block mt-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold uppercase tracking-wider font-label">Current Session</span>
+</div>
+</div>
+</div>
+<div class="h-px w-full bg-surface-variant opacity-30 my-2"></div>
+<!-- Other Session -->
+<div class="flex items-start justify-between py-3">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" data-icon="laptop_mac">laptop_mac</span>
+</div>
+<div>
+<h4 class="font-medium text-on-surface font-body">MacBook Air M2</h4>
+<p class="text-sm text-on-surface-variant font-body">New York, USA • Chrome</p>
+<p class="text-xs text-on-surface-variant mt-1">Active 2 days ago</p>
+</div>
+</div>
+<button class="text-error text-sm font-semibold hover:bg-error-container/50 px-3 py-1.5 rounded-lg transition-colors">Revoke</button>
+</div>
+</div>
+<div class="flex justify-end pt-2">
+<button class="text-primary font-semibold text-sm hover:text-secondary transition-colors font-body flex items-center gap-1">
+                    Log out of all devices
+                    <span class="material-symbols-outlined text-[16px]" data-icon="logout">logout</span>
+</button>
+</div>
+</section>
+</main>
+</body></html>

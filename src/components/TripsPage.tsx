@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface Trip {
   id: string;
@@ -16,6 +18,9 @@ interface TripsPageProps {
 }
 
 export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal, onManageTrip }) => {
+  const { language, t: allTranslations } = useLanguage();
+  const t = allTranslations.trips;
+
   return (
     <>
       <header className="w-full top-0 sticky z-40 bg-[#f7f9fb] text-[#495770] font-sans tracking-tight flex justify-between items-center px-6 py-4 bg-gradient-to-b from-[#f7f9fb] to-transparent">
@@ -37,8 +42,8 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
       <main className="flex-1 w-full max-w-2xl mx-auto px-6 py-4 flex flex-col gap-8 z-10 relative pb-32">
         
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-extrabold text-[#495770] tracking-tight font-sans">Mis Viajes</h1>
-          <p className="text-slate-500 font-sans text-sm">Your digital itineraries and expense folios.</p>
+          <h1 className="text-3xl font-extrabold text-[#495770] tracking-tight font-sans">{t.title}</h1>
+          <p className="text-slate-500 font-sans text-sm">{t.subtitle}</p>
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-2">
@@ -46,14 +51,14 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
             <div className="w-full border-[1.5px] border-dashed border-slate-300 bg-[#f2f4f6] rounded-[1.25rem] p-1.5 relative z-10 opacity-70">
               <div className="w-full bg-white/90 backdrop-blur-md rounded-[1rem] p-10 flex flex-col items-center justify-center gap-4 text-center border border-slate-200/50">
                 <span className="material-symbols-outlined text-slate-400 text-4xl">travel_explore</span>
-                <p className="text-slate-500 font-medium">Aún no tienes viajes. ¡Crea el primero!</p>
+                <p className="text-slate-500 font-medium">{t.empty}</p>
               </div>
             </div>
           ) : (
             trips.map((trip, index) => {
               const folderColors = [
-                { tabBg: 'bg-[#004ccc]', tabText: 'text-white', sleeveBg: 'bg-[#004ccc]', shadow: 'shadow-[0px_12px_32px_rgba(0,76,204,0.15)]', tabTitle: 'Upcoming', icon: 'flight_takeoff' },
-                { tabBg: 'bg-[#616f89]', tabText: 'text-white', sleeveBg: 'bg-[#616f89]', shadow: 'shadow-[0px_12px_32px_rgba(97,111,137,0.15)]', tabTitle: 'Planned', icon: 'restaurant' },
+                { tabBg: 'bg-[#004ccc]', tabText: 'text-white', sleeveBg: 'bg-[#004ccc]', shadow: 'shadow-[0px_12px_32px_rgba(0,76,204,0.15)]', tabTitle: t.upcoming, icon: 'flight_takeoff' },
+                { tabBg: 'bg-[#616f89]', tabText: 'text-white', sleeveBg: 'bg-[#616f89]', shadow: 'shadow-[0px_12px_32px_rgba(97,111,137,0.15)]', tabTitle: t.planned, icon: 'restaurant' },
               ];
               const c = folderColors[index % folderColors.length];
 
@@ -72,7 +77,7 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
                       <div className="flex justify-between items-start w-full">
                         <div>
                           <h2 className="text-2xl font-bold text-[#495770] tracking-tight font-sans">{trip.name}</h2>
-                          <p className={`text-xs font-medium uppercase tracking-wider mt-1 ${isOdd ? 'text-[#616f89]' : 'text-[#004ccc]'}`}>{trip.destination || 'Pending destination'}</p>
+                          <p className={`text-xs font-medium uppercase tracking-wider mt-1 ${isOdd ? 'text-[#616f89]' : 'text-[#004ccc]'}`}>{trip.destination || t.pendingDest}</p>
                         </div>
                         <div className={`w-12 h-12 rounded-full bg-[#f2f4f6] flex items-center justify-center ${isOdd ? 'text-[#616f89]' : 'text-[#004ccc]'}`}>
                           <span className="material-symbols-outlined text-2xl">{c.icon}</span>
@@ -82,12 +87,12 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
                         <div className="flex items-center gap-2 bg-[#f2f4f6] px-3 py-1.5 rounded-full">
                           <span className="material-symbols-outlined text-slate-400 text-[18px]">calendar_month</span>
                           <span className="text-sm font-medium text-slate-500">
-                            {trip.startDate ? `${new Date(trip.startDate + 'T00:00:00').toLocaleDateString('es-ES', {month: 'short', day: 'numeric'})}` : 'Select dates'}
+                            {trip.startDate ? `${new Date(trip.startDate + 'T00:00:00').toLocaleDateString(language === 'es' ? 'es-ES' : language === 'en' ? 'en-US' : language, {month: 'short', day: 'numeric'})}` : t.selectDates}
                           </span>
                         </div>
                         <div className="flex items-center gap-2 bg-[#f2f4f6] px-3 py-1.5 rounded-full">
                           <span className="material-symbols-outlined text-slate-400 text-[18px]">group</span>
-                          <span className="text-sm font-medium text-slate-500">{trip.participants?.length || 0} Guests</span>
+                          <span className="text-sm font-medium text-slate-500">{trip.participants?.length || 0} {t.guests}</span>
                         </div>
                       </div>
                     </div>
