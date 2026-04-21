@@ -22,7 +22,9 @@ interface Debt {
 export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenScanModal }) => {
   const { t: allTranslations } = useLanguage();
   const t = allTranslations.payments;
-  const [activeTab, setActiveTab] = useState<'pedir' | 'pagar'>('pedir');
+  
+  // Set default tab to 'pagar' so user sees the new MCP screen immediately
+  const [activeTab, setActiveTab] = useState<'pedir' | 'pagar'>('pagar');
   
   const [debtsToMe, setDebtsToMe] = useState<Debt[]>([]);
   const [debtsIOwe, setDebtsIOwe] = useState<Debt[]>([]);
@@ -46,7 +48,6 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
         
         let total = 0;
         expenses.forEach(e => {
-           // Settlements don't count towards the shared total
            if (e.type !== 'payment') {
               total += (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
            }
@@ -63,9 +64,6 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
         expenses.forEach(e => {
           const amt = (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
           if (e.type === 'payment') {
-            // A payment from A to B:
-            // A's virtual "paid" amount goes UP (A is trying to catch up)
-            // B's virtual "paid" amount goes DOWN (B already received it, so they "paid" less effectively)
             if (paidMap[e.paidBy] !== undefined) paidMap[e.paidBy] += amt;
             if (paidMap[e.paidTo] !== undefined) paidMap[e.paidTo] -= amt;
           } else {
@@ -143,10 +141,8 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
         createdAt: new Date().toISOString()
       });
       
-      // Reset UI
       setIsPayingManual(false);
       setManualAmount('');
-      // Refresh debts
       await calculateDebts();
     } catch (err) {
       console.error("Error registering payment:", err);
@@ -174,16 +170,19 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
       <div className="fixed inset-0 z-[0] opacity-40 mix-blend-multiply bg-gradient-to-br from-tertiary-fixed-dim via-primary-fixed to-secondary-fixed blur-3xl pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-md mx-auto flex flex-col flex-1">
-        {/* TopAppBar */}
+        
+        {/* HEADER SPECIFIC TO TAB (From MCP Screen) */}
         <header className="sticky top-0 z-50 bg-[#f7f9fb]/80 backdrop-blur-xl">
-          <div className="flex justify-between items-center px-6 py-4">
-            <button className="w-10 h-10 rounded-full overflow-hidden bg-surface-container shadow-[0px_12px_32px_rgba(25,28,30,0.06)] hover:bg-slate-200/50 transition-colors active:scale-95 duration-150 flex items-center justify-center">
-               <span className="material-symbols-outlined text-[#495770]">person</span>
+          <div className="flex justify-between items-center px-6 h-16 bg-[#f2f4f6]/50">
+            <button className="text-[#495770] hover:bg-slate-200/50 transition-colors rounded-full p-2 active:scale-95 duration-200">
+              <span className="material-symbols-outlined">menu</span>
             </button>
-            <h1 className="font-headline font-bold tracking-tight text-3xl text-[#495770]">{t.title}</h1>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors active:scale-95 duration-150 text-[#495770]">
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
+            <h1 className="font-headline font-black tracking-tighter text-lg text-[#004ccc]">
+               {activeTab === 'pagar' ? 'Payment Requests' : t.title}
+            </h1>
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container flex items-center justify-center">
+               <span className="material-symbols-outlined text-[#495770] text-sm">person</span>
+            </div>
           </div>
         </header>
 
@@ -248,8 +247,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
               </button>
             </div>
 
-            {/* Preview Pendiente */}
-            <div className="mt-8">
+            <div className="mt-8 px-2">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-on-surface text-lg">{t.pendingCollection}</h3>
                 {debtsToMe.length > 0 && <span className="text-sm font-medium text-secondary cursor-pointer hover:underline">{t.viewAll}</span>}
@@ -279,17 +277,17 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
           </div>
         )}
 
-        {/* Section Pagar (Payment Requests Hub Style) */}
+        {/* Section Pagar (Payment Requests Hub Style - FROM STITCH MCP) */}
         {activeTab === 'pagar' && (
-           <div className="px-4 flex flex-col gap-8 pb-32">
+           <div className="px-4 flex flex-col gap-8 pb-32 pt-2">
              {debtsIOwe.length === 0 ? (
-                  <p className="text-sm font-medium text-on-surface-variant italic opacity-70 p-4">¡Genial! No debes dinero a nadie.</p>
+                  <p className="text-sm font-medium text-on-surface-variant italic opacity-70 p-4 bg-surface-container-low rounded-3xl text-center">¡Genial! No debes dinero a nadie.</p>
              ) : (
                 <>
-                  {/* Total Pending Card */}
+                  {/* Total Pending Card (Stitch Style) */}
                   <section className="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-primary-container"></div>
-                    <p className="text-on-surface-variant font-medium text-sm tracking-wide uppercase mb-1">Total a Pagar</p>
+                    <p className="text-on-surface-variant font-medium text-sm tracking-wide uppercase mb-1">Total Pending</p>
                     <h2 className="text-4xl font-extrabold tracking-tight text-on-surface">€{totalIOwe.toFixed(2)}</h2>
                     <div className="mt-4 flex items-center text-secondary text-sm font-semibold">
                       <span className="material-symbols-outlined text-[16px] mr-1">magic_button</span>
@@ -297,9 +295,9 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                     </div>
                   </section>
 
-                  {/* Pending Requests List */}
+                  {/* Pending Requests List (Stitch Style) */}
                   <section className="space-y-4">
-                    <h3 className="text-lg font-bold text-on-surface px-2">Pendientes</h3>
+                    <h3 className="text-lg font-bold text-on-surface px-2">Pending Requests</h3>
                     <div className="bg-surface-container-low rounded-3xl p-2 space-y-2">
                        {debtsIOwe.map((debt, idx) => {
                           const isSelected = idx === selectedDebtIndex;
@@ -310,7 +308,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                                   setSelectedDebtIndex(idx);
                                   setIsPayingManual(false);
                                 }}
-                                className={`cursor-pointer transition-all ${isSelected ? 'bg-surface-container-lowest rounded-[20px] p-4 shadow-[0px_8px_24px_rgba(25,28,30,0.04)] border border-outline-variant/15 relative overflow-hidden flex items-center justify-between' : 'bg-surface rounded-[20px] p-4 flex items-center justify-between opacity-70 hover:opacity-100'}`}
+                                className={`cursor-pointer transition-all flex items-center justify-between p-4 ${isSelected ? 'bg-surface-container-lowest rounded-[20px] shadow-[0px_8px_24px_rgba(25,28,30,0.04)] border border-outline-variant/15 relative overflow-hidden' : 'bg-surface rounded-[20px] opacity-70 hover:opacity-100'}`}
                              >
                                 {isSelected && <div className="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-[20px]"></div>}
                                 <div className="flex items-center space-x-4">
@@ -318,12 +316,12 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                                     {debt.name[0]?.toUpperCase()}
                                   </div>
                                   <div>
-                                    <p className={`font-semibold text-on-surface ${isSelected ? 'font-bold' : ''}`}>{debt.name.charAt(0).toUpperCase() + debt.name.slice(1)}</p>
+                                    <p className={`font-bold text-on-surface ${isSelected ? 'text-on-surface' : ''}`}>{debt.name.charAt(0).toUpperCase() + debt.name.slice(1)}</p>
                                     <p className="text-xs text-on-surface-variant">{debt.concept}</p>
                                   </div>
                                 </div>
                                 <div className="text-right">
-                                  <p className={`font-bold ${isSelected ? 'text-secondary font-extrabold text-lg' : 'text-on-surface'}`}>€{debt.amount.toFixed(2)}</p>
+                                  <p className={`font-extrabold ${isSelected ? 'text-secondary text-lg' : 'text-on-surface'}`}>€{debt.amount.toFixed(2)}</p>
                                 </div>
                              </div>
                           );
@@ -331,14 +329,14 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                     </div>
                   </section>
 
-                  {/* Payment Methods (Shown for selected item) */}
+                  {/* Payment Methods (Stitch Style) */}
                   {currentDebt && (
                     <section className="bg-surface-container-low rounded-3xl p-6 space-y-6">
-                      <h3 className="text-sm font-bold text-on-surface-variant tracking-wide uppercase">Método para abonar a {currentDebt.name.charAt(0).toUpperCase() + currentDebt.name.slice(1)}</h3>
+                      <h3 className="text-xs font-bold text-on-surface-variant tracking-wide uppercase">Select Payment Method</h3>
                       
                       {!isPayingManual ? (
-                        <div className="grid grid-cols-2 gap-4">
-                          {/* Efectivo Manual Button */}
+                        <div className="grid grid-cols-3 gap-3">
+                          {/* Cash (Manual) */}
                           <button 
                             onClick={() => setIsPayingManual(true)}
                             className="bg-surface-container-lowest rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 border border-outline-variant/15 hover:bg-surface transition-colors"
@@ -346,21 +344,28 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                             <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface">
                               <span className="material-symbols-outlined">payments</span>
                             </div>
-                            <span className="text-sm font-semibold text-on-surface">Efectivo</span>
+                            <span className="text-[10px] font-bold text-on-surface">Efectivo</span>
                           </button>
 
-                          {/* Bizum Button */}
+                          {/* Bizum */}
                           <button className="bg-secondary-container rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 shadow-[0px_8px_16px_rgba(7,98,255,0.15)] ring-2 ring-secondary/20 active:scale-95 transition-all">
-                            <div className="w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center text-white font-bold italic">
+                             <div className="w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center text-white font-bold italic text-sm">
                                B
                             </div>
-                            <span className="text-sm font-semibold text-on-secondary-container">Bizum</span>
+                            <span className="text-[10px] font-bold text-on-secondary-container">Bizum</span>
+                          </button>
+
+                          {/* Card */}
+                          <button className="bg-surface-container-lowest rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 border border-outline-variant/15 hover:bg-surface transition-colors">
+                            <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface">
+                              <span className="material-symbols-outlined">credit_card</span>
+                            </div>
+                            <span className="text-[10px] font-bold text-on-surface">Card</span>
                           </button>
                         </div>
                       ) : (
-                        // Manual Payment Input View
                         <div className="bg-surface-container-lowest p-5 rounded-2xl space-y-5 border border-outline-variant/15 shadow-[0px_4px_16px_rgba(25,28,30,0.04)]">
-                          <p className="text-sm font-semibold text-on-surface">Indica cuánto le has pagado en efectivo:</p>
+                          <p className="text-sm font-semibold text-on-surface text-center">Registrar pago manual</p>
                           <div className="relative">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-lg">€</span>
                             <input 
@@ -380,29 +385,41 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                                 setIsPayingManual(false);
                                 setManualAmount('');
                               }} 
-                              className="flex-[0.8] bg-surface py-3.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-dim transition-colors disabled:opacity-50"
+                              className="flex-1 bg-surface py-3.5 rounded-xl text-xs font-bold text-on-surface-variant"
                             >
                               Cancelar
                             </button>
                             <button 
                               disabled={isSubmitting}
                               onClick={handleRegisterPayment}
-                              className="flex-[1.2] bg-gradient-to-r from-secondary to-primary-container text-white py-3.5 rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,76,204,0.15)] hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                              className="flex-1 bg-gradient-to-r from-secondary to-primary-container text-white py-3.5 rounded-xl text-xs font-bold shadow-[0px_8px_16px_rgba(0,76,204,0.15)] flex items-center justify-center gap-2"
                             >
-                              {isSubmitting && <span className="material-symbols-outlined animate-spin text-sm">sync</span>}
-                              {isSubmitting ? 'Registrando...' : 'Registrar Pago'}
+                              {isSubmitting ? '...' : 'Settle'}
                             </button>
                           </div>
                         </div>
                       )}
                     </section>
                   )}
+                  
+                  {/* Floating Action Button (Stitch Style) */}
+                  {!isPayingManual && currentDebt && (
+                    <div className="fixed bottom-28 left-0 w-full px-6 z-40 flex justify-center pointer-events-none">
+                      <button 
+                        onClick={() => setIsPayingManual(true)}
+                        className="pointer-events-auto bg-gradient-to-r from-secondary to-primary-container text-white font-semibold text-sm w-full max-w-sm py-4 rounded-2xl shadow-[0px_12px_32px_rgba(0,76,204,0.3)] hover:opacity-90 transition-opacity flex items-center justify-center space-x-2"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">lock</span>
+                        <span>Settle €{currentDebt.amount.toFixed(2)}</span>
+                      </button>
+                    </div>
+                  )}
                 </>
              )}
            </div>
         )}
 
-        {/* Sticky Total Banner (Only for Pedir, as Pagar has the Total Card at the top now) */}
+        {/* Sticky Total Banner (Only for Pedir) */}
         {activeTab === 'pedir' && (
           <div className="fixed bottom-[100px] left-0 w-full px-6 z-40 pointer-events-none">
             <div className="max-w-md mx-auto pointer-events-auto bg-surface-container-lowest/90 backdrop-blur-xl rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.1)] border border-outline-variant/15 flex justify-between items-center">
