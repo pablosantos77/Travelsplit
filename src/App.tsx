@@ -38,7 +38,7 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
         }
       } catch (fallbackError) {
         console.error('Fallback camera access failed', fallbackError);
-        alert('No se pudo acceder a la cámara.');
+        alert(t.modals.errorCamera || 'Error');
       }
     }
   };
@@ -72,7 +72,7 @@ const ScanTicketModal = ({ isOpen, onClose, onScan }: { isOpen: boolean, onClose
           onClose();
         } catch (error) {
           console.error('OCR failed', error);
-          alert('Error al procesar el ticket.');
+          alert(t.modals.errorOCR || 'Error');
         }
       }
     }
@@ -228,7 +228,7 @@ export default function App() {
   };
 
   const handleEmailAuth = async () => {
-    if (!authEmail || !authPassword) { setAuthError('Completa todos los campos.'); return; }
+    if (!authEmail || !authPassword) { setAuthError(t.auth.errorFields || 'Error'); return; }
     setAuthLoading(true);
     setAuthError('');
     try {
@@ -441,7 +441,7 @@ export default function App() {
         </main>
         
         <ScanTicketModal isOpen={isScanModalOpen} onClose={() => setIsScanModalOpen(false)} onScan={(data) => {
-            setNewExpense({...newExpense, description: data.description || 'Scan', amount: data.amount ? data.amount.toString() : '0'});
+            setNewExpense({...newExpense, description: data.description || t.trips.scannedExpense, amount: data.amount ? data.amount.toString() : '0'});
         }} />
       </div>
     );
@@ -459,7 +459,8 @@ export default function App() {
       <NewTripModal isOpen={isNewTripModalOpen} onClose={() => setIsNewTripModalOpen(false)} onSave={() => {}} />
       <ScanTicketModal isOpen={isScanModalOpen} onClose={() => setIsScanModalOpen(false)} onScan={(data) => {
           setIsScanModalOpen(false);
-          alert(`OCR Result: ${data.description} - ${data.amount}€`);
+          // Localize the success message if needed, or just set it
+          setNewExpense({...newExpense, description: data.description || t.trips.scannedExpense, amount: data.amount ? data.amount.toString() : '0'});
       }} />
     </div>
   );

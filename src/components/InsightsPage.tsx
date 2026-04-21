@@ -40,7 +40,7 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({ user, trips }) => {
              <span className="material-symbols-outlined text-white/30 text-4xl">trending_down</span>
           </div>
           <p className="text-xs text-white/80 mt-4 leading-relaxed">
-            Basado en tus hábitos, podrías ahorrar optimizando los gastos de transporte grupal.
+            {t.savingsDesc}
           </p>
         </div>
 
@@ -49,9 +49,9 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({ user, trips }) => {
           <h3 className="font-bold text-[#495770] mb-4">{t.summary}</h3>
           <div className="space-y-4">
             {[
-              { label: 'Comida', val: 65, color: 'bg-[#004ccc]' },
-              { label: 'Transporte', val: 25, color: 'bg-[#616f89]' },
-              { label: 'Ocio', val: 10, color: 'bg-slate-200' },
+              { label: t.categories.food, val: 65, color: 'bg-[#004ccc]' },
+              { label: t.categories.transport, val: 25, color: 'bg-[#616f89]' },
+              { label: t.categories.leisure, val: 10, color: 'bg-slate-200' },
             ].map(item => (
               <div key={item.label}>
                 <div className="flex justify-between text-xs font-bold text-slate-500 mb-1.5 px-0.5">

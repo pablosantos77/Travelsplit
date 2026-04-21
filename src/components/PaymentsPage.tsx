@@ -41,8 +41,8 @@ export const PaymentsPage: React.FC = () => {
                       <span className="material-symbols-outlined text-[20px]">send</span>
                    </div>
                    <div>
-                      <p className="text-sm font-bold text-[#495770]">{pay.debtor} <span className="text-slate-400 font-normal">debe a</span> {pay.creditor}</p>
-                      <p className="text-xs text-slate-400 font-medium">Liquidación sugerida</p>
+                      <p className="text-sm font-bold text-[#495770]">{pay.debtor} <span className="text-slate-400 font-normal">{t.owes}</span> {pay.creditor}</p>
+                      <p className="text-xs text-slate-400 font-medium">{t.suggestedSettlement}</p>
                    </div>
                 </div>
                 <div className="text-right">

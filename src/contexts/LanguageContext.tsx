@@ -32,7 +32,32 @@ export const translations: Record<LangCode, any> = {
       login: 'Iniciar sesión',
       register: 'Crear mi cuenta',
       noAccount: '¿No tienes cuenta? Regístrate',
-      hasAccount: '¿Ya tienes cuenta? Inicia sesión'
+      hasAccount: '¿Ya tienes cuenta? Inicia sesión',
+      errorFields: 'Completa todos los campos.'
+    },
+    payments: {
+      title: 'Liquidación de Cuentas',
+      subtitle: 'Quién debe a quién en tus viajes activos.',
+      members: 'Miembros del Grupo',
+      settle: 'Liquidar',
+      balances: 'Balances de Deuda',
+      owes: 'debe a',
+      suggestedSettlement: 'Liquidación sugerida'
+    },
+    insights: {
+      title: 'Insights del Viaje',
+      subtitle: 'Análisis inteligente de tus gastos compartidos.',
+      totalSpent: 'Total Gastado',
+      personalSpent: 'Tu Gasto',
+      savings: 'Ahorro Potencial',
+      summary: 'Resumen de Gastos',
+      categoryDist: 'Distribución por Categoría',
+      categories: {
+        food: 'Comida',
+        transport: 'Transporte',
+        leisure: 'Ocio'
+      },
+      savingsDesc: 'Basado en tus hábitos, podrías ahorrar optimizando los gastos de transporte grupal.'
     },
     trips: {
       title: 'Mis Viajes',
@@ -50,23 +75,9 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Descripción (ej. Cena, Taxi...)',
       amountPlaceholder: 'Total (€)',
       paidBy: 'Pagó...',
-      addExpense: 'Añadir al Viaje'
-    },
-    payments: {
-      title: 'Liquidación de Cuentas',
-      subtitle: 'Quién debe a quién en tus viajes activos.',
-      members: 'Miembros del Grupo',
-      settle: 'Liquidar',
-      balances: 'Balances de Deuda'
-    },
-    insights: {
-      title: 'Insights del Viaje',
-      subtitle: 'Análisis inteligente de tus gastos compartidos.',
-      totalSpent: 'Total Gastado',
-      personalSpent: 'Tu Gasto',
-      savings: 'Ahorro Potencial',
-      summary: 'Resumen de Gastos',
-      categoryDist: 'Distribución por Categoría'
+      addExpense: 'Añadir al Viaje',
+      participantsCount: 'personas participan',
+      scannedExpense: 'Gasto Escaneado'
     },
     settings: {
       headerTitle: 'Ajustes',
@@ -94,7 +105,10 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: '¿Borrar viaje?',
       deleteDesc: 'Esta acción es irreversible y se perderán todos los gastos registrados.',
       confirmDelete: 'Sí, eliminar viaje',
-      cancel: 'Cancelar'
+      cancel: 'Cancelar',
+      errorOCR: 'Error al procesar el ticket.',
+      errorCamera: 'No se pudo acceder a la cámara.',
+      errorCamera: 'No se pudo acceder a la cámara.'
     }
   },
   en: {
@@ -109,7 +123,8 @@ export const translations: Record<LangCode, any> = {
       login: 'Login',
       register: 'Create account',
       noAccount: "Don't have an account? Register",
-      hasAccount: 'Already have an account? Login'
+      hasAccount: 'Already have an account? Login',
+      errorFields: 'Please fill in all fields.'
     },
     trips: {
       title: 'My Trips',
@@ -127,14 +142,18 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Description (e.g. Dinner, Taxi...)',
       amountPlaceholder: 'Total (€)',
       paidBy: 'Paid by...',
-      addExpense: 'Add to Trip'
+      addExpense: 'Add to Trip',
+      participantsCount: 'people participating',
+      scannedExpense: 'Scanned Expense'
     },
     payments: {
       title: 'Debt Settlement',
       subtitle: 'Who owes whom in your active trips.',
       members: 'Group Members',
       settle: 'Settle Debt',
-      balances: 'Debt Balances'
+      balances: 'Debt Balances',
+      owes: 'owes',
+      suggestedSettlement: 'Suggested settlement'
     },
     insights: {
       title: 'Trip Insights',
@@ -143,7 +162,13 @@ export const translations: Record<LangCode, any> = {
       personalSpent: 'Your Spend',
       savings: 'Potential Savings',
       summary: 'Expense Summary',
-      categoryDist: 'Category Distribution'
+      categoryDist: 'Category Distribution',
+      categories: {
+        food: 'Food',
+        transport: 'Transport',
+        leisure: 'Leisure'
+      },
+      savingsDesc: 'Based on your habits, you could save by optimizing group transportation costs.'
     },
     settings: {
       headerTitle: 'Settings',
@@ -171,7 +196,10 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: 'Delete trip?',
       deleteDesc: 'This action is irreversible and all recorded expenses will be lost.',
       confirmDelete: 'Yes, delete trip',
-      cancel: 'Cancel'
+      cancel: 'Cancel',
+      errorOCR: 'Error processing ticket.',
+      errorCamera: 'Could not access camera.',
+      errorCamera: 'Could not access camera.'
     }
   },
   fr: {
@@ -186,7 +214,8 @@ export const translations: Record<LangCode, any> = {
       login: 'Se connecter',
       register: 'Créer un compte',
       noAccount: 'Pas de compte ? S\'inscrire',
-      hasAccount: 'Déjà un compte ? Se connecter'
+      hasAccount: 'Déjà un compte ? Se connecter',
+      errorFields: 'Veuillez remplir tous les champs.'
     },
     trips: {
       title: 'Mes Voyages',
@@ -204,14 +233,18 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Description (ex. Dîner, Taxi...)',
       amountPlaceholder: 'Total (€)',
       paidBy: 'Payé par...',
-      addExpense: 'Ajouter au voyage'
+      addExpense: 'Ajouter au voyage',
+      participantsCount: 'personnes participent',
+      scannedExpense: 'Dépense scannée'
     },
     payments: {
       title: 'Règlement des dettes',
       subtitle: 'Qui doit quoi dans vos voyages actifs.',
       members: 'Membres du groupe',
       settle: 'Régler la dette',
-      balances: 'Soldes des dettes'
+      balances: 'Soldes des dettes',
+      owes: 'doit à',
+      suggestedSettlement: 'Règlement suggéré'
     },
     insights: {
       title: 'Aperçus du voyage',
@@ -220,7 +253,13 @@ export const translations: Record<LangCode, any> = {
       personalSpent: 'Votre dépense',
       savings: 'Économies potentielles',
       summary: 'Résumé des dépenses',
-      categoryDist: 'Répartition par catégorie'
+      categoryDist: 'Répartition par catégorie',
+      categories: {
+        food: 'Nourriture',
+        transport: 'Transport',
+        leisure: 'Loisirs'
+      },
+      savingsDesc: 'D\'après vos habitudes, vous pourriez économiser en optimisant les frais de transport de groupe.'
     },
     settings: {
       headerTitle: 'Paramètres',
@@ -248,7 +287,9 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: 'Supprimer le voyage ?',
       deleteDesc: 'Cette action est irréversible et toutes les dépenses enregistrées seront perdues.',
       confirmDelete: 'Oui, supprimer le voyage',
-      cancel: 'Annuler'
+      cancel: 'Annuler',
+      errorOCR: 'Erreur lors du traitement du ticket.',
+      errorCamera: 'Impossible d\'accéder à la caméra.'
     }
   },
   de: {
@@ -263,7 +304,8 @@ export const translations: Record<LangCode, any> = {
       login: 'Anmelden',
       register: 'Konto erstellen',
       noAccount: 'Kein Konto? Registrieren',
-      hasAccount: 'Bereits ein Konto? Anmelden'
+      hasAccount: 'Bereits ein Konto? Anmelden',
+      errorFields: 'Bitte füllen Sie alle Felder aus.'
     },
     trips: {
       title: 'Meine Reisen',
@@ -281,14 +323,18 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Beschreibung (z.B. Abendessen, Taxi...)',
       amountPlaceholder: 'Gesamt (€)',
       paidBy: 'Bezahlt von...',
-      addExpense: 'Zur Reise hinzufügen'
+      addExpense: 'Zur Reise hinzufügen',
+      participantsCount: 'Personen nehmen teil',
+      scannedExpense: 'Gescannte Ausgabe'
     },
     payments: {
       title: 'Schuldenbegleichung',
       subtitle: 'Wer wem in Ihren aktiven Reisen was schuldet.',
       members: 'Gruppenmitglieder',
       settle: 'Schulden begleichen',
-      balances: 'Schuldensalden'
+      balances: 'Schuldensalden',
+      owes: 'schuldet',
+      suggestedSettlement: 'Vorgeschlagene Abrechnung'
     },
     insights: {
       title: 'Reise-Einblicke',
@@ -297,7 +343,13 @@ export const translations: Record<LangCode, any> = {
       personalSpent: 'Ihre Ausgaben',
       savings: 'Potenzielle Einsparungen',
       summary: 'Ausgabenzusammenfassung',
-      categoryDist: 'Verteilung nach Kategorie'
+      categoryDist: 'Verteilung nach Kategorie',
+      categories: {
+        food: 'Essen',
+        transport: 'Transport',
+        leisure: 'Freizeit'
+      },
+      savingsDesc: 'Aufgrund Ihrer Gewohnheiten könnten Sie sparen, indem Sie die Kosten für Gruppentransporte optimieren.'
     },
     settings: {
       headerTitle: 'Einstellungen',
@@ -325,7 +377,9 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: 'Reise löschen?',
       deleteDesc: 'Dies ist unwiderruflich und alle aufgezeichneten Ausgaben gehen verloren.',
       confirmDelete: 'Ja, Reise löschen',
-      cancel: 'Abbrechen'
+      cancel: 'Abbrechen',
+      errorOCR: 'Fehler beim Verarbeiten des Tickets.',
+      errorCamera: 'Kamera konnte nicht gestartet werden.'
     }
   },
   pt: {
@@ -340,7 +394,8 @@ export const translations: Record<LangCode, any> = {
       login: 'Entrar',
       register: 'Criar conta',
       noAccount: 'Não tem conta? Registre-se',
-      hasAccount: 'Já tem conta? Entrar'
+      hasAccount: 'Já tem conta? Entrar',
+      errorFields: 'Por favor, preencha todos os campos.'
     },
     trips: {
       title: 'Minhas Viagens',
@@ -358,14 +413,18 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Descrição (ex: Jantar, Táxi...)',
       amountPlaceholder: 'Total (€)',
       paidBy: 'Pago por...',
-      addExpense: 'Adicionar à Viagem'
+      addExpense: 'Adicionar à Viagem',
+      participantsCount: 'pessoas participam',
+      scannedExpense: 'Despesa escaneada'
     },
     payments: {
       title: 'Liquidação de Dívidas',
       subtitle: 'Quem deve a quem nas suas viagens ativas.',
       members: 'Membros do Grupo',
       settle: 'Liquidar Dívida',
-      balances: 'Saldos de Dívida'
+      balances: 'Saldos de Dívida',
+      owes: 'deve a',
+      suggestedSettlement: 'Liquidação sugerida'
     },
     insights: {
       title: 'Insights da Viagem',
@@ -374,7 +433,13 @@ export const translations: Record<LangCode, any> = {
       personalSpent: 'Seu Gasto',
       savings: 'Economia Potencial',
       summary: 'Resumo de Gastos',
-      categoryDist: 'Distribuição por Categoria'
+      categoryDist: 'Distribuição por Categoria',
+      categories: {
+        food: 'Alimentação',
+        transport: 'Transporte',
+        leisure: 'Lazer'
+      },
+      savingsDesc: 'Com base nos seus hábitos, você pode economizar otimizando os custos de transporte do grupo.'
     },
     settings: {
       headerTitle: 'Configurações',
@@ -402,7 +467,9 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: 'Eliminar viagem?',
       deleteDesc: 'Esta ação é irreversível e todos os gastos registados serão perdidos.',
       confirmDelete: 'Sim, eliminar viagem',
-      cancel: 'Cancelar'
+      cancel: 'Cancelar',
+      errorOCR: 'Erro ao processar o ticket.',
+      errorCamera: 'Não foi possível acessar a câmera.'
     }
   },
   it: {
@@ -417,7 +484,8 @@ export const translations: Record<LangCode, any> = {
       login: 'Accedi',
       register: 'Crea account',
       noAccount: 'Non hai un account? Registrati',
-      hasAccount: 'Hai già un account? Accedi'
+      hasAccount: 'Hai già un account? Accedi',
+      errorFields: 'Si prega di compilare tutti i campi.'
     },
     trips: {
       title: 'I Miei Viaggi',
@@ -435,14 +503,18 @@ export const translations: Record<LangCode, any> = {
       descPlaceholder: 'Descrizione (es. Cena, Taxi...)',
       amountPlaceholder: 'Totale (€)',
       paidBy: 'Pagato da...',
-      addExpense: 'Aggiungi al Viaggio'
+      addExpense: 'Aggiungi al Viaggio',
+      participantsCount: 'persone partecipano',
+      scannedExpense: 'Spesa scansionata'
     },
     payments: {
       title: 'Saldamento Debiti',
       subtitle: 'Chi deve a chi nei tuoi viaggi attivi.',
       members: 'Membri del Gruppo',
       settle: 'Salda Debito',
-      balances: 'Bilanci Debiti'
+      balances: 'Bilanci Debiti',
+      owes: 'deve a',
+      suggestedSettlement: 'Saldamento suggerito'
     },
     insights: {
       title: 'Approfondimenti Viaggio',
@@ -451,7 +523,13 @@ export const translations: Record<LangCode, any> = {
       personalSpent: 'La Tua Spesa',
       savings: 'Risparmio Potenziale',
       summary: 'Riepilogo Spese',
-      categoryDist: 'Distribuzione per Categoria'
+      categoryDist: 'Distribuzione per Categoria',
+      categories: {
+        food: 'Cibo',
+        transport: 'Trasporto',
+        leisure: 'Tempo libero'
+      },
+      savingsDesc: 'In base alle tue abitudini, potresti risparmiare ottimizzando i costi del trasporto di gruppo.'
     },
     settings: {
       headerTitle: 'Impostazioni',
@@ -479,7 +557,9 @@ export const translations: Record<LangCode, any> = {
       deleteTrip: 'Elimina viaggio?',
       deleteDesc: 'Questa azione è irreversibile e tutte le spese registrate andranno perse.',
       confirmDelete: 'Sì, elimina viaggio',
-      cancel: 'Annulla'
+      cancel: 'Annulla',
+      errorOCR: 'Errore durante l\'elaborazione del biglietto.',
+      errorCamera: 'Impossibile accedere alla fotocamera.'
     }
   }
 };
