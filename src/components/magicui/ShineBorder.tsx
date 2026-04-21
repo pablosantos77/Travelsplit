@@ -15,32 +15,41 @@ interface ShineBorderProps {
 export function ShineBorder({
   borderRadius = 32,
   borderWidth = 2,
-  duration = 14,
-  shineColor = "#000000",
+  duration = 8,
+  shineColor = ["#A07CFE", "#FE8FB5", "#FFBE7B"],
   className,
 }: ShineBorderProps) {
-  const isDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
   return (
     <div
       style={
         {
           "--border-radius": `${borderRadius}px`,
-          "--duration": `${duration}s`,
-          "--mask-linear-gradient": `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          "--background-conic-gradient": `conic-gradient(from 0deg at 50% 50%, transparent 45%, ${
-            Array.isArray(shineColor) ? shineColor.join(",") : shineColor
-          } 50%, transparent 55%)`,
         } as React.CSSProperties
       }
       className={`pointer-events-none absolute inset-0 size-full overflow-hidden rounded-[--border-radius] ${className}`}
     >
-      <div
-        className={`before:absolute before:inset-[-100%] before:size-[300%] before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[transform] before:content-[""] before:![-webkit-mask-composite:xor] before:![mask-composite:exclude] before:[background-image:--background-conic-gradient] before:[mask:--mask-linear-gradient] animate-shine-fix`}
+      <div 
+        className="absolute inset-0"
         style={{
-           "--border-width": `${borderWidth}px`,
+          padding: `${borderWidth}px`,
+          mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
+          WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
+          maskComposite: "exclude",
+          WebkitMaskComposite: "xor",
         } as React.CSSProperties}
-      ></div>
+      >
+        <div
+          className="absolute inset-[-100%] size-[300%] animate-shine-fix"
+          style={
+            {
+              "--duration": `${duration}s`,
+              background: `conic-gradient(from 0deg, transparent 0%, ${
+                Array.isArray(shineColor) ? shineColor.join(",") : shineColor
+              } 50%, transparent 100%)`,
+            } as React.CSSProperties
+          }
+        ></div>
+      </div>
     </div>
   );
 }
