@@ -265,7 +265,7 @@ export default function App() {
           <div className="relative bg-white/80 backdrop-blur-2xl rounded-[32px] shadow-[0_24px_48px_rgba(0,0,0,0.06)] border border-white overflow-hidden">
             <ShineBorder borderRadius={32} borderWidth={2} duration={8} shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
             
-            <div className="p-8 space-y-6">
+            <div className="relative z-10 p-8 space-y-6">
               <div className="space-y-1">
                 <h2 className="text-2xl font-black tracking-tight text-[#191c1e]">
                   {authMode === 'login' ? at.login : at.register}
