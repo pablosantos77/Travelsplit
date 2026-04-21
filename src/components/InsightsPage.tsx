@@ -12,20 +12,20 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({ user, trips }) => {
   const t = allTranslations.insights;
 
   return (
-    <div className="bg-[#f7f9fb] min-h-screen pb-32">
+    <div className="bg-[#f7f9fb] dark:bg-[#000000] min-h-screen pb-32">
       <header className="p-6 pb-2">
-        <h1 className="text-3xl font-extrabold text-[#495770] tracking-tight">{t.title}</h1>
+        <h1 className="text-3xl font-extrabold text-[#495770] dark:text-slate-100 tracking-tight">{t.title}</h1>
         <p className="text-slate-500 text-sm mt-1">{t.subtitle}</p>
       </header>
 
       <main className="px-6 py-4 space-y-6">
         {/* KPI Cards */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-[#1a1d24] p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t.totalSpent}</p>
-            <p className="text-2xl font-extrabold text-[#495770]">1.240€</p>
+            <p className="text-2xl font-extrabold text-[#495770] dark:text-slate-100">1.240€</p>
           </div>
-          <div className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+          <div className="bg-white dark:bg-[#1a1d24] p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t.personalSpent}</p>
             <p className="text-2xl font-extrabold text-[#004ccc]">412€</p>
           </div>
@@ -45,8 +45,8 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({ user, trips }) => {
         </div>
 
         {/* Charts Mock */}
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-          <h3 className="font-bold text-[#495770] mb-4">{t.summary}</h3>
+        <div className="bg-white dark:bg-[#1a1d24] p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
+          <h3 className="font-bold text-[#495770] dark:text-slate-100 mb-4">{t.summary}</h3>
           <div className="space-y-4">
             {[
               { label: t.categories.food, val: 65, color: 'bg-[#004ccc]' },
