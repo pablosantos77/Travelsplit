@@ -289,10 +289,16 @@ export default function App() {
                 {at.google}
               </button>
 
-              <div className="flex items-center gap-4">
-                <div className="flex-1 h-[1px] bg-slate-100"></div>
-                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{at.orEmail}</span>
-                <div className="flex-1 h-[1px] bg-slate-100"></div>
+              <div className="flex items-center gap-4 relative overflow-hidden h-6">
+                <div className="flex-1 h-[1px] relative">
+                    <div className="absolute inset-0 bg-slate-100"></div>
+                    <ShineBorder borderRadius={0} borderWidth={1} duration={8} shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} className="opacity-50" />
+                </div>
+                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest z-10">{at.orEmail}</span>
+                <div className="flex-1 h-[1px] relative">
+                    <div className="absolute inset-0 bg-slate-100"></div>
+                    <ShineBorder borderRadius={0} borderWidth={1} duration={8} shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} className="opacity-50" />
+                </div>
               </div>
 
               <div className="space-y-4">
