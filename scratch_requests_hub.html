@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Requests - TravelSplit AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e0e3e5",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#eff3ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-container": "#616f89",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "surface-tint": "#515f78",
+                        "inverse-primary": "#b9c7e4",
+                        "on-surface-variant": "#424656",
+                        "on-tertiary-container": "#eaf3ff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d6e3ff",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#0762ff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed": "#00174b",
+                        "tertiary-container": "#607080",
+                        "tertiary": "#485867",
+                        "on-secondary-container": "#f3f3ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#39475f",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed-variant": "#394857",
+                        "tertiary-fixed": "#d4e4f6",
+                        "on-tertiary-fixed": "#0d1d2a",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#737687",
+                        "secondary-fixed": "#dbe1ff",
+                        "background": "#f7f9fb",
+                        "outline-variant": "#c2c6d9",
+                        "on-background": "#191c1e",
+                        "tertiary-fixed-dim": "#b8c8da",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "primary": "#495770",
+                        "secondary": "#004ccc",
+                        "on-primary-fixed": "#0d1c32",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#003ea8"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fb]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-none">
+<div class="flex justify-between items-center w-full px-6 h-16 bg-[#f2f4f6]/50">
+<button class="text-[#495770] dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-full p-2 active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-['Inter'] font-bold tracking-tight text-lg text-[#004ccc] font-black tracking-tighter">Payment Requests</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer active:scale-95 duration-200">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="close-up portrait of young woman with natural makeup in bright lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7uXxw3zGpMhnFyNdLKyp-bQzFwzoMA2Gkf2oopqFSd8v8eSltuDEk41KPNJr3J5O9ya6ZKHm0dBvwHOyr8KnABdDkA648YB3yQUZdeS3X0Ky_VV05_3DkDT-qKqolWBftE8H-qSb2A1Yt_c65rvIF-mcyFGz2MFz0m9I-3pC9Dn3ocIYwbZIXl6-OlWF04jDWi-FxbdjvTlchzHRTQj_f32jDOkCyrTeI-96Yd7x8K0x4HpMW8pI0xUN14qcRFw_KIX4fpNqdPV0"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-4 max-w-md mx-auto space-y-8">
+<!-- Total Pending Card -->
+<section class="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-primary-container"></div>
+<p class="text-on-surface-variant font-medium text-sm tracking-wide uppercase mb-1">Total Pending</p>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface">€85.50</h2>
+<div class="mt-4 flex items-center text-secondary text-sm font-semibold">
+<span class="material-symbols-outlined text-[16px] mr-1">magic_button</span>
+                AI SUMMARY
+            </div>
+</section>
+<!-- Friend Requests List -->
+<section class="space-y-4">
+<h3 class="text-lg font-bold text-on-surface px-2">Pending Requests</h3>
+<div class="bg-surface-container-low rounded-3xl p-2 space-y-2">
+<!-- Request Item 1 (Active/Selected) -->
+<div class="bg-surface-container-lowest rounded-[20px] p-4 shadow-[0px_8px_24px_rgba(25,28,30,0.04)] flex items-center justify-between border border-outline-variant/15 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-[20px]"></div>
+<div class="flex items-center space-x-4">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover border border-surface-variant" data-alt="portrait of smiling man in casual shirt against blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNR9BVtXREhlAQqHsH6Ks4Z_bPXCn_IbrbmAuwh5NOL2LFz6aVSgODjI2QrQAGHoJk7PIB2wqz9kEG6H-0JaAUFmGYkMsrfM-mjPYv4CdkMBB3bIsN12c9bAdETirfwkYxtMXeYLTAQbHadwh8gGSKiCUBGk_qfBlAwUDEJiD9MP-8YGjbO__rTpjnsmAN16xacqMeYcbDrZRcCMdLh-bjqkhMrCsMXn8CVJXw2t5Lmn2hRd2LIRXrVqnXtY3tExK4waQuvFIdKZ0"/>
+<div>
+<p class="font-bold text-on-surface">Carlos D.</p>
+<p class="text-xs text-on-surface-variant">Paris Trip - Dinner</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-extrabold text-secondary text-lg">€45.00</p>
+</div>
+</div>
+<!-- Request Item 2 -->
+<div class="bg-surface rounded-[20px] p-4 flex items-center justify-between opacity-70">
+<div class="flex items-center space-x-4">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="portrait of young woman smiling outdoors with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz2apUElF_8UFCmBXSriXeEcaxA04lmLlSzxzFucpBF8zM8WSP4H2vqJliIdVPg-ULiQplC5_7ig-qgtAmZqulj4iMMuIl8TXGUS5508Hwkcm4LUVD0j1gwegV_C6N5xzX8I0JbcMbn62NX3aOoF4HID6-KIbxygFBOYsDp291k8GQZlF7HN0UlvQtdyfix9mKSIvfzVzUIPQhlAMf27bfSVY98jMJmeRaK42kYTzMFpm1f9oGYcHxtHQHi7p4JMKTnSKWwwfJWH4"/>
+<div>
+<p class="font-semibold text-on-surface">Elena M.</p>
+<p class="text-xs text-on-surface-variant">Paris Trip - Taxi</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-on-surface">€25.50</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Payment Methods (Shown for selected item) -->
+<section class="bg-surface-container-low rounded-3xl p-6 space-y-6">
+<h3 class="text-sm font-bold text-on-surface-variant tracking-wide uppercase">Select Payment Method</h3>
+<div class="grid grid-cols-3 gap-3">
+<!-- Bizum -->
+<button class="bg-surface-container-lowest rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 border border-outline-variant/15 hover:bg-surface transition-colors">
+<div class="w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center text-white font-bold italic">
+                        B
+                    </div>
+<span class="text-xs font-semibold text-on-surface">Bizum</span>
+</button>
+<!-- PayPal -->
+<button class="bg-secondary-container rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 shadow-[0px_8px_16px_rgba(7,98,255,0.15)] ring-2 ring-secondary/20">
+<div class="w-10 h-10 rounded-full bg-[#003087] flex items-center justify-center text-white font-bold italic">
+                        P
+                    </div>
+<span class="text-xs font-semibold text-on-secondary-container">PayPal</span>
+</button>
+<!-- Card -->
+<button class="bg-surface-container-lowest rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 border border-outline-variant/15 hover:bg-surface transition-colors">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">credit_card</span>
+</div>
+<span class="text-xs font-semibold text-on-surface">Card</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-28 left-0 w-full px-6 z-40 flex justify-center pointer-events-none">
+<button class="pointer-events-auto bg-gradient-to-r from-secondary to-primary-container text-on-primary font-semibold text-sm w-full max-w-sm py-4 rounded-2xl shadow-[0px_12px_32px_rgba(0,76,204,0.3)] hover:opacity-90 transition-opacity flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Settle €45.00</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[32px] bg-[#f7f9fb]/90 dark:bg-slate-900/90 backdrop-blur-2xl no-border bg-gradient-to-t from-[#f7f9fb] to-transparent shadow-[0px_-12px_32px_rgba(25,28,30,0.06)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-3 pb-8 md:hidden">
+<button class="flex flex-col items-center justify-center text-[#495770]/60 dark:text-slate-500 p-2 hover:opacity-80 transition-opacity active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1">explore</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Explorer</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#004ccc] dark:text-blue-400 bg-white/40 dark:bg-white/5 rounded-2xl p-2 transition-all hover:opacity-80 transition-opacity active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest text-[#004ccc] dark:text-blue-500">Split</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#495770]/60 dark:text-slate-500 p-2 hover:opacity-80 transition-opacity active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1">account_balance_wallet</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#495770]/60 dark:text-slate-500 p-2 hover:opacity-80 transition-opacity active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-widest">Profile</span>
+</button>
+</nav>
+</body></html>

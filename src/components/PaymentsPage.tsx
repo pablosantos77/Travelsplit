@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useLanguage } from '../contexts/LanguageContext';
 import { User } from 'firebase/auth';
@@ -14,6 +14,9 @@ interface Debt {
   name: string;
   concept: string;
   amount: number;
+  tripId: string;
+  creditorEmail: string; // The person being paid
+  debtorEmail: string;   // The person paying
 }
 
 export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenScanModal }) => {
@@ -23,85 +26,135 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
   
   const [debtsToMe, setDebtsToMe] = useState<Debt[]>([]);
   const [debtsIOwe, setDebtsIOwe] = useState<Debt[]>([]);
+  
+  // Pagar specific states
+  const [selectedDebtIndex, setSelectedDebtIndex] = useState<number>(0);
+  const [isPayingManual, setIsPayingManual] = useState<boolean>(false);
+  const [manualAmount, setManualAmount] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    let mounted = true;
-    const calculateDebts = async () => {
-      if (!user?.email) return;
+  const calculateDebts = async () => {
+    if (!user?.email) return;
 
-      const toMe: Debt[] = [];
-      const iOwe: Debt[] = [];
+    const toMe: Debt[] = [];
+    const iOwe: Debt[] = [];
 
-      for (const trip of trips) {
-        try {
-          const snap = await getDocs(collection(db, 'trips', trip.id, 'expenses'));
-          const expenses = snap.docs.map(d => d.data());
-          
-          let total = 0;
-          expenses.forEach(e => {
-             total += (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
-          });
+    for (const trip of trips) {
+      try {
+        const snap = await getDocs(collection(db, 'trips', trip.id, 'expenses'));
+        const expenses = snap.docs.map(d => ({ id: d.id, ...d.data() as any }));
+        
+        let total = 0;
+        expenses.forEach(e => {
+           // Settlements don't count towards the shared total
+           if (e.type !== 'payment') {
+              total += (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
+           }
+        });
 
-          if (total === 0) continue;
+        const members = trip.participants || [];
+        if (members.length === 0) continue;
 
-          const members = trip.participants || [];
-          if (members.length === 0) continue;
-
-          const share = total / members.length;
-          
-          const paidMap: Record<string, number> = {};
-          members.forEach((m: string) => paidMap[m] = 0);
-          
-          expenses.forEach(e => {
+        const share = total / members.length;
+        
+        const paidMap: Record<string, number> = {};
+        members.forEach((m: string) => paidMap[m] = 0);
+        
+        expenses.forEach(e => {
+          const amt = (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
+          if (e.type === 'payment') {
+            // A payment from A to B:
+            // A's virtual "paid" amount goes UP (A is trying to catch up)
+            // B's virtual "paid" amount goes DOWN (B already received it, so they "paid" less effectively)
+            if (paidMap[e.paidBy] !== undefined) paidMap[e.paidBy] += amt;
+            if (paidMap[e.paidTo] !== undefined) paidMap[e.paidTo] -= amt;
+          } else {
             if (paidMap[e.paidBy] !== undefined) {
-              paidMap[e.paidBy] += (typeof e.amount === 'number') ? e.amount : parseFloat(e.amount || '0');
+              paidMap[e.paidBy] += amt;
             }
-          });
+          }
+        });
 
-          const balances: Record<string, number> = {};
-          members.forEach((m: string) => {
-            balances[m] = paidMap[m] - share;
-          });
+        const balances: Record<string, number> = {};
+        members.forEach((m: string) => {
+          balances[m] = paidMap[m] - share;
+        });
 
-          const creditors = members.map((m: string) => ({ email: m, balance: balances[m] })).filter((m: any) => m.balance > 0.01);
-          const debtors = members.map((m: string) => ({ email: m, balance: balances[m] })).filter((m: any) => m.balance < -0.01);
+        const creditors = members.map((m: string) => ({ email: m, balance: balances[m] })).filter((m: any) => m.balance > 0.01);
+        const debtors = members.map((m: string) => ({ email: m, balance: balances[m] })).filter((m: any) => m.balance < -0.01);
 
-          creditors.sort((a: any, b: any) => b.balance - a.balance);
-          debtors.sort((a: any, b: any) => a.balance - b.balance);
+        creditors.sort((a: any, b: any) => b.balance - a.balance);
+        debtors.sort((a: any, b: any) => a.balance - b.balance);
 
-          for (let c of creditors) {
-            for (let d of debtors) {
-              if (c.balance > 0.01 && d.balance < -0.01) {
-                const amount = Math.min(c.balance, Math.abs(d.balance));
-                c.balance -= amount;
-                d.balance += amount;
+        for (let c of creditors) {
+          for (let d of debtors) {
+            if (c.balance > 0.01 && d.balance < -0.01) {
+              const amount = Math.min(c.balance, Math.abs(d.balance));
+              c.balance -= amount;
+              d.balance += amount;
 
-                if (c.email === user.email) {
-                  toMe.push({ name: d.email.split('@')[0], concept: trip.destination || 'Viaje', amount });
-                }
-                if (d.email === user.email) {
-                  iOwe.push({ name: c.email.split('@')[0], concept: trip.destination || 'Viaje', amount });
-                }
+              const debtObj: Debt = { 
+                name: '', 
+                concept: trip.destination || 'Viaje', 
+                amount,
+                tripId: trip.id,
+                creditorEmail: c.email,
+                debtorEmail: d.email
+              };
+
+              if (c.email === user.email) {
+                toMe.push({ ...debtObj, name: d.email.split('@')[0] });
+              }
+              if (d.email === user.email) {
+                iOwe.push({ ...debtObj, name: c.email.split('@')[0] });
               }
             }
           }
-        } catch (err) {
-          console.error('Error fetching expenses for trip:', trip.id, err);
         }
+      } catch (err) {
+        console.error('Error fetching expenses for trip:', trip.id, err);
       }
+    }
 
-      if (mounted) {
-        setDebtsToMe(toMe);
-        setDebtsIOwe(iOwe);
-      }
-    };
+    setDebtsToMe(toMe);
+    setDebtsIOwe(iOwe);
+  };
 
+  useEffect(() => {
     calculateDebts();
-
-    return () => {
-      mounted = false;
-    };
   }, [user, trips]);
+
+  const handleRegisterPayment = async () => {
+    const safeIndex = debtsIOwe[selectedDebtIndex] ? selectedDebtIndex : 0;
+    const currentDebt = debtsIOwe[safeIndex];
+    if (!currentDebt || !user?.email || isSubmitting) return;
+
+    const val = manualAmount ? parseFloat(manualAmount) : currentDebt.amount;
+    if (isNaN(val) || val <= 0) return;
+
+    setIsSubmitting(true);
+    try {
+      await addDoc(collection(db, 'trips', currentDebt.tripId, 'expenses'), {
+        type: 'payment',
+        description: `Pago a ${currentDebt.name}`,
+        amount: val,
+        paidBy: user.email,
+        paidTo: currentDebt.creditorEmail,
+        createdAt: new Date().toISOString()
+      });
+      
+      // Reset UI
+      setIsPayingManual(false);
+      setManualAmount('');
+      // Refresh debts
+      await calculateDebts();
+    } catch (err) {
+      console.error("Error registering payment:", err);
+      alert("Error al registrar el pago.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const totalToMe = debtsToMe.reduce((acc, curr) => acc + curr.amount, 0);
   const totalIOwe = debtsIOwe.reduce((acc, curr) => acc + curr.amount, 0);
@@ -111,6 +164,9 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
      const code = char.charCodeAt(0) || 0;
      return variants[code % variants.length];
   };
+
+  const safeDebtIndex = debtsIOwe[selectedDebtIndex] ? selectedDebtIndex : 0;
+  const currentDebt = debtsIOwe[safeDebtIndex];
 
   return (
     <div className="bg-background font-body text-on-background antialiased min-h-screen flex flex-col relative pb-32">
@@ -140,7 +196,10 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
               {t.tabs?.ask || 'Pedir'}
             </button>
             <button 
-                onClick={() => setActiveTab('pagar')}
+                onClick={() => {
+                  setActiveTab('pagar');
+                  setIsPayingManual(false);
+                }}
                 className={`flex-1 font-semibold py-3 px-6 rounded-2xl transition-all ${activeTab === 'pagar' ? 'bg-surface-container-lowest text-on-surface shadow-[0px_4px_16px_rgba(25,28,30,0.08)]' : 'text-on-surface-variant hover:bg-surface-container-lowest/50'}`}>
               {t.tabs?.pay || 'Pagar'}
             </button>
@@ -220,50 +279,140 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
           </div>
         )}
 
-        {/* Section Pagar (Debts list) */}
+        {/* Section Pagar (Payment Requests Hub Style) */}
         {activeTab === 'pagar' && (
-           <div className="px-6 flex flex-col gap-6 pb-32">
-              {debtsIOwe.length === 0 ? (
+           <div className="px-4 flex flex-col gap-8 pb-32">
+             {debtsIOwe.length === 0 ? (
                   <p className="text-sm font-medium text-on-surface-variant italic opacity-70 p-4">¡Genial! No debes dinero a nadie.</p>
-              ) : debtsIOwe.map((debt, idx) => (
-                <div key={idx} className="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.06)]">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-full overflow-hidden flex flex-col items-center justify-center text-xl font-bold ${getAvatarColor(debt.name.toUpperCase())}`}>
-                        {debt.name[0]?.toUpperCase()}
-                      </div>
-                      <div>
-                        <h3 className="font-headline font-semibold text-on-surface text-base tracking-tight">{debt.name.charAt(0).toUpperCase() + debt.name.slice(1)}</h3>
-                        <p className="font-body text-sm text-on-surface-variant">{debt.concept}</p>
-                      </div>
+             ) : (
+                <>
+                  {/* Total Pending Card */}
+                  <section className="bg-surface-container-lowest rounded-[24px] p-6 shadow-[0px_12px_32px_rgba(25,28,30,0.06)] relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary to-primary-container"></div>
+                    <p className="text-on-surface-variant font-medium text-sm tracking-wide uppercase mb-1">Total a Pagar</p>
+                    <h2 className="text-4xl font-extrabold tracking-tight text-on-surface">€{totalIOwe.toFixed(2)}</h2>
+                    <div className="mt-4 flex items-center text-secondary text-sm font-semibold">
+                      <span className="material-symbols-outlined text-[16px] mr-1">magic_button</span>
+                      AI SUMMARY
                     </div>
-                    <div className="text-right">
-                      <span className="font-headline font-bold text-xl text-error tracking-tight">{debt.amount.toFixed(2)}€</span>
+                  </section>
+
+                  {/* Pending Requests List */}
+                  <section className="space-y-4">
+                    <h3 className="text-lg font-bold text-on-surface px-2">Pendientes</h3>
+                    <div className="bg-surface-container-low rounded-3xl p-2 space-y-2">
+                       {debtsIOwe.map((debt, idx) => {
+                          const isSelected = idx === selectedDebtIndex;
+                          return (
+                             <div 
+                                key={idx} 
+                                onClick={() => {
+                                  setSelectedDebtIndex(idx);
+                                  setIsPayingManual(false);
+                                }}
+                                className={`cursor-pointer transition-all ${isSelected ? 'bg-surface-container-lowest rounded-[20px] p-4 shadow-[0px_8px_24px_rgba(25,28,30,0.04)] border border-outline-variant/15 relative overflow-hidden flex items-center justify-between' : 'bg-surface rounded-[20px] p-4 flex items-center justify-between opacity-70 hover:opacity-100'}`}
+                             >
+                                {isSelected && <div className="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-[20px]"></div>}
+                                <div className="flex items-center space-x-4">
+                                  <div className={`w-12 h-12 rounded-full overflow-hidden flex flex-col items-center justify-center text-xl font-bold ${getAvatarColor(debt.name.toUpperCase())}`}>
+                                    {debt.name[0]?.toUpperCase()}
+                                  </div>
+                                  <div>
+                                    <p className={`font-semibold text-on-surface ${isSelected ? 'font-bold' : ''}`}>{debt.name.charAt(0).toUpperCase() + debt.name.slice(1)}</p>
+                                    <p className="text-xs text-on-surface-variant">{debt.concept}</p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <p className={`font-bold ${isSelected ? 'text-secondary font-extrabold text-lg' : 'text-on-surface'}`}>€{debt.amount.toFixed(2)}</p>
+                                </div>
+                             </div>
+                          );
+                       })}
                     </div>
-                  </div>
-                  <div className="flex gap-3 mt-4">
-                    <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg bg-surface-container-low text-primary hover:bg-surface-container transition-colors font-label font-semibold text-sm">
-                      <span className="material-symbols-outlined text-[18px]">payments</span>
-                      {t.payCash}
-                    </button>
-                    <button className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-secondary to-primary-container text-white shadow-[0px_8px_16px_rgba(0,76,204,0.15)] hover:opacity-90 transition-opacity font-label font-semibold text-sm">
-                      {t.payBizum}
-                    </button>
-                  </div>
-                </div>
-              ))}
+                  </section>
+
+                  {/* Payment Methods (Shown for selected item) */}
+                  {currentDebt && (
+                    <section className="bg-surface-container-low rounded-3xl p-6 space-y-6">
+                      <h3 className="text-sm font-bold text-on-surface-variant tracking-wide uppercase">Método para abonar a {currentDebt.name.charAt(0).toUpperCase() + currentDebt.name.slice(1)}</h3>
+                      
+                      {!isPayingManual ? (
+                        <div className="grid grid-cols-2 gap-4">
+                          {/* Efectivo Manual Button */}
+                          <button 
+                            onClick={() => setIsPayingManual(true)}
+                            className="bg-surface-container-lowest rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 border border-outline-variant/15 hover:bg-surface transition-colors"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface">
+                              <span className="material-symbols-outlined">payments</span>
+                            </div>
+                            <span className="text-sm font-semibold text-on-surface">Efectivo</span>
+                          </button>
+
+                          {/* Bizum Button */}
+                          <button className="bg-secondary-container rounded-2xl p-4 flex flex-col items-center justify-center space-y-2 shadow-[0px_8px_16px_rgba(7,98,255,0.15)] ring-2 ring-secondary/20 active:scale-95 transition-all">
+                            <div className="w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center text-white font-bold italic">
+                               B
+                            </div>
+                            <span className="text-sm font-semibold text-on-secondary-container">Bizum</span>
+                          </button>
+                        </div>
+                      ) : (
+                        // Manual Payment Input View
+                        <div className="bg-surface-container-lowest p-5 rounded-2xl space-y-5 border border-outline-variant/15 shadow-[0px_4px_16px_rgba(25,28,30,0.04)]">
+                          <p className="text-sm font-semibold text-on-surface">Indica cuánto le has pagado en efectivo:</p>
+                          <div className="relative">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-lg">€</span>
+                            <input 
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              value={manualAmount}
+                              onChange={(e) => setManualAmount(e.target.value)}
+                              placeholder={currentDebt.amount.toFixed(2)}
+                              className="w-full bg-surface-container-low border-2 border-transparent focus:border-secondary rounded-xl py-4 pl-10 pr-4 text-on-surface font-bold text-lg outline-none transition-colors"
+                            />
+                          </div>
+                          <div className="flex gap-3">
+                            <button 
+                              disabled={isSubmitting}
+                              onClick={() => {
+                                setIsPayingManual(false);
+                                setManualAmount('');
+                              }} 
+                              className="flex-[0.8] bg-surface py-3.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-dim transition-colors disabled:opacity-50"
+                            >
+                              Cancelar
+                            </button>
+                            <button 
+                              disabled={isSubmitting}
+                              onClick={handleRegisterPayment}
+                              className="flex-[1.2] bg-gradient-to-r from-secondary to-primary-container text-white py-3.5 rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,76,204,0.15)] hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                              {isSubmitting && <span className="material-symbols-outlined animate-spin text-sm">sync</span>}
+                              {isSubmitting ? 'Registrando...' : 'Registrar Pago'}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                  )}
+                </>
+             )}
            </div>
         )}
 
-        {/* Sticky Total Banner */}
-        <div className="fixed bottom-[100px] left-0 w-full px-6 z-40 pointer-events-none">
-          <div className="max-w-md mx-auto pointer-events-auto bg-surface-container-lowest/90 backdrop-blur-xl rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.1)] border border-outline-variant/15 flex justify-between items-center">
-            <span className="font-label text-sm font-medium text-on-surface-variant uppercase tracking-wide">{t.totalToSettle}</span>
-            <span className="font-headline font-bold text-2xl tracking-tight text-secondary">
-              {activeTab === 'pedir' ? totalToMe.toFixed(2) : totalIOwe.toFixed(2)}€
-            </span>
+        {/* Sticky Total Banner (Only for Pedir, as Pagar has the Total Card at the top now) */}
+        {activeTab === 'pedir' && (
+          <div className="fixed bottom-[100px] left-0 w-full px-6 z-40 pointer-events-none">
+            <div className="max-w-md mx-auto pointer-events-auto bg-surface-container-lowest/90 backdrop-blur-xl rounded-xl p-5 shadow-[0px_12px_32px_rgba(25,28,30,0.1)] border border-outline-variant/15 flex justify-between items-center">
+              <span className="font-label text-sm font-medium text-on-surface-variant uppercase tracking-wide">{t.totalToSettle}</span>
+              <span className="font-headline font-bold text-2xl tracking-tight text-secondary">
+                {totalToMe.toFixed(2)}€
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
