@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export type LangCode = 'es' | 'en' | 'fr' | 'de' | 'pt' | 'it';
@@ -46,6 +45,7 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Pedir', pay: 'Pagar' },
       scanTitle: 'Escaneo Inteligente',
       scanDesc: 'Sube un ticket y la IA hará el resto',
+      scanFast: 'La forma más rápida de dividir tickets',
       scanAIHint: 'La IA detectará automáticamente el comercio, precio y categoría.',
       uploadCapture: 'Subir Captura',
       manualEntry: 'Entrada Manual',
@@ -53,7 +53,16 @@ export const translations: Record<LangCode, any> = {
       viewAll: 'Ver todo',
       payCash: 'Efectivo',
       payBizum: 'Pagar con Bizum',
-      totalToSettle: 'Total por liquidar'
+      payCard: 'Tarjeta',
+      totalToSettle: 'Total por liquidar',
+      hubTitle: 'Solicitudes de Pago',
+      totalPending: 'Total Pendiente',
+      aiSummary: 'Resumen IA Activo',
+      pendingRequests: 'Solicitudes Pendientes',
+      selectMethod: 'Seleccionar Método de Pago',
+      settleNow: 'Liquidar Ahora',
+      demoMode: 'Modo Demo',
+      registerManual: 'Registro Manual Hub'
     },
     insights: {
       title: 'Insights del Viaje',
@@ -167,14 +176,24 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Ask', pay: 'Pay' },
       scanTitle: 'Smart Scan',
       scanDesc: 'Upload a ticket and AI will do the rest',
+      scanFast: 'Fastest way to split tickets',
       scanAIHint: 'AI will automatically detect the merchant, price, and category.',
-      uploadCapture: 'Upload Capture',
+      uploadCapture: 'Upload Ticket',
       manualEntry: 'Manual Entry',
       pendingCollection: 'Pending Collection',
       viewAll: 'View all',
       payCash: 'Cash',
       payBizum: 'Pay with Bizum',
-      totalToSettle: 'Total to settle'
+      payCard: 'Card',
+      totalToSettle: 'Total to settle',
+      hubTitle: 'Payment Requests',
+      totalPending: 'Total Pending',
+      aiSummary: 'AI Summary Active',
+      pendingRequests: 'Pending Requests',
+      selectMethod: 'Select Payment Method',
+      settleNow: 'Settle Now',
+      demoMode: 'Demo Mode',
+      registerManual: 'Register Manual Hub'
     },
     insights: {
       title: 'Trip Insights',
@@ -268,6 +287,7 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Demander', pay: 'Payer' },
       scanTitle: 'Scan Intelligent',
       scanDesc: 'Téléchargez un ticket et l\'IA fait le reste',
+      scanFast: 'Moyen rapide de diviser les tickets',
       scanAIHint: 'L\'IA détectera automatiquement le commerce, le prix et la catégorie.',
       uploadCapture: 'Importer',
       manualEntry: 'Saisie Manuelle',
@@ -275,7 +295,16 @@ export const translations: Record<LangCode, any> = {
       viewAll: 'Voir tout',
       payCash: 'Espèces',
       payBizum: 'Payer avec Bizum',
-      totalToSettle: 'Total à régler'
+      payCard: 'Carte',
+      totalToSettle: 'Total à régler',
+      hubTitle: 'Demandes de Paiement',
+      totalPending: 'Total en attente',
+      aiSummary: 'Résumé IA Actif',
+      pendingRequests: 'Demandes en attente',
+      selectMethod: 'Mode de paiement',
+      settleNow: 'Régler maintenant',
+      demoMode: 'Mode démo',
+      registerManual: 'Registre Manuel'
     },
     insights: {
       title: 'Aperçus du voyage',
@@ -369,6 +398,7 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Anfordern', pay: 'Bezahlen' },
       scanTitle: 'Intelligenter Scan',
       scanDesc: 'Laden Sie ein Ticket hoch und die KI erledigt den Rest',
+      scanFast: 'Schneller Weg Belege aufzuteilen',
       scanAIHint: 'Die KI erkennt automatisch Händler, Preis und Kategorie.',
       uploadCapture: 'Foto hochladen',
       manualEntry: 'Manuelle Eingabe',
@@ -376,7 +406,16 @@ export const translations: Record<LangCode, any> = {
       viewAll: 'Alle anzeigen',
       payCash: 'Bargeld',
       payBizum: 'Mit Bizum bezahlen',
-      totalToSettle: 'Gesamtbetrag'
+      payCard: 'Karte',
+      totalToSettle: 'Gesamtbetrag',
+      hubTitle: 'Zahlungsanfragen',
+      totalPending: 'Gesamt ausstehend',
+      aiSummary: 'KI-Resümee aktiv',
+      pendingRequests: 'Offene Anfragen',
+      selectMethod: 'Zahlungsmethode',
+      settleNow: 'Jetzt begleichen',
+      demoMode: 'Demo-Modus',
+      registerManual: 'Manuelle Registrierung'
     },
     insights: {
       title: 'Reise-Einblicke',
@@ -470,6 +509,7 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Pedir', pay: 'Pagar' },
       scanTitle: 'Escaneamento IA',
       scanDesc: 'Envie um recibo e a IA fará o resto',
+      scanFast: 'Forma rápida de dividir recibos',
       scanAIHint: 'A IA detectará automaticamente o comerciante, preço e categoria.',
       uploadCapture: 'Enviar Captura',
       manualEntry: 'Entrada Manual',
@@ -477,7 +517,16 @@ export const translations: Record<LangCode, any> = {
       viewAll: 'Ver tudo',
       payCash: 'Dinheiro',
       payBizum: 'Pagar com Bizum',
-      totalToSettle: 'Total a liquidar'
+      payCard: 'Cartão',
+      totalToSettle: 'Total a liquidar',
+      hubTitle: 'Pedidos de Pagamento',
+      totalPending: 'Total Pendente',
+      aiSummary: 'Resumo IA Ativo',
+      pendingRequests: 'Pedidos Pendentes',
+      selectMethod: 'Selecionar Método',
+      settleNow: 'Liquidar Agora',
+      demoMode: 'Modo Demo',
+      registerManual: 'Registro Manual'
     },
     insights: {
       title: 'Insights da Viagem',
@@ -502,7 +551,7 @@ export const translations: Record<LangCode, any> = {
       twoFactor: 'Autenticação de Dois Fatores',
       active: 'Ativa',
       biometricLogin: 'Login Biométrico',
-      biometricDesc: 'Usar Face ID ou Touch ID',
+      biometricDesc: 'Usar Face ID o Touch ID',
       activeSessions: 'Sessões Ativas',
       currentSession: 'Sessão atual',
       activeAgo: 'Ativo há 2 dias',
@@ -571,6 +620,7 @@ export const translations: Record<LangCode, any> = {
       tabs: { ask: 'Chiedi', pay: 'Paga' },
       scanTitle: 'Scansione IA',
       scanDesc: 'Carica uno scontrino e l\'IA farà il resto',
+      scanFast: 'Modo rapido per dividere scontrini',
       scanAIHint: 'L\'IA rileverà automaticamente il commerciante, il prezzo e la categoria.',
       uploadCapture: 'Carica Foto',
       manualEntry: 'Inserimento Manuale',
@@ -578,7 +628,16 @@ export const translations: Record<LangCode, any> = {
       viewAll: 'Vedi tutto',
       payCash: 'Contanti',
       payBizum: 'Paga con Bizum',
-      totalToSettle: 'Totale da liquidare'
+      payCard: 'Carta',
+      totalToSettle: 'Totale da liquidare',
+      hubTitle: 'Richieste di Pagamento',
+      totalPending: 'Totale in sospeso',
+      aiSummary: 'Riepilogo IA Attivo',
+      pendingRequests: 'Richieste in sospeso',
+      selectMethod: 'Metodo di Pagamento',
+      settleNow: 'Salda ora',
+      demoMode: 'Modalità Demo',
+      registerManual: 'Registro Manuale'
     },
     insights: {
       title: 'Approfondimenti Viaggio',
@@ -593,19 +652,19 @@ export const translations: Record<LangCode, any> = {
         transport: 'Trasporto',
         leisure: 'Tempo libero'
       },
-      savingsDesc: 'In base alle tue abitudini, potresti risparmiare ottimizzando i costi del trasporto di gruppo.'
+      savingsDesc: 'In base alle tue abitudini, potresti risparmiare ottimizzando i costi del trasporto di grupo.'
     },
     settings: {
       headerTitle: 'Impostazioni',
       accessControl: 'Controllo Accessi',
       changePassword: 'Cambia Password',
-      lastUpdated: 'Aggiornato 3 mesi fa',
+      lastUpdated: 'Ultimo aggiornamento 3 mesi fa',
       twoFactor: 'Autenticazione a Due Fattori',
       active: 'Attiva',
       biometricLogin: 'Accesso Biometrico',
       biometricDesc: 'Usa Face ID o Touch ID',
       activeSessions: 'Sessioni Attive',
-      currentSession: 'Sessione corrente',
+      currentSession: 'Sessione attuale',
       activeAgo: 'Attivo 2 giorni fa',
       revoke: 'Revoca',
       logout: 'Disconnetti',
@@ -614,18 +673,18 @@ export const translations: Record<LangCode, any> = {
       help: 'Aiuto',
     },
     modals: {
-      scanTitle: 'Scansiona Ticket IA',
+      scanTitle: 'Scansiona Ricevuta IA',
       startCamera: 'Avvia Fotocamera',
-      analyze: 'Analizza Ticket',
+      analyze: 'Analizza Ricevuta',
       close: 'Chiudi',
       deleteTrip: 'Elimina viaggio?',
       deleteDesc: 'Questa azione è irreversibile e tutte le spese registrate andranno perse.',
       confirmDelete: 'Sì, elimina viaggio',
       cancel: 'Annulla',
-      errorOCR: 'Errore durante l\'elaborazione del biglietto.',
+      errorOCR: 'Errore nel caricamento della ricevuta.',
       errorCamera: 'Impossibile accedere alla fotocamera.'
     }
-  }
+  },
 };
 
 interface LanguageContextType {
@@ -638,11 +697,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<LangCode>(() => {
-    return (localStorage.getItem('travelsplit-lang') as LangCode) || 'es';
+    return (localStorage.getItem('language') as LangCode) || 'es';
   });
 
   useEffect(() => {
-    localStorage.setItem('travelsplit-lang', language);
+    localStorage.setItem('language', language);
   }, [language]);
 
   const t = translations[language];
@@ -656,8 +715,6 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
+  if (!context) throw new Error('useLanguage must be used within a LanguageProvider');
   return context;
 };

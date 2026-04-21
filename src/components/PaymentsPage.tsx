@@ -204,7 +204,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
               <span className="material-symbols-outlined">menu</span>
             </button>
             <h1 className="font-headline font-black tracking-tighter text-2xl text-[#004ccc]">
-               Payment Requests
+               {t.hubTitle}
             </h1>
             <div className="w-9 h-9 rounded-full overflow-hidden bg-[#d6e3ff] flex items-center justify-center border border-white shadow-sm">
                <span className="material-symbols-outlined text-[#0d1c32] text-xl">person</span>
@@ -218,7 +218,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
             <button 
                 onClick={() => setActiveTab('pedir')}
                 className={`flex-1 font-bold py-4 px-6 rounded-[20px] transition-all text-sm uppercase tracking-wider ${activeTab === 'pedir' ? 'bg-white text-[#004ccc] shadow-[0px_8px_16px_rgba(0,0,0,0.05)]' : 'text-[#495770]/60 hover:bg-white/50'}`}>
-              Ask
+              {t.tabs.ask}
             </button>
             <button 
                 onClick={() => {
@@ -226,7 +226,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                   setIsPayingManual(false);
                 }}
                 className={`flex-1 font-bold py-4 px-6 rounded-[20px] transition-all text-sm uppercase tracking-wider ${activeTab === 'pagar' ? 'bg-white text-[#004ccc] shadow-[0px_8px_16px_rgba(0,0,0,0.05)]' : 'text-[#495770]/60 hover:bg-white/50'}`}>
-              Pay
+              {t.tabs.pay}
             </button>
           </div>
         </div>
@@ -243,9 +243,9 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                 </div>
                 <div className="text-center">
                   <h2 className="text-white font-bold text-xl tracking-tight mb-1 flex items-center justify-center gap-2">
-                    <span className="text-sm">✦</span> Smart Scan
+                    <span className="text-sm">✦</span> {t.scanTitle}
                   </h2>
-                  <p className="text-white/80 text-sm font-medium leading-tight">Fastest way to split tickets</p>
+                  <p className="text-white/80 text-sm font-medium leading-tight">{t.scanFast}</p>
                 </div>
               </div>
             </button>
@@ -253,7 +253,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
             {/* AI Hint */}
             <div className="flex items-center gap-3 bg-[#e0e3e5]/50 px-4 py-3 rounded-[20px] border border-white/50">
               <span className="material-symbols-outlined text-[#004ccc] text-lg">auto_awesome</span>
-              <p className="text-xs font-medium text-[#424656] leading-snug">AI will automatically detect merchants, amounts, and categories.</p>
+              <p className="text-xs font-medium text-[#424656] leading-snug">{t.scanAIHint}</p>
             </div>
 
             {/* Secondary Actions Grid */}
@@ -262,14 +262,14 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                 <div className="w-12 h-12 rounded-full bg-[#f2f4f6] flex items-center justify-center text-[#004ccc]">
                   <span className="material-symbols-outlined">add_photo_alternate</span>
                 </div>
-                <span className="font-bold text-[#495770] text-xs">Upload Ticket</span>
+                <span className="font-bold text-[#495770] text-xs">{t.uploadCapture}</span>
               </button>
               
               <button className="flex flex-col items-center justify-center gap-3 bg-white p-6 rounded-[24px] shadow-[0px_8px_24px_rgba(25,28,30,0.04)] border border-[#eceef0]">
                 <div className="w-12 h-12 rounded-full bg-[#f2f4f6] flex items-center justify-center text-[#004ccc]">
                   <span className="material-symbols-outlined">edit_document</span>
                 </div>
-                <span className="font-bold text-[#495770] text-xs">Manual Entry</span>
+                <span className="font-bold text-[#495770] text-xs">{t.manualEntry}</span>
               </button>
             </div>
           </div>
@@ -283,7 +283,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#004ccc] to-[#616f89]"></div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <p className="text-[#424656] font-bold text-xs tracking-widest uppercase mb-2 opacity-60">Total Pending</p>
+                    <p className="text-[#424656] font-bold text-xs tracking-widest uppercase mb-2 opacity-60">{t.totalPending}</p>
                     <h2 className="text-5xl font-black tracking-tighter text-[#191c1e]">€{totalIOwe.toFixed(2)}</h2>
                   </div>
                   <div className="bg-[#d6e3ff] p-2.5 rounded-2xl text-[#004ccc] shadow-sm">
@@ -292,14 +292,14 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                 </div>
                 <div className="mt-8 flex items-center gap-2 text-[#004ccc] text-[11px] font-black tracking-widest uppercase bg-[#f2f4f6] w-fit px-3 py-1.5 rounded-full">
                   <span className="material-symbols-outlined text-[14px]">magic_button</span>
-                  AI Summary Active
+                  {t.aiSummary}
                 </div>
               </section>
 
               {/* Pending Requests List */}
               <section className="space-y-5">
                 <div className="flex items-center justify-between px-2 text-[#191c1e] font-black tracking-tight text-xl">
-                    Pending Requests
+                    {t.pendingRequests}
                 </div>
                 <div className="bg-[#f2f4f6]/50 rounded-[32px] p-2.5 space-y-2.5">
                    {combinedDebtsIOwe.map((debt, idx) => {
@@ -339,7 +339,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
               {/* Payment Methods */}
               {currentDebt && (
                 <section className="animate-in slide-in-from-bottom-4 duration-500">
-                  <h3 className="text-[10px] font-black text-[#424656] tracking-widest uppercase mb-4 px-2 opacity-60">Select Payment Method</h3>
+                  <h3 className="text-[10px] font-black text-[#424656] tracking-widest uppercase mb-4 px-2 opacity-60">{t.selectMethod}</h3>
                   
                   {!isPayingManual ? (
                     <div className="grid grid-cols-3 gap-4">
@@ -351,7 +351,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                         <div className="w-12 h-12 rounded-full bg-[#f2f4f6] flex items-center justify-center text-[#191c1e]">
                           <span className="material-symbols-outlined text-2xl">payments</span>
                         </div>
-                        <span className="text-[11px] font-black text-[#191c1e] uppercase tracking-wider">Cash</span>
+                        <span className="text-[11px] font-black text-[#191c1e] uppercase tracking-wider">{t.payCash}</span>
                       </button>
 
                       {/* Bizum */}
@@ -367,12 +367,12 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                         <div className="w-12 h-12 rounded-full bg-[#f2f4f6] flex items-center justify-center text-[#191c1e]">
                           <span className="material-symbols-outlined text-2xl">credit_card</span>
                         </div>
-                        <span className="text-[11px] font-black text-[#191c1e] uppercase tracking-wider">Card</span>
+                        <span className="text-[11px] font-black text-[#191c1e] uppercase tracking-wider">{t.payCard}</span>
                       </button>
                     </div>
                   ) : (
                     <div className="bg-white p-7 rounded-[32px] space-y-6 border border-[#eceef0] shadow-[0px_24px_48px_rgba(0,0,0,0.06)] scale-in-center">
-                      <p className="text-sm font-black text-[#191c1e] text-center uppercase tracking-widest">Register Manual Hub</p>
+                      <p className="text-sm font-black text-[#191c1e] text-center uppercase tracking-widest">{t.registerManual}</p>
                       <div className="relative">
                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-[#004ccc] font-black text-2xl">€</span>
                         <input 
@@ -394,14 +394,14 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                           }} 
                           className="flex-1 bg-[#eceef0] py-4 rounded-2xl text-xs font-black text-[#424656] uppercase tracking-widest active:scale-95 transition-all"
                         >
-                          Cancel
+                          {allTranslations.modals.cancel}
                         </button>
                         <button 
                           disabled={isSubmitting || currentDebt.isMock}
                           onClick={handleRegisterPayment}
                           className="flex-1 bg-gradient-to-r from-[#004ccc] to-[#616f89] text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-[0px_16px_32px_rgba(0,76,204,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2"
                         >
-                          {isSubmitting ? '...' : (currentDebt.isMock ? 'Demo Mode' : 'Settle Now')}
+                          {isSubmitting ? '...' : (currentDebt.isMock ? t.demoMode : t.settleNow)}
                         </button>
                       </div>
                     </div>
@@ -417,7 +417,7 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                     className="pointer-events-auto bg-gradient-to-r from-[#004ccc] to-[#616f89] text-white font-black text-xs uppercase tracking-[0.2em] w-full max-w-sm py-5 rounded-[24px] shadow-[0px_24px_48px_rgba(0,76,204,0.3)] hover:opacity-90 transition-all flex items-center justify-center space-x-3 active:scale-95"
                   >
                     <span className="material-symbols-outlined text-xl">lock</span>
-                    <span>Settle €{currentDebt.amount.toFixed(2)}</span>
+                    <span>{t.settleNow} €{currentDebt.amount.toFixed(2)}</span>
                   </button>
                 </div>
               )}
