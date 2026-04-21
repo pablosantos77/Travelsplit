@@ -28,15 +28,15 @@ export function ShineBorder({
           "--border-radius": `${borderRadius}px`,
           "--duration": `${duration}s`,
           "--mask-linear-gradient": `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          "--background-radial-gradient": `radial-gradient(transparent,transparent, ${
+          "--background-conic-gradient": `conic-gradient(from 0deg at 50% 50%, transparent 45%, ${
             Array.isArray(shineColor) ? shineColor.join(",") : shineColor
-          },transparent,transparent)`,
+          } 50%, transparent 55%)`,
         } as React.CSSProperties
       }
       className={`pointer-events-none absolute inset-0 size-full overflow-hidden rounded-[--border-radius] ${className}`}
     >
       <div
-        className={`before:absolute before:inset-0 before:size-full before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[background-position] before:content-[""] before:![-webkit-mask-composite:xor] before:![mask-composite:exclude] before:[background-image:--background-radial-gradient] before:[background-size:300%_300%] before:[mask:--mask-linear-gradient] motion-safe:before:animate-shine`}
+        className={`before:absolute before:inset-[-100%] before:size-[300%] before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[transform] before:content-[""] before:![mask-composite:exclude] before:[background-image:--background-conic-gradient] before:[mask:--mask-linear-gradient] before:animate-shine`}
         style={{
            "--border-width": `${borderWidth}px`,
         } as React.CSSProperties}
