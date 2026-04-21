@@ -36,13 +36,24 @@ export const translations: Record<LangCode, any> = {
       errorFields: 'Completa todos los campos.'
     },
     payments: {
-      title: 'Liquidación de Cuentas',
+      title: 'Pagos',
       subtitle: 'Quién debe a quién en tus viajes activos.',
       members: 'Miembros del Grupo',
       settle: 'Liquidar',
       balances: 'Balances de Deuda',
       owes: 'debe a',
-      suggestedSettlement: 'Liquidación sugerida'
+      suggestedSettlement: 'Liquidación sugerida',
+      tabs: { ask: 'Pedir', pay: 'Pagar' },
+      scanTitle: 'Escaneo Inteligente',
+      scanDesc: 'Sube un ticket y la IA hará el resto',
+      scanAIHint: 'La IA detectará automáticamente el comercio, precio y categoría.',
+      uploadCapture: 'Subir Captura',
+      manualEntry: 'Entrada Manual',
+      pendingCollection: 'Pendiente de cobro',
+      viewAll: 'Ver todo',
+      payCash: 'Efectivo',
+      payBizum: 'Pagar con Bizum',
+      totalToSettle: 'Total por liquidar'
     },
     insights: {
       title: 'Insights del Viaje',
@@ -107,7 +118,6 @@ export const translations: Record<LangCode, any> = {
       confirmDelete: 'Sí, eliminar viaje',
       cancel: 'Cancelar',
       errorOCR: 'Error al procesar el ticket.',
-      errorCamera: 'No se pudo acceder a la cámara.',
       errorCamera: 'No se pudo acceder a la cámara.'
     }
   },
@@ -147,13 +157,24 @@ export const translations: Record<LangCode, any> = {
       scannedExpense: 'Scanned Expense'
     },
     payments: {
-      title: 'Debt Settlement',
+      title: 'Payments',
       subtitle: 'Who owes whom in your active trips.',
       members: 'Group Members',
       settle: 'Settle Debt',
       balances: 'Debt Balances',
       owes: 'owes',
-      suggestedSettlement: 'Suggested settlement'
+      suggestedSettlement: 'Suggested settlement',
+      tabs: { ask: 'Ask', pay: 'Pay' },
+      scanTitle: 'Smart Scan',
+      scanDesc: 'Upload a ticket and AI will do the rest',
+      scanAIHint: 'AI will automatically detect the merchant, price, and category.',
+      uploadCapture: 'Upload Capture',
+      manualEntry: 'Manual Entry',
+      pendingCollection: 'Pending Collection',
+      viewAll: 'View all',
+      payCash: 'Cash',
+      payBizum: 'Pay with Bizum',
+      totalToSettle: 'Total to settle'
     },
     insights: {
       title: 'Trip Insights',
@@ -198,7 +219,6 @@ export const translations: Record<LangCode, any> = {
       confirmDelete: 'Yes, delete trip',
       cancel: 'Cancel',
       errorOCR: 'Error processing ticket.',
-      errorCamera: 'Could not access camera.',
       errorCamera: 'Could not access camera.'
     }
   },
@@ -238,13 +258,24 @@ export const translations: Record<LangCode, any> = {
       scannedExpense: 'Dépense scannée'
     },
     payments: {
-      title: 'Règlement des dettes',
+      title: 'Paiements',
       subtitle: 'Qui doit quoi dans vos voyages actifs.',
       members: 'Membres du groupe',
       settle: 'Régler la dette',
       balances: 'Soldes des dettes',
       owes: 'doit à',
-      suggestedSettlement: 'Règlement suggéré'
+      suggestedSettlement: 'Règlement suggéré',
+      tabs: { ask: 'Demander', pay: 'Payer' },
+      scanTitle: 'Scan Intelligent',
+      scanDesc: 'Téléchargez un ticket et l\'IA fait le reste',
+      scanAIHint: 'L\'IA détectera automatiquement le commerce, le prix et la catégorie.',
+      uploadCapture: 'Importer',
+      manualEntry: 'Saisie Manuelle',
+      pendingCollection: 'En attente de paiement',
+      viewAll: 'Voir tout',
+      payCash: 'Espèces',
+      payBizum: 'Payer avec Bizum',
+      totalToSettle: 'Total à régler'
     },
     insights: {
       title: 'Aperçus du voyage',
@@ -328,13 +359,24 @@ export const translations: Record<LangCode, any> = {
       scannedExpense: 'Gescannte Ausgabe'
     },
     payments: {
-      title: 'Schuldenbegleichung',
+      title: 'Zahlungen',
       subtitle: 'Wer wem in Ihren aktiven Reisen was schuldet.',
       members: 'Gruppenmitglieder',
       settle: 'Schulden begleichen',
       balances: 'Schuldensalden',
       owes: 'schuldet',
-      suggestedSettlement: 'Vorgeschlagene Abrechnung'
+      suggestedSettlement: 'Vorgeschlagene Abrechnung',
+      tabs: { ask: 'Anfordern', pay: 'Bezahlen' },
+      scanTitle: 'Intelligenter Scan',
+      scanDesc: 'Laden Sie ein Ticket hoch und die KI erledigt den Rest',
+      scanAIHint: 'Die KI erkennt automatisch Händler, Preis und Kategorie.',
+      uploadCapture: 'Foto hochladen',
+      manualEntry: 'Manuelle Eingabe',
+      pendingCollection: 'Ausstehende Zahlung',
+      viewAll: 'Alle anzeigen',
+      payCash: 'Bargeld',
+      payBizum: 'Mit Bizum bezahlen',
+      totalToSettle: 'Gesamtbetrag'
     },
     insights: {
       title: 'Reise-Einblicke',
@@ -418,13 +460,24 @@ export const translations: Record<LangCode, any> = {
       scannedExpense: 'Despesa escaneada'
     },
     payments: {
-      title: 'Liquidação de Dívidas',
+      title: 'Pagamentos',
       subtitle: 'Quem deve a quem nas suas viagens ativas.',
       members: 'Membros do Grupo',
       settle: 'Liquidar Dívida',
       balances: 'Saldos de Dívida',
       owes: 'deve a',
-      suggestedSettlement: 'Liquidação sugerida'
+      suggestedSettlement: 'Liquidação sugerida',
+      tabs: { ask: 'Pedir', pay: 'Pagar' },
+      scanTitle: 'Escaneamento IA',
+      scanDesc: 'Envie um recibo e a IA fará o resto',
+      scanAIHint: 'A IA detectará automaticamente o comerciante, preço e categoria.',
+      uploadCapture: 'Enviar Captura',
+      manualEntry: 'Entrada Manual',
+      pendingCollection: 'Pendente de cobrança',
+      viewAll: 'Ver tudo',
+      payCash: 'Dinheiro',
+      payBizum: 'Pagar com Bizum',
+      totalToSettle: 'Total a liquidar'
     },
     insights: {
       title: 'Insights da Viagem',
@@ -508,13 +561,24 @@ export const translations: Record<LangCode, any> = {
       scannedExpense: 'Spesa scansionata'
     },
     payments: {
-      title: 'Saldamento Debiti',
+      title: 'Pagamenti',
       subtitle: 'Chi deve a chi nei tuoi viaggi attivi.',
       members: 'Membri del Gruppo',
       settle: 'Salda Debito',
       balances: 'Bilanci Debiti',
       owes: 'deve a',
-      suggestedSettlement: 'Saldamento suggerito'
+      suggestedSettlement: 'Saldamento suggerito',
+      tabs: { ask: 'Chiedi', pay: 'Paga' },
+      scanTitle: 'Scansione IA',
+      scanDesc: 'Carica uno scontrino e l\'IA farà il resto',
+      scanAIHint: 'L\'IA rileverà automaticamente il commerciante, il prezzo e la categoria.',
+      uploadCapture: 'Carica Foto',
+      manualEntry: 'Inserimento Manuale',
+      pendingCollection: 'In attesa di incasso',
+      viewAll: 'Vedi tutto',
+      payCash: 'Contanti',
+      payBizum: 'Paga con Bizum',
+      totalToSettle: 'Totale da liquidare'
     },
     insights: {
       title: 'Approfondimenti Viaggio',

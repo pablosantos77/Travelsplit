@@ -451,7 +451,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-white overflow-hidden text-slate-800 font-sans selection:bg-[#004ccc]/20">
       <div className="flex-1 w-full bg-[#f7f9fb] overflow-y-auto">
         {currentTab === 'trips' && <TripsPage trips={trips} onOpenNewTripModal={() => setIsNewTripModalOpen(true)} onManageTrip={(trip) => setSelectedTrip(trip)} />}
-        {currentTab === 'payments' && <PaymentsPage />}
+        {currentTab === 'payments' && <PaymentsPage user={user} trips={trips} onOpenScanModal={() => setIsScanModalOpen(true)} />}
         {currentTab === 'insights' && <InsightsPage user={user} trips={trips} />}
         {currentTab === 'settings' && <SettingsPage user={user} onLogout={() => signOut(auth)} />}
       </div>
