@@ -31,6 +31,7 @@ export function ShineBorder({
       <div 
         className="absolute inset-0"
         style={{
+          borderRadius: `inherit`,
           padding: `${borderWidth}px`,
           mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
           WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
@@ -39,13 +40,13 @@ export function ShineBorder({
         } as React.CSSProperties}
       >
         <div
-          className="absolute inset-[-100%] size-[300%] animate-shine-fix"
+          className="absolute inset-[-150%] size-[400%] animate-shine-fix"
           style={
             {
               "--duration": `${duration}s`,
               background: `conic-gradient(from 0deg, transparent 0%, ${
                 Array.isArray(shineColor) ? shineColor.join(",") : shineColor
-              } 50%, transparent 100%)`,
+              } 15%, transparent 30%)`,
             } as React.CSSProperties
           }
         ></div>
