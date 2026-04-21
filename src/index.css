@@ -94,12 +94,17 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+}
 
-    @keyframes shine {
+@layer utilities {
+    @keyframes shine-rotation {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
     }
-    --animate-shine: shine var(--duration) infinite linear;
+    
+    .animate-shine-fix {
+        animation: shine-rotation var(--duration) infinite linear;
+    }
 }
 
 :root {

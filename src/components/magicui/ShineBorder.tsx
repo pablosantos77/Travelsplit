@@ -36,7 +36,7 @@ export function ShineBorder({
       className={`pointer-events-none absolute inset-0 size-full overflow-hidden rounded-[--border-radius] ${className}`}
     >
       <div
-        className={`before:absolute before:inset-[-100%] before:size-[300%] before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[transform] before:content-[""] before:![-webkit-mask-composite:xor] before:![mask-composite:exclude] before:[background-image:--background-conic-gradient] before:[mask:--mask-linear-gradient] before:animate-shine`}
+        className={`before:absolute before:inset-[-100%] before:size-[300%] before:rounded-[--border-radius] before:p-[--border-width] before:will-change-[transform] before:content-[""] before:![-webkit-mask-composite:xor] before:![mask-composite:exclude] before:[background-image:--background-conic-gradient] before:[mask:--mask-linear-gradient] animate-shine-fix`}
         style={{
            "--border-width": `${borderWidth}px`,
         } as React.CSSProperties}
