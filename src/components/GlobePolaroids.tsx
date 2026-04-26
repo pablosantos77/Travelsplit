@@ -76,10 +76,12 @@ export function GlobePolaroids({
     let globe: ReturnType<typeof createGlobe> | null = null
     let animationId: number
     let phi = 0
+    let destroyed = false
 
-    function init() {
-      const width = canvas.offsetWidth
-      if (width === 0 || globe) return
+    function init(width: number) {
+      if (globe || destroyed) return
+      canvas.width  = width * (window.devicePixelRatio || 1)
+      canvas.height = width * (window.devicePixelRatio || 1)
 
       globe = createGlobe(canvas, {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
@@ -96,7 +98,10 @@ export function GlobePolaroids({
         arcWidth: 0.5, arcHeight: 0.25, opacity: 0.7,
       })
 
+      canvas.style.opacity = "1"
+
       function animate() {
+        if (destroyed) return
         if (!isPausedRef.current) phi += speed
         globe!.update({
           phi:   phi + phiOffsetRef.current   + dragOffset.current.phi,
@@ -105,35 +110,45 @@ export function GlobePolaroids({
         animationId = requestAnimationFrame(animate)
       }
       animate()
-      setTimeout(() => { if (canvas) canvas.style.opacity = "1" })
     }
 
-    if (canvas.offsetWidth > 0) {
-      init()
+    // Try immediately, then fall back to ResizeObserver
+    const immediate = canvas.offsetWidth
+    if (immediate > 0) {
+      init(immediate)
     } else {
       const ro = new ResizeObserver(entries => {
-        if (entries[0]?.contentRect.width > 0) { ro.disconnect(); init() }
+        const w = entries[0]?.contentRect.width
+        if (w && w > 0) { ro.disconnect(); init(w) }
       })
-      ro.observe(canvas)
+      ro.observe(canvas.parentElement ?? canvas)
+      // Also try after a short delay as extra fallback
+      setTimeout(() => {
+        const w = canvas.offsetWidth || canvas.parentElement?.offsetWidth || 300
+        ro.disconnect()
+        init(w)
+      }, 200)
     }
 
     return () => {
+      destroyed = true
       if (animationId) cancelAnimationFrame(animationId)
       if (globe) globe.destroy()
     }
   }, [markers, speed])
 
   return (
-    <div className={`relative aspect-square select-none ${className}`}>
+    <div className={`relative aspect-square select-none ${className}`} style={{ minHeight: 280 }}>
       <canvas
         ref={canvasRef}
         onPointerDown={handlePointerDown}
         style={{
           width: "100%", height: "100%",
           cursor: "grab", opacity: 0,
-          transition: "opacity 1.2s ease",
+          transition: "opacity 0.8s ease",
           borderRadius: "50%",
           touchAction: "none",
+          display: "block",
         }}
       />
       {markers.map(m => (
