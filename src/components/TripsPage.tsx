@@ -48,9 +48,7 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
         </div>
 
         {/* Interactive Globe */}
-        <div className="w-full flex justify-center">
-          <GlobePolaroids className="w-full max-w-[320px]" speed={0.003} />
-        </div>
+        <GlobePolaroids speed={0.004} />
 
         <div className="flex flex-col gap-8 w-full mt-2">
           {trips.length === 0 ? (
