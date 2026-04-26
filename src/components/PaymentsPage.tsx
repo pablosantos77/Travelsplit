@@ -59,8 +59,9 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
   const [manualAmount, setManualAmount] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Payment method modal: null | 'bizum' | 'card'
-  const [paymentModal, setPaymentModal] = useState<null | 'bizum' | 'card'>(null);
+  // Payment method modal: null | 'bizum'
+  const [paymentModal, setPaymentModal] = useState<null | 'bizum'>(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'cash' | 'bizum'>('bizum');
 
   // Manual expense entry (Pedir tab)
   const [showManualExpense, setShowManualExpense] = useState(false);
@@ -436,39 +437,36 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
             {currentDebt && !isPayingManual && (
               <section className="animate-in fade-in slide-in-from-bottom-2 duration-400">
                 <p className="text-[10px] font-black text-[#424656] dark:text-slate-400 tracking-widest uppercase mb-4 px-1">{t.selectMethod}</p>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
 
                   {/* Cash */}
                   <button
-                    onClick={() => setIsPayingManual(true)}
-                    className="bg-white dark:bg-[#1a1d24] rounded-[24px] p-5 flex flex-col items-center justify-center gap-3 border border-[#eceef0] dark:border-white/8 hover:translate-y-[-2px] active:scale-95 transition-all shadow-sm"
+                    onClick={() => setSelectedPaymentMethod('cash')}
+                    className={`rounded-[24px] p-5 flex flex-col items-center justify-center gap-3 hover:translate-y-[-2px] active:scale-95 transition-all ${
+                      selectedPaymentMethod === 'cash'
+                        ? 'bg-[#004ccc] shadow-[0px_16px_32px_rgba(0,76,204,0.25)] ring-4 ring-[#004ccc]/10'
+                        : 'bg-white dark:bg-[#1a1d24] border border-[#eceef0] dark:border-white/8 shadow-sm'
+                    }`}
                   >
-                    <div className="w-12 h-12 rounded-full bg-[#f2f4f6] dark:bg-[#2e3440] flex items-center justify-center text-[#191c1e] dark:text-white">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${selectedPaymentMethod === 'cash' ? 'bg-black/20 text-white' : 'bg-[#f2f4f6] dark:bg-[#2e3440] text-[#191c1e] dark:text-white'}`}>
                       <span className="material-symbols-outlined text-2xl">payments</span>
                     </div>
-                    <span className="text-[11px] font-black text-[#191c1e] dark:text-white uppercase tracking-wider">{t.payCash}</span>
+                    <span className={`text-[11px] font-black uppercase tracking-wider ${selectedPaymentMethod === 'cash' ? 'text-white' : 'text-[#191c1e] dark:text-white'}`}>{t.payCash}</span>
                   </button>
 
                   {/* Bizum */}
                   <button
-                    onClick={() => setPaymentModal('bizum')}
-                    className="relative overflow-hidden bg-[#004ccc] rounded-[24px] p-5 flex flex-col items-center justify-center gap-3 shadow-[0px_16px_32px_rgba(0,76,204,0.25)] hover:translate-y-[-2px] active:scale-95 transition-all ring-4 ring-[#004ccc]/10"
+                    onClick={() => setSelectedPaymentMethod('bizum')}
+                    className={`rounded-[24px] p-5 flex flex-col items-center justify-center gap-3 hover:translate-y-[-2px] active:scale-95 transition-all ${
+                      selectedPaymentMethod === 'bizum'
+                        ? 'bg-[#004ccc] shadow-[0px_16px_32px_rgba(0,76,204,0.25)] ring-4 ring-[#004ccc]/10'
+                        : 'bg-white dark:bg-[#1a1d24] border border-[#eceef0] dark:border-white/8 shadow-sm'
+                    }`}
                   >
-                    <div className="w-12 h-12 rounded-full bg-black/20 flex items-center justify-center font-black italic text-white text-xl">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-black italic text-xl ${selectedPaymentMethod === 'bizum' ? 'bg-black/20 text-white' : 'bg-[#f2f4f6] dark:bg-[#2e3440] text-[#191c1e] dark:text-white'}`}>
                       B
                     </div>
-                    <span className="text-[11px] font-black text-white uppercase tracking-wider">Bizum</span>
-                  </button>
-
-                  {/* Card */}
-                  <button
-                    onClick={() => setPaymentModal('card')}
-                    className="bg-white dark:bg-[#1a1d24] rounded-[24px] p-5 flex flex-col items-center justify-center gap-3 border border-[#eceef0] dark:border-white/8 hover:translate-y-[-2px] active:scale-95 transition-all shadow-sm"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-[#f2f4f6] dark:bg-[#2e3440] flex items-center justify-center text-[#191c1e] dark:text-white">
-                      <span className="material-symbols-outlined text-2xl">credit_card</span>
-                    </div>
-                    <span className="text-[11px] font-black text-[#191c1e] dark:text-white uppercase tracking-wider">{t.payCard}</span>
+                    <span className={`text-[11px] font-black uppercase tracking-wider ${selectedPaymentMethod === 'bizum' ? 'text-white' : 'text-[#191c1e] dark:text-white'}`}>Bizum</span>
                   </button>
                 </div>
               </section>
@@ -519,8 +517,8 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
         {activeTab === 'pagar' && !isPayingManual && currentDebt && (
           <div className="fixed bottom-28 left-0 w-full px-6 z-40 flex justify-center pointer-events-none">
             <button
-              onClick={() => setIsPayingManual(true)}
-              className="pointer-events-auto bg-gradient-to-r from-[#004ccc] to-[#616f89] text-white font-black text-xs uppercase tracking-[0.18em] w-full max-w-sm py-5 rounded-[24px] shadow-[0px_24px_48px_rgba(0,76,204,0.3)] hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+              onClick={() => selectedPaymentMethod === 'bizum' ? setPaymentModal('bizum') : setIsPayingManual(true)}
+              className="pointer-events-auto bg-[#004ccc] text-white font-black text-xs uppercase tracking-[0.18em] w-full max-w-sm py-5 rounded-[24px] shadow-[0px_24px_48px_rgba(0,76,204,0.3)] hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
             >
               <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>lock</span>
               <span>{t.settleNow} €{currentDebt.amount.toFixed(2)}</span>
@@ -562,68 +560,6 @@ export const PaymentsPage: React.FC<PaymentsPageProps> = ({ user, trips, onOpenS
                 className="w-full bg-[#f2f4f6] dark:bg-[#2e3440] py-4 rounded-2xl font-black text-xs text-[#424656] dark:text-slate-300 uppercase tracking-widest active:scale-[0.98] transition-all"
               >
                 Registrar manualmente
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── CARD MODAL ── */}
-      {paymentModal === 'card' && currentDebt && (
-        <div className="fixed inset-0 bg-[#0d1c32]/60 backdrop-blur-md flex items-end justify-center z-[300] animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-[#1a1d24] w-full max-w-md rounded-t-[36px] p-8 space-y-7 animate-in slide-in-from-bottom-4 duration-300">
-            <div className="w-10 h-1 bg-[#eceef0] dark:bg-white/10 rounded-full mx-auto" />
-
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-[#191c1e] dark:text-white tracking-tight">Pago con Tarjeta</h3>
-              <button onClick={() => setPaymentModal(null)} className="w-9 h-9 rounded-full bg-[#f2f4f6] dark:bg-[#2e3440] flex items-center justify-center text-[#424656] dark:text-slate-300 active:scale-90 transition-all">
-                <span className="material-symbols-outlined text-xl">close</span>
-              </button>
-            </div>
-
-            {/* Card visual */}
-            <div className="bg-gradient-to-br from-[#1a1d24] to-[#2e3440] rounded-[28px] p-7 relative overflow-hidden">
-              <div className="absolute top-4 right-4 opacity-20">
-                <span className="material-symbols-outlined text-white text-6xl">credit_card</span>
-              </div>
-              <p className="text-white/50 text-xs font-black uppercase tracking-widest mb-2">Registrar pago</p>
-              <p className="text-4xl font-black text-white tracking-tighter">€{currentDebt.amount.toFixed(2)}</p>
-              <p className="text-white/70 text-sm font-bold mt-1">a {currentDebt.name} · {currentDebt.concept}</p>
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-[#004ccc] font-black text-xl">€</span>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={manualAmount}
-                onChange={e => setManualAmount(e.target.value)}
-                placeholder={currentDebt.amount.toFixed(2)}
-                className="w-full bg-[#f2f4f6] dark:bg-[#2e3440] rounded-2xl py-5 pl-10 pr-6 text-[#191c1e] dark:text-white font-black text-2xl outline-none ring-2 ring-transparent focus:ring-[#004ccc] transition-all caret-[#004ccc]"
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <button
-                onClick={() => { setPaymentModal(null); setManualAmount(''); }}
-                className="flex-1 bg-[#f2f4f6] dark:bg-[#2e3440] py-4 rounded-2xl text-xs font-black text-[#424656] dark:text-slate-300 uppercase tracking-widest active:scale-95 transition-all"
-              >
-                {allTranslations.modals.cancel}
-              </button>
-              <button
-                disabled={isSubmitting || currentDebt.isMock}
-                onClick={() => handleRegisterPayment('card')}
-                className="flex-1 bg-gradient-to-r from-[#004ccc] to-[#616f89] text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-[0px_12px_24px_rgba(0,76,204,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
-              >
-                {isSubmitting ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <span className="material-symbols-outlined text-base">credit_card</span>
-                    {currentDebt.isMock ? t.demoMode : t.settleNow}
-                  </>
-                )}
               </button>
             </div>
           </div>
