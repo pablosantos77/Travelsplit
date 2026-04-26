@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { GlobePolaroids } from './GlobePolaroids';
 
 interface Trip {
   id: string;
@@ -44,6 +45,11 @@ export const TripsPage: React.FC<TripsPageProps> = ({ trips, onOpenNewTripModal,
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-extrabold text-[#495770] dark:text-slate-100 tracking-tight font-sans">{t.title}</h1>
           <p className="text-slate-500 font-sans text-sm">{t.subtitle}</p>
+        </div>
+
+        {/* Interactive Globe */}
+        <div className="w-full flex justify-center">
+          <GlobePolaroids className="w-full max-w-[320px]" speed={0.003} />
         </div>
 
         <div className="flex flex-col gap-8 w-full mt-2">
