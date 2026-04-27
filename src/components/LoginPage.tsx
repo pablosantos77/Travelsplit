@@ -101,19 +101,20 @@ const LoginPage = ({
   const t = translations?.auth || {};
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 login-bg">
+    <div className="min-h-screen w-full flex items-start justify-center login-bg py-6 px-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-4xl overflow-hidden rounded-2xl flex flex-col md:flex-row bg-[#090b13] text-white shadow-2xl"
       >
-        {/* Left side — Globe */}
-        <div className="hidden md:flex w-1/2 h-[600px] flex-col items-center justify-center gap-8 border-r border-[#1f2130] bg-gradient-to-br from-[#0f1120] to-[#151929]">
+        {/* Top on mobile / Left on desktop — Globe */}
+        <div className="flex md:w-1/2 md:h-auto flex-col items-center justify-center gap-6 py-10 px-6 border-b md:border-b-0 md:border-r border-[#1f2130] bg-gradient-to-br from-[#0f1120] to-[#151929]">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.7 }}
+            className="scale-75 md:scale-100"
           >
             <Globe />
           </motion.div>
@@ -123,7 +124,7 @@ const LoginPage = ({
             transition={{ delay: 0.8, duration: 0.5 }}
             className="text-center"
           >
-            <h2 className="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-blue-500">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-blue-500">
               TravelSplit
             </h2>
             <p className="text-sm text-gray-400 mt-2 font-medium">
@@ -132,8 +133,8 @@ const LoginPage = ({
           </motion.div>
         </div>
 
-        {/* Right side — Form */}
-        <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+        {/* Bottom on mobile / Right on desktop — Form */}
+        <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,7 +143,7 @@ const LoginPage = ({
             <h1 className="text-2xl md:text-3xl font-bold mb-1">
               {authMode === "login" ? (t.loginWelcome || "Bienvenido de nuevo") : (t.registerWelcome || "Únete")}
             </h1>
-            <p className="text-gray-400 mb-8">
+            <p className="text-gray-400 mb-6">
               {authMode === "login" ? (t.loginSubtitle || "Accede a tu cuenta") : (t.registerSubtitle || "Crea tu cuenta")}
             </p>
 
