@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera } from 'lucide-react';
 import { auth, db } from './firebase';
-import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, browserPopupRedirectResolver } from 'firebase/auth';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
 import LoginPage from './components/LoginPage';
@@ -227,7 +227,8 @@ export default function App() {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      provider.setCustomParameters({ prompt: 'select_account' });
+      await signInWithPopup(auth, provider, browserPopupRedirectResolver);
     } catch (error: any) {
       console.error('Google auth failed', error);
       setAuthError(error.message);
