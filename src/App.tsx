@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera } from 'lucide-react';
 import { auth, db } from './firebase';
-import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { onAuthStateChanged, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { collection, addDoc, onSnapshot, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
 import LoginPage from './components/LoginPage';
@@ -144,12 +144,6 @@ export default function App() {
 
   useEffect(() => {
     let mounted = true;
-    getRedirectResult(auth).then((result) => {
-      if (mounted && result?.user) setUser(result.user);
-    }).catch((err) => {
-      console.error('Redirect result error:', err);
-    });
-
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (mounted) {
         setUser(currentUser);
@@ -233,9 +227,10 @@ export default function App() {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error: any) {
       console.error('Google auth failed', error);
+      setAuthError(error.message);
     }
   };
 
