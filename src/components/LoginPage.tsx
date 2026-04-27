@@ -101,7 +101,7 @@ const LoginPage = ({
   const t = translations?.auth || {};
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#060818] to-[#0d1023] p-4">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 login-bg">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
