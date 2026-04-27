@@ -22,7 +22,7 @@ export const translations: Record<LangCode, any> = {
   es: {
     nav: { trips: 'Viajes', payments: 'Pagos', insights: 'Insights', settings: 'Ajustes' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Inteligencia y diseño para dividir los gastos de tu viaje.',
       google: 'Continuar con Google',
       orEmail: 'o usa tu email',
@@ -135,7 +135,7 @@ export const translations: Record<LangCode, any> = {
   en: {
     nav: { trips: 'Trips', payments: 'Payments', insights: 'Insights', settings: 'Settings' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Intelligence and design to split your trip expenses.',
       google: 'Continue with Google',
       orEmail: 'or use your email',
@@ -248,7 +248,7 @@ export const translations: Record<LangCode, any> = {
   fr: {
     nav: { trips: 'Voyages', payments: 'Paiements', insights: 'Aperçus', settings: 'Paramètres' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Intelligence et design pour diviser vos dépenses de voyage.',
       google: 'Continuer avec Google',
       orEmail: 'ou utilisez votre email',
@@ -361,7 +361,7 @@ export const translations: Record<LangCode, any> = {
   de: {
     nav: { trips: 'Reisen', payments: 'Zahlungen', insights: 'Einblicke', settings: 'Einstellungen' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Intelligenz und Design zum Aufteilen Ihrer Reisekosten.',
       google: 'Mit Google fortfahren',
       orEmail: 'oder nutzen Sie Ihre E-Mail',
@@ -474,7 +474,7 @@ export const translations: Record<LangCode, any> = {
   pt: {
     nav: { trips: 'Viagens', payments: 'Pagamentos', insights: 'Insights', settings: 'Ajustes' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Inteligência e design para dividir as despesas da sua viagem.',
       google: 'Continuar com Google',
       orEmail: 'ou use seu e-mail',
@@ -587,7 +587,7 @@ export const translations: Record<LangCode, any> = {
   it: {
     nav: { trips: 'Viaggi', payments: 'Pagamenti', insights: 'Approfondimenti', settings: 'Impostazioni' },
     auth: { 
-      title: 'TravelSplit AI', 
+      title: 'Travelsplit', 
       subtitle: 'Intelligenza e design per dividere le spese di viaggio.',
       google: 'Continua con Google',
       orEmail: 'o usa la tua email',

@@ -13,7 +13,7 @@ interface NewTripModalProps {
 
 export const NewTripModal = ({ isOpen, onClose, onSave }: NewTripModalProps) => {
   const { language, t: allTranslations } = useLanguage();
-  const t = allTranslations.trips;
+  const tt = allTranslations.trips;
   const isEn = language === 'en';
 
   const [name, setName] = useState('');
